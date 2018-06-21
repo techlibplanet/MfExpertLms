@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar_actionbar"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    android:popupTheme="@style/ActionBarPopupThemeOverlay"
+    android:theme="@style/ActionBarThemeOverlay"
+    app:elevation="0dp" >
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_gravity="right"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/addMoreFamilyDetails"
+        android:src="@drawable/plus_circle_outline"/>
+</android.support.v7.widget.Toolbar>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="HeaderBar">
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:elevation">@dimen/header_bar_elevation</item>
+    </style>
+
+    <dimen name="header_bar_elevation">4dp</dimen>
+</resources>

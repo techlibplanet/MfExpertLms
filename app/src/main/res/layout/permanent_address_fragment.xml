@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+
+        <variable
+            name="permanentAddressInfoVm"
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.AddressModel"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/margin_top"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"
+                android:paddingBottom="0dp">
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/same_as_present"
+                    android:id="@+id/checkPresentAddress"
+                    android:layout_marginTop="@dimen/space20dp"
+                    android:buttonTint="@color/colorPrimary"/>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblHouseNoPermanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtHouseNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/house_no"
+                        android:enabled="@{!permanentAddressInfoVm.permanentAddressSameAsPresent}"
+                        android:text="@={permanentAddressInfoVm.houseNo}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblStreetPermanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtStreet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/street"
+                        android:enabled="@{!permanentAddressInfoVm.permanentAddressSameAsPresent}"
+                        android:text="@={permanentAddressInfoVm.street}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblMandalPermanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtMandal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/mandal"
+                        android:enabled="@{!permanentAddressInfoVm.permanentAddressSameAsPresent}"
+                        android:text="@={permanentAddressInfoVm.mandal}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblCityPermanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/city"
+                        android:enabled="@{!permanentAddressInfoVm.permanentAddressSameAsPresent}"
+                        android:text="@={permanentAddressInfoVm.city}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblPhonePermanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/phone"
+                        android:enabled="@{!permanentAddressInfoVm.permanentAddressSameAsPresent}"
+                        android:text="@={permanentAddressInfoVm.phone}"
+                        android:inputType="number"
+                        android:maxLines="1"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblDistrictPermanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtDistrict"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/district"
+                        android:enabled="@{!permanentAddressInfoVm.permanentAddressSameAsPresent}"
+                        android:text="@={permanentAddressInfoVm.district}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblPincodePermanent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtPincode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/pincode"
+                        android:enabled="@{!permanentAddressInfoVm.permanentAddressSameAsPresent}"
+                        android:text="@={permanentAddressInfoVm.pincode}"
+                        android:inputType="number"
+                        android:maxLines="1" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

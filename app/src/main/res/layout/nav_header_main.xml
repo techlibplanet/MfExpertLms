@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:elevation="@dimen/header_bar_elevation"
+    android:orientation="vertical"
+    android:paddingTop="?actionBarSize"
+    android:background="@drawable/profile_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/space8dp"
+        android:paddingStart="@dimen/space8dp">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/navdrawer_profile_image_size"
+            android:layout_height="@dimen/navdrawer_profile_image_size"
+            android:contentDescription="@string/nav_drawer_profile_image_desc"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_account_circle" />
+
+        <TextView
+            android:id="@+id/profile_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space4dp"
+            android:layout_marginTop="@dimen/space8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Staff Name"
+            android:textColor="@color/nav_drawer_title_text_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/profile_role_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space4dp"
+            android:layout_marginTop="@dimen/space8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Role"
+            android:textColor="@color/nav_drawer_sub_text_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/padding1x"
+        android:background="@color/nav_drawer_divider_color" />
+
+</LinearLayout>

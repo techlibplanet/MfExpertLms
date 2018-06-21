@@ -1,0 +1,102 @@
+<resources>
+    <string name="app_name">MfExpert LMS</string>
+    <string name="preference_file_key">mfexpert_lms_pref_file_key</string>
+
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="nav_drawer_description">Navigation Drawer</string>
+    <string name="nav_drawer_profile_image_desc">Profile Image</string>
+
+    <string name="sorry">Sorry</string>
+    <string name="no_results">No results to show</string>
+    <string name="you_are_offline">You are offline</string>
+
+    <!--cbm Details-->
+
+    <string name="first_name">First Name</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="surname">Surname</string>
+    <string name="mobile">Mobile No</string>
+    <string name="kyc_name">Name as per Primary KYC</string>
+    <string name="spouse_name">If member don\'t have surname then please enter spouse name</string>
+
+    <string name="same_as_present">Same as Present Address</string>
+    <string name="house_no">House/Door No</string>
+    <string name="street">Street/Colony</string>
+    <string name="mandal">Mandal/Taluka</string>
+    <string name="city">City/Village/Town</string>
+    <string name="phone">Phone</string>
+    <string name="relation">Relation</string>
+    <string name="district">District</string>
+    <string name="pincode">Pincode*</string>
+
+    <string name="name">Name</string>
+    <string name="dob">Date of birth</string>
+    <string name="age">Age</string>
+    <string name="age_as_on">Age as on</string>
+    <string name="occupation">Occupation</string>
+    <string name="literacy">Literacy</string>
+
+
+    <string name="primarykyc">Primary KYC</string>
+    <string name="primaryKYCNo">Doc No</string>
+    <string name="secondarykyc">Secondary KYC</string>
+    <string name="secondaryKYCNo">Doc No</string>
+
+    <string name="loanPurpose">Loan Purpose</string>
+
+    <!--village-->
+    <string name="village_Code_auto">Auto</string>
+    <string name="village_name">Village*</string>
+    <string name="description">Description</string>
+    <string name="open_date">Open Date*</string>
+    <string name="distance">Distance*</string>
+
+    <!--Group-->
+    <string name="group_Code_auto">Auto Code</string>
+    <string name="group_name">Group Name*</string>
+    <string name="group_description">Description</string>
+    <string name="center">Center*</string>
+    <string name="staff">Geetha</string>
+
+
+    <!--center-->
+    <string name="center_code_no">Auto</string>
+    <string name="center_name">Center Name*</string>
+    <string name="staff_name">Geetha</string>
+    <string name="repayment_type">Repayment Type*</string>
+    <string name="working_category">Working Category*</string>
+
+
+    <!--Address Info-->
+    <string name="route">Route*</string>
+    <string name="location">Location*</string>
+    <string name="landmark">Land Mark*</string>
+    <string name="meeting_place">Meeting Place*</string>
+    <string name="premises_owner_name">Premises Owner Name*</string>
+    <string name="house_number">House No*</string>
+    <string name="street_name">Street Name*</string>
+    <string name="taluka">Village/Taluka*</string>
+
+
+    <string-array name="genderType">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
+    <string name="genderPrompt">Gender</string>
+
+
+    <string-array name="maritalStatusType">
+        <item>Married</item>
+        <item>Un Married</item>
+    </string-array>
+    <string name="maritalStatusPrompt">Marital Status</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    // Sync Account Type
+    <string name="sync_account_type">net.rmitsolutions.mfexpert</string>
+    <string name="sync_content_authority_masters">net.rmitsolutions.mfexpert.mastersyncprovider</string>
+
+</resources>

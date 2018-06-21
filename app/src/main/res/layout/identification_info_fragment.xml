@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+
+    <data>
+
+        <variable
+            name="identificationDetailsInfoVm"
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.IdentificationInfoModel"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/margin_top"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"
+                android:paddingBottom="0dp">
+
+
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/choosePrimaryKYC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/primarykyc"
+                    android:text="@={identificationDetailsInfoVm.primaryKYC}"
+                    android:textColorHint="@color/colorAccent"
+                    app:met_floatingLabel="normal" />
+
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblPrimaryKycNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtPrimaryKYCNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/primaryKYCNo"
+                        android:text="@={identificationDetailsInfoVm.docNo}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+                </android.support.design.widget.TextInputLayout>
+
+
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/chooseSecondaryKYC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/secondarykyc"
+                    android:text="@={identificationDetailsInfoVm.secondaryKYC}"
+                    android:textColorHint="@color/colorAccent"
+                    app:met_floatingLabel="normal" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblSecondaryKycNO"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtSecondaryKYCNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/secondaryKYCNo"
+                        android:text="@={identificationDetailsInfoVm.secondaryDocNo}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblLoanPurpose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtLoanPurpose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/loanPurpose"
+                        android:inputType="text"
+                        android:text="@={identificationDetailsInfoVm.loanPurpose}"
+                        android:maxLines="1"/>
+
+
+                </android.support.design.widget.TextInputLayout>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/light_red_shade"
+                    app:cardCornerRadius="@dimen/space8dp"
+                    app:cardElevation="@dimen/space2dp">
+
+                    <com.wang.avi.AVLoadingIndicatorView
+                        style="@style/AVLoadingIndicatorView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/padding2x"
+                        app:indicatorColor="@color/deep_orange"
+                        app:indicatorName="LineScalePulseOutIndicator" />
+                </android.support.v7.widget.CardView>
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sumbitDetails"
+                    android:textColor="@color/white"
+                    android:background="@color/colorAccent"
+                    android:text="Submit"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:id="@+id/sucessMessage"
+                    android:text="Successfully Saved Details"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

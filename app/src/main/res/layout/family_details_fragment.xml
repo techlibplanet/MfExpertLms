@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+
+        <variable
+            name="familyDetailsInfoVm"
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.FamilyDetailsInfoModel"/>
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrolldown">
+
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:id="@+id/showButton"
+                android:layout_marginTop="@dimen/margin_top"
+                android:textColor="#ffffff"
+                 android:background="@color/colorAccent"
+                android:text="show"/>
+
+
+            <!--<net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandable_layout_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:background="#ffffff"
+                app:el_duration="1000"
+                app:el_expanded="true"
+                app:el_parallax="0.8">-->
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:id="@+id/hideLay"
+                android:layout_marginRight="@dimen/margin_right"
+                android:paddingBottom="0dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lblPrimaryKycName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorTextAppearance="@style/ErrorStyle">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtPrimaryKycName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name"
+                        android:text="@={familyDetailsInfoVm.name}"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/chooseFamilyRelation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/relation"
+                    android:text="@={familyDetailsInfoVm.relation}"
+                    android:textColorHint="@color/colorAccent"
+                    app:met_floatingLabel="normal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/lblDob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        app:errorTextAppearance="@style/ErrorStyle">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/txtDateOfBirth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/dob"
+                            android:inputType="text"
+                            android:text="@={familyDetailsInfoVm.dob}"
+                            android:focusable="false"
+                            android:maxLines="1"/>
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/lblRelationAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        app:errorTextAppearance="@style/ErrorStyle">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/txtRelationAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/age"
+                            android:text="@={familyDetailsInfoVm.age}"
+                            android:inputType="text"
+                            android:focusable="false"
+                            android:maxLines="1"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/chooseGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/genderPrompt"
+                    android:text="@={familyDetailsInfoVm.gender}"
+                    android:textColorHint="@color/colorAccent"
+                    app:met_floatingLabel="normal" />
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/chooseRelationOccupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/occupation"
+                    android:text="@={familyDetailsInfoVm.occupation}"
+                    android:textColorHint="@color/colorAccent"
+                    app:met_floatingLabel="normal" />
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/chooseRelationLiteracy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/literacy"
+                    android:text="@={familyDetailsInfoVm.literacy}"
+                    android:textColorHint="@color/colorAccent"
+                    app:met_floatingLabel="normal" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
