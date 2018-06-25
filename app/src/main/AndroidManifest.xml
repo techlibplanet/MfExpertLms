@@ -46,18 +46,159 @@
                 android:resource="@xml/sync_authenticator" />
         </service>
 
-        <!--Master sync service-->
+        <!-- District sync service -->
         <service
-            android:name=".sync.masters.MastersSyncService"
+            android:name=".sync.district.DistrictSyncService"
             android:exported="false"
-            android:label="Masters">
+            android:label="Districts">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/master_sync" />
+                android:resource="@xml/district_sync" />
         </service>
+
+        <!-- District sync provider -->
+        <provider
+            android:name=".sync.district.DistrictSyncContentProvider"
+            android:authorities="@string/sync_content_authority_districts"
+            android:exported="false"
+            android:label="Districts"
+            android:syncable="true" />
+
+        <!-- Relation sync service -->
+        <service
+            android:name=".sync.relations.RelationSyncService"
+            android:exported="false"
+            android:label="Relations">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/relation_sync" />
+        </service>
+
+        <!-- Relations sync provider -->
+        <provider
+            android:name=".sync.relations.RelationSyncContentProvider"
+            android:authorities="@string/sync_content_authority_relations"
+            android:exported="false"
+            android:label="Relations"
+            android:syncable="true" />
+
+        <!-- Occupation sync service -->
+        <service
+            android:name=".sync.occupation.OccupationSyncService"
+            android:exported="false"
+            android:label="Occupations">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/occupation_sync" />
+        </service>
+
+        <!-- Occupations sync provider -->
+        <provider
+            android:name=".sync.occupation.OccupationSyncContentProvider"
+            android:authorities="@string/sync_content_authority_occupations"
+            android:exported="false"
+            android:label="Occupations"
+            android:syncable="true" />
+
+        <!-- Literacy sync service -->
+        <service
+            android:name=".sync.literacy.LiteracySyncService"
+            android:exported="false"
+            android:label="Literacy">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/literacy_sync" />
+        </service>
+
+        <!-- Literacy sync provider -->
+        <provider
+            android:name=".sync.literacy.LiteracySyncContentProvider"
+            android:authorities="@string/sync_content_authority_literacy"
+            android:exported="false"
+            android:label="Literacy"
+            android:syncable="true" />
+
+        <!-- Primary Kyc sync service -->
+        <service
+            android:name=".sync.primarykyc.PrimaryKycSyncService"
+            android:exported="false"
+            android:label="Primary Kyc">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/primary_kyc_sync" />
+        </service>
+
+        <!-- Primary Kyc sync provider -->
+        <provider
+            android:name=".sync.primarykyc.PrimaryKycSyncContentProvider"
+            android:authorities="@string/sync_content_authority_primary_kyc"
+            android:exported="false"
+            android:label="Primary Kyc"
+            android:syncable="true" />
+
+        <!-- Secondary Kyc sync service -->
+        <service
+            android:name=".sync.secondarykyc.SecondaryKycSyncService"
+            android:exported="false"
+            android:label="Secondary Kyc">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/secondary_kyc_sync" />
+        </service>
+
+        <!-- Secondary Kyc sync provider -->
+        <provider
+            android:name=".sync.secondarykyc.SecondaryKycSyncContentProvider"
+            android:authorities="@string/sync_content_authority_secondary_kyc"
+            android:exported="false"
+            android:label="Secondary Kyc"
+            android:syncable="true" />
+
+        <!-- Loan purpose sync service -->
+        <service
+            android:name=".sync.loanpurpose.LoanPurposeSyncService"
+            android:exported="false"
+            android:label="Loan Purpose">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/loan_purpose_sync" />
+        </service>
+
+        <!-- Loan purpose sync provider -->
+        <provider
+            android:name=".sync.loanpurpose.LoanPurposeSyncContentProvider"
+            android:authorities="@string/sync_content_authority_loan_purpose"
+            android:exported="false"
+            android:label="Loan Purpose"
+            android:syncable="true" />
 
         <activity
             android:name=".SplashActivity"
@@ -118,8 +259,12 @@
             android:name=".group.GroupActivity"
             android:label="Group"
             android:screenOrientation="portrait"
+            android:theme="@style/BaseAppTheme" />
+        <activity android:name=".sample.SampleActivity" />
+        <activity android:name=".settings.Settings"
+            android:label="Settings"
+            android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme"></activity>
-        <activity android:name=".sample.SampleActivity"></activity>
     </application>
 
 </manifest>

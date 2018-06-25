@@ -15,6 +15,9 @@ interface DistrictDao {
     @Query("SELECT * FROM districts")
     fun getAllDistrict(): List<District>
 
+    @Query("SELECT name FROM districts")
+    fun getDistrictNames() : List<String>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(district: List<District>?)
 }

@@ -21,7 +21,14 @@ object Constants {
 
     const val ACCOUNT_TYPE = "net.rmitsolutions.mfexpert"
     const val ACCOUNT_NAME = "mfExpert"
-    val ACCOUNT_AUTHORITY_MASTERS = "net.rmitsolutions.mfexpert.mastersyncprovider"
+    const val ACCOUNT_AUTHORITY_DISTRICTS = "net.rmitsolutions.mfexpert.districtsyncprovider"
+    const val ACCOUNT_AUTHORITY_RELATIONS = "net.rmitsolutions.mfexpert.relationsyncprovider"
+    const val ACCOUNT_AUTHORITY_OCCUPATIONS = "net.rmitsolutions.mfexpert.occupationsyncprovider"
+    const val ACCOUNT_AUTHORITY_LITERACY = "net.rmitsolutions.mfexpert.literacysyncprovider"
+    const val ACCOUNT_AUTHORITY_PRIMARY_KYC = "net.rmitsolutions.mfexpert.primarykycsyncprovider"
+    const val ACCOUNT_AUTHORITY_SECONDARY_KYC = "net.rmitsolutions.mfexpert.secondarykycsyncprovider"
+    const val ACCOUNT_AUTHORITY_LOAN_PURPOSE = "net.rmitsolutions.mfexpert.loanpurposesyncprovider"
+
 
     const val AUTH_TOKEN_TYPE_FULL_ACCESS = "Full access"
     const val AUTH_TOKEN_TYPE_FULL_ACCESS_LABEL = "Full access to an mfExpert account"

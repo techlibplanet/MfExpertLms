@@ -9,7 +9,6 @@ import net.rmitsolutions.mfexpert.lms.center.CenterActivity
 import net.rmitsolutions.mfexpert.lms.dashboard.DashboardActivity
 import net.rmitsolutions.mfexpert.lms.dependency.scopes.ActivityScope
 import net.rmitsolutions.mfexpert.lms.sample.SampleActivity
-import net.rmitsolutions.mfexpert.lms.sync.masters.MastersSyncService
 
 /**
  * Created by Madhu on 24-Apr-2018.
@@ -24,8 +23,5 @@ interface InjectActivityComponent {
     fun injectGroupActivity(activity: GroupActivity)
     fun injectCenterActivity(activity: CenterActivity)
     fun injectSampleActivity(activity: SampleActivity)
-
-    // Inject Master Sync service
-    fun injectMasterSyncService(mastersSyncService: MastersSyncService)
 
 }

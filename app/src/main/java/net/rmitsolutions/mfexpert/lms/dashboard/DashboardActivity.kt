@@ -15,7 +15,13 @@ import android.widget.TextView
 import net.rmitsolutions.libcam.LibPermissions
 import net.rmitsolutions.mfexpert.lms.BaseActivity
 import net.rmitsolutions.mfexpert.lms.Constants
-import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_MASTERS
+import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_DISTRICTS
+import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_LITERACY
+import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_LOAN_PURPOSE
+import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_OCCUPATIONS
+import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_PRIMARY_KYC
+import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_RELATIONS
+import net.rmitsolutions.mfexpert.lms.Constants.ACCOUNT_AUTHORITY_SECONDARY_KYC
 import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
@@ -45,7 +51,34 @@ class DashboardActivity : BaseActivity() {
         val runnable = Runnable {
             logD("Account authenticator permission enabled")
             val mAccount = createSyncAccount(this)
-            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_MASTERS, true)
+            // Periodic sync of 24 Hours
+//            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_MASTERS,Bundle(), 30000)
+//            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_DISTRICTS, true)
+//            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_OCCUPATIONS, true)
+//            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_LITERACY, true)
+//            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_PRIMARY_KYC, true)
+//            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_SECONDARY_KYC, true)
+//            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_LOAN_PURPOSE, true)
+
+//            ContentResolver.setMasterSyncAutomatically(true)
+
+            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_DISTRICTS, Bundle(),1200)
+            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_RELATIONS, Bundle(), 1500)
+            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_OCCUPATIONS, Bundle(),1800)
+            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_LITERACY, Bundle(), 1500)
+            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_PRIMARY_KYC, Bundle(), 1200)
+            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_SECONDARY_KYC, Bundle(), 1800)
+            ContentResolver.addPeriodicSync(mAccount, ACCOUNT_AUTHORITY_LOAN_PURPOSE, Bundle(), 1500)
+
+
+            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_DISTRICTS, true)
+            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_OCCUPATIONS, true)
+            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_RELATIONS, true)
+            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_LITERACY, true)
+            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_PRIMARY_KYC, true)
+            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_SECONDARY_KYC, true)
+            ContentResolver.setSyncAutomatically(mAccount, ACCOUNT_AUTHORITY_LOAN_PURPOSE, true)
+
         }
         libPermissions.askPermissions(runnable)
 
@@ -79,7 +112,6 @@ class DashboardActivity : BaseActivity() {
 
 
     private fun createSyncAccount(context: Context): Account? {
-        logD("Inside Create account")
         // Create the account type and default account
         val newAccount = Account(Constants.ACCOUNT_NAME, Constants.ACCOUNT_TYPE)
         val accountManager = context.getSystemService(Context.ACCOUNT_SERVICE) as AccountManager

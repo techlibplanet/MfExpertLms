@@ -37,7 +37,8 @@ class VillageActivity : BaseActivity() {
     private lateinit var villageInfoModel: VillageInfoModel
     lateinit var dataBinding: VillageInfoBinding
     private lateinit var districtListSpinner: MaterialBetterSpinner
-    private var districtList = arrayOf("East Godavari", "West Godavari", "Kurnool", "Prakasham")
+//    private var districtList = arrayOf("East Godavari", "West Godavari", "Kurnool", "Prakasham")
+//    private var distList : ArrayList<String>? = null
     private lateinit var calender: Calendar
     private lateinit var dialog: DatePickerDialog
 //    private var villageInfoId: Long = 0
@@ -79,12 +80,18 @@ class VillageActivity : BaseActivity() {
             dialog.show()
         }
         //   dataBinding.villageInfoVm= VillageInfoModel("","","","","","")
+
+
         villageInfoModel = VillageInfoModel("", "", "", "", "", "", "", "", null)
         dataBinding.villageInfoVm = villageInfoModel
 
-        val villageInfoAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, districtList)
+        val villageInfoAdapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,getDistricts())
         districtListSpinner = findViewById(R.id.chooseDistrict)
         districtListSpinner.setAdapter<ArrayAdapter<String>>(villageInfoAdapter)
+    }
+
+    private fun getDistricts(): List<String> {
+        return database.districtDao().getDistrictNames()
     }
 
 
@@ -92,7 +99,6 @@ class VillageActivity : BaseActivity() {
 
     fun saveDetailsClick(view: View) {
         saveVillageDetails()
-
     }
 
 

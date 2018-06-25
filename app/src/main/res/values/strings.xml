@@ -99,4 +99,16 @@
     <string name="sync_account_type">net.rmitsolutions.mfexpert</string>
     <string name="sync_content_authority_masters">net.rmitsolutions.mfexpert.mastersyncprovider</string>
 
+    <string name="sync_content_authority_districts">net.rmitsolutions.mfexpert.districtsyncprovider</string>
+    <string name="sync_content_authority_relations">net.rmitsolutions.mfexpert.relationsyncprovider</string>
+    <string name="sync_content_authority_occupations">net.rmitsolutions.mfexpert.occupationsyncprovider</string>
+    <string name="sync_content_authority_literacy">net.rmitsolutions.mfexpert.literacysyncprovider</string>
+    <string name="sync_content_authority_primary_kyc">net.rmitsolutions.mfexpert.primarykycsyncprovider</string>
+    <string name="sync_content_authority_secondary_kyc">net.rmitsolutions.mfexpert.secondarykycsyncprovider</string>
+    <string name="sync_content_authority_loan_purpose">net.rmitsolutions.mfexpert.loanpurposesyncprovider</string>
+
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
 </resources>

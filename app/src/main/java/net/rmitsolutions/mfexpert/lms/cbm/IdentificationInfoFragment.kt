@@ -42,7 +42,7 @@ class IdentificationInfoFragment : Fragment(), Step {
     private val LIB_CAMERA_RESULT = 420
 
     var cbmDataEntity: CBMDataEntity? = null
-    var database: MfExpertLmsDatabase? = null
+    private var database: MfExpertLmsDatabase? = null
     private var compositeDisposable: CompositeDisposable = CompositeDisposable();
 
     companion object {

@@ -22,6 +22,7 @@ import net.rmitsolutions.mfexpert.lms.dashboard.DashboardActivity
 import net.rmitsolutions.mfexpert.lms.group.GroupActivity
 import net.rmitsolutions.mfexpert.lms.helpers.finishNoAnim
 import net.rmitsolutions.mfexpert.lms.sample.SampleActivity
+import net.rmitsolutions.mfexpert.lms.settings.Settings
 import net.rmitsolutions.mfexpert.lms.village.VillageActivity
 import org.jetbrains.anko.find
 import org.jetbrains.anko.findOptional
@@ -194,8 +195,8 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         when (itemId) {
             R.id.nav_dashboard -> startActivity<DashboardActivity>()
         //R.id.nav_downloads -> startActivity<DownloadsActivity>()
-        R.id.nav_contact -> startActivity<SampleActivity>()
-//        R.id.nav_settings -> Log.d(TAG, "Settings clicked")
+            R.id.nav_contact -> startActivity<SampleActivity>()
+            R.id.nav_settings -> startActivity<Settings>()
             R.id.nav_cbm_details -> startActivity<CbmActivity>()
             R.id.nav_about -> startActivity<AboutActivity>()
             R.id.nav_village -> startActivity<VillageActivity>()
