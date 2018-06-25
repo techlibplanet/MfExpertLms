@@ -199,12 +199,12 @@ class SampleActivity : AppCompatActivity() {
             logD("Literacy Id : ${data.id} Literacy Name : ${data.name}")
         }
 
-        val primaryKyc = database.primaryKycDao().getAllPrimaryKYC()
+        val primaryKyc = database.primaryKycDao().getAllPrimaryKyc()
         for (data in primaryKyc){
             logD("PrimaryKyc Id : ${data.id} PrimaryKyc Name : ${data.name}")
         }
 
-        val secondaryKyc = database.secondaryKycDao().getAllSecondaryKyC()
+        val secondaryKyc = database.secondaryKycDao().getAllSecondaryKyc()
         for (data in secondaryKyc){
             logD("SecondaryKyc Id : ${data.id} SecondaryKyc Name : ${data.name}")
         }

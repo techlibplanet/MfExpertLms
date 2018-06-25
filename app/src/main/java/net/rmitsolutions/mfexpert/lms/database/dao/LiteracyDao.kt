@@ -11,8 +11,11 @@ interface LiteracyDao {
     @Insert
     fun insert(literacy: Literacy)
 
-    @Query("SELECT * FROM districts")
+    @Query("SELECT * FROM literacy")
     fun getAllLiteracy(): List<Literacy>
+
+    @Query("SELECT name FROM literacy")
+    fun getAllLiteracyNames() : List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(literacy: List<Literacy>?)

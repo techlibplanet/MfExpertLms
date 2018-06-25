@@ -12,8 +12,11 @@ interface OccupationDao {
     @Insert
     fun insert(occupation: Occupation)
 
-    @Query("SELECT * FROM districts")
+    @Query("SELECT * FROM occupations")
     fun getAllOccupation(): List<Occupation>
+
+    @Query("SELECT name FROM occupations")
+    fun getAllOccupationNames() : List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(occupation: List<Occupation>?)

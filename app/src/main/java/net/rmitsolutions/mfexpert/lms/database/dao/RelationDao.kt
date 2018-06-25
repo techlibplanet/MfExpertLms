@@ -12,8 +12,11 @@ interface RelationDao {
     @Insert
     fun insert(relation: Relation)
 
-    @Query("SELECT * FROM districts")
+    @Query("SELECT * FROM relations")
     fun getAllRelation(): List<Relation>
+
+    @Query("SELECT name FROM relations")
+    fun getAllRelationsNames(): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(relation: List<Relation>?)

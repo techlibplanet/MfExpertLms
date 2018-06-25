@@ -23,6 +23,7 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.family_details_fragment.*
 import kotlinx.android.synthetic.main.family_details_row.*
 import net.rmitsolutions.mfexpert.lms.R.id.hideLay
+import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.CBMDataEntity
 import net.rmitsolutions.mfexpert.lms.databinding.FamilyDetailsFragmentBinding
 import net.rmitsolutions.mfexpert.lms.databinding.FamilyDetailsRowBinding
@@ -64,15 +65,21 @@ class FamilyDetailsFragment : Fragment(), Step {
     var cbmActivity: CbmActivity? = null;
     lateinit var dialog: DatePickerDialog
 
+    var database : MfExpertLmsDatabase? = null
+    private lateinit var relationNames : List<String>
+    private lateinit var occupationNames : List<String>
+    private lateinit var literacyNames : List<String>
+
     companion object {
 
         private const val LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId"
-        fun newInstance(@LayoutRes layoutResId: Int, cbmDataEntity: CBMDataEntity?): FamilyDetailsFragment {
+        fun newInstance(@LayoutRes layoutResId: Int, cbmDataEntity: CBMDataEntity?, database: MfExpertLmsDatabase?): FamilyDetailsFragment {
             val args = Bundle()
             args.putInt(LAYOUT_RESOURCE_ID_ARG_KEY, layoutResId)
             val fragment = FamilyDetailsFragment()
             fragment.cbmDataEntity = cbmDataEntity;
             fragment.arguments = args
+            fragment.database = database
             return fragment
         }
     }
@@ -140,7 +147,7 @@ class FamilyDetailsFragment : Fragment(), Step {
             dialog.show()
         }
 
-        val relationsListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, relationsList)
+        val relationsListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, getAllRelationNames())
         relationsListSpinner = v.findViewById(R.id.chooseFamilyRelation)
         relationsListSpinner.setAdapter<ArrayAdapter<String>>(relationsListAdapter)
 
@@ -148,16 +155,28 @@ class FamilyDetailsFragment : Fragment(), Step {
         genderListSpinner = v.findViewById(R.id.chooseGender)
         genderListSpinner.setAdapter<ArrayAdapter<String>>(genderListAdapter)
 
-        val occupationListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, occupationList)
+        val occupationListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, getAllOccupationNames())
         occupationsListSpinner = v.findViewById(R.id.chooseRelationOccupation)
         occupationsListSpinner.setAdapter<ArrayAdapter<String>>(occupationListAdapter)
 
 
-        val literacyListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, literacyList)
+        val literacyListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, getAllLiteracyNames())
         literacyListSpinner = v.findViewById(R.id.chooseRelationLiteracy)
         literacyListSpinner.setAdapter<ArrayAdapter<String>>(literacyListAdapter)
 
         return v
+    }
+
+    private fun getAllRelationNames(): List<String> {
+        return database?.relationDao()?.getAllRelationsNames()!!
+    }
+
+    private fun getAllOccupationNames(): List<String> {
+        return database?.occupationDao()?.getAllOccupationNames()!!
+    }
+
+    private fun getAllLiteracyNames(): List<String> {
+        return database?.literacyDao()?.getAllLiteracyNames()!!
     }
 
     override fun verifyStep(): VerificationError? {
@@ -257,7 +276,7 @@ class FamilyDetailsFragment : Fragment(), Step {
         dobEditText = addView.findViewById(R.id.txtDob)
         ageEditText = addView.findViewById(R.id.txtAge)
         dobAndAgeMap?.put(dobEditText,ageEditText)
-        val v = dataBinding.getRoot()
+        val v = dataBinding.root
         scrollDown = v.findViewById(R.id.scrolldown)
         scrollDown.post(Runnable { scrollDown.fullScroll(View.FOCUS_DOWN) })
 

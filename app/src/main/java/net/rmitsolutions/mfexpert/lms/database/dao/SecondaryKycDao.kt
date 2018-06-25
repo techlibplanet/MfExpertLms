@@ -11,8 +11,11 @@ interface SecondaryKycDao {
     @Insert
     fun insert(secondaryKYC: SecondaryKYC)
 
-    @Query("SELECT * FROM districts")
-    fun getAllSecondaryKyC(): List<SecondaryKYC>
+    @Query("SELECT * FROM secondary_kyc")
+    fun getAllSecondaryKyc(): List<SecondaryKYC>
+
+    @Query("SELECT name FROM secondary_kyc")
+    fun getAllSecondaryKycNames() : List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(district: List<SecondaryKYC>?)

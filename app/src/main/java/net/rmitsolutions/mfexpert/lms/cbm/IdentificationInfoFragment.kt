@@ -39,10 +39,11 @@ class IdentificationInfoFragment : Fragment(), Step {
     private lateinit var successMessageText: TextView
     private lateinit var primaryKYCListSpinner: MaterialBetterSpinner
     private lateinit var secondaryKYCListSpinner: MaterialBetterSpinner
+    private lateinit var loanPurposeSpinner: MaterialBetterSpinner
     private val LIB_CAMERA_RESULT = 420
 
     var cbmDataEntity: CBMDataEntity? = null
-    private var database: MfExpertLmsDatabase? = null
+    var database: MfExpertLmsDatabase? = null
     private var compositeDisposable: CompositeDisposable = CompositeDisposable();
 
     companion object {
@@ -85,21 +86,41 @@ class IdentificationInfoFragment : Fragment(), Step {
         }
         dataBinding.identificationDetailsInfoVm = identificationInfoModel
 
+        // Primary Kyc Spinner
         val primaryKYCListAdapter = ArrayAdapter<String>(activity,
-                android.R.layout.simple_dropdown_item_1line, primaryKYCList)
+                android.R.layout.simple_dropdown_item_1line, getAllPrimaryKycNames())
         primaryKYCListSpinner = v.findViewById(R.id.choosePrimaryKYC)
         primaryKYCListSpinner.setAdapter<ArrayAdapter<String>>(primaryKYCListAdapter)
 
+        // Secondary Kyc Spinner
         val secondaryKYCListAdapter = ArrayAdapter<String>(activity,
-                android.R.layout.simple_dropdown_item_1line, secondaryKYCList)
+                android.R.layout.simple_dropdown_item_1line, getAllSecondaryNames())
         secondaryKYCListSpinner = v.findViewById(R.id.chooseSecondaryKYC)
         secondaryKYCListSpinner.setAdapter<ArrayAdapter<String>>(secondaryKYCListAdapter)
+
+        // Loan Purpose Spinner
+        loanPurposeSpinner = v.findViewById(R.id.chooseLoanPurpose)
+        val chooseLoanPurposeAdapter = ArrayAdapter<String>(activity,
+                android.R.layout.simple_dropdown_item_1line, getAllLoanPurposeNames())
+        loanPurposeSpinner.setAdapter<ArrayAdapter<String>>(chooseLoanPurposeAdapter)
 
         submitButton.setOnClickListener() {
             submitCBMDetails()
         }
 
         return v
+    }
+
+    private fun getAllPrimaryKycNames(): List<String> {
+        return database?.primaryKycDao()?.getAllPrimaryKycNames()!!
+    }
+
+    private fun getAllSecondaryNames(): List<String> {
+        return database?.secondaryKycDao()?.getAllSecondaryKycNames()!!
+    }
+
+    private fun getAllLoanPurposeNames(): List<String> {
+        return database?.loanPurposeDao()?.getAllLoanPurposeNames()!!
     }
 
     private fun submitCBMDetails() {
@@ -175,11 +196,18 @@ class IdentificationInfoFragment : Fragment(), Step {
             lblSecondaryKycNO.isErrorEnabled = false
         }
 
+//        if (identificationInfoModel.loanPurpose.isBlank()) {
+//            lblLoanPurpose.error = "Loan Purpose is required"
+//            return false
+//        } else {
+//            lblLoanPurpose.isErrorEnabled = false
+//        }
+
         if (identificationInfoModel.loanPurpose.isBlank()) {
-            lblLoanPurpose.error = "Loan Purpose is required"
+            chooseLoanPurpose.error = "Loan Purpose is required"
             return false
         } else {
-            lblLoanPurpose.isErrorEnabled = false
+            chooseLoanPurpose.error = null
         }
 
         if (identificationInfoModel.imageByteArray == null) {

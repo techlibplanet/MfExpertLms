@@ -9,10 +9,13 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import net.rmitsolutions.mfexpert.lms.R
 import kotlinx.android.synthetic.main.present_address_fragment.*
+import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.CBMDataEntity
 import net.rmitsolutions.mfexpert.lms.databinding.PresentAddressFragmentBinding
 import net.rmitsolutions.mfexpert.lms.viewmodels.AddressModel
@@ -23,17 +26,20 @@ class PresentAddressFragment : Fragment(), Step {
     lateinit var dataBinding: PresentAddressFragmentBinding
     private lateinit var presentAddressModel: AddressModel
     var cbmDataEntity: CBMDataEntity? = null
+    var database : MfExpertLmsDatabase? = null
+    private lateinit var districtListSpinner: MaterialBetterSpinner
 
     companion object {
 
         private const val LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId"
 
-        fun newInstance(@LayoutRes layoutResId: Int, cbmDataEntity: CBMDataEntity?): PresentAddressFragment {
+        fun newInstance(@LayoutRes layoutResId: Int, cbmDataEntity: CBMDataEntity?, database: MfExpertLmsDatabase?): PresentAddressFragment {
             val args = Bundle()
             args.putInt(LAYOUT_RESOURCE_ID_ARG_KEY, layoutResId)
             val fragment = PresentAddressFragment()
             fragment.arguments = args
             fragment.cbmDataEntity = cbmDataEntity
+            fragment.database = database
             return fragment
         }
     }
@@ -45,6 +51,10 @@ class PresentAddressFragment : Fragment(), Step {
         val v = dataBinding.root
         presentAddressModel = AddressModel("", "", "", "", "", "", "")
 
+        districtListSpinner = v.findViewById(R.id.chooseDistrictPresent)
+        val villageInfoAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line,getDistricts())
+        districtListSpinner.setAdapter<ArrayAdapter<String>>(villageInfoAdapter)
+
         if (cbmDataEntity?.presentAddresInfo != null) {
             presentAddressModel = cbmDataEntity?.presentAddresInfo!!
         } else {
@@ -52,6 +62,10 @@ class PresentAddressFragment : Fragment(), Step {
         }
         dataBinding.presentAddressInfoVm = presentAddressModel
         return v
+    }
+
+    private fun getDistricts(): List<String> {
+        return database?.districtDao()?.getDistrictNames()!!
     }
 
     override fun onSelected() {
@@ -104,12 +118,20 @@ class PresentAddressFragment : Fragment(), Step {
             lblPhone.isErrorEnabled = false
         }
 
+//        if (presentAddressModel.district.isBlank()) {
+//            lblDistrict.error = "District is required."
+//            return false
+//        } else {
+//            lblDistrict.isErrorEnabled = false
+//        }
+
         if (presentAddressModel.district.isBlank()) {
-            lblDistrict.error = "District is required."
+            chooseDistrictPresent.error = "District is required."
             return false
         } else {
-            lblDistrict.isErrorEnabled = false
+            chooseDistrictPresent.error = null
         }
+
         if (presentAddressModel.pincode.isBlank()) {
             lblPincode.error = "Pin code as on is required."
             return false

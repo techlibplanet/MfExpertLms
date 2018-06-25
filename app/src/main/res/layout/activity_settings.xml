@@ -18,16 +18,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?actionBarSize"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:orientation="vertical">
 
 
-            <Button
-                style="@style/ThemeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="dataAndSync"
-                android:text="@string/pref_header_data_sync" />
+            <!--<Button-->
+                <!--style="@style/ThemeButton"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="dataAndSync"-->
+                <!--android:text="@string/pref_header_data_sync" />-->
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_margin="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/setting_recycler_view"
+                android:scrollbars="vertical">
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
         <include layout="@layout/header_bar" />

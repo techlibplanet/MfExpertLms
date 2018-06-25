@@ -31,4 +31,5 @@
     <color name="nav_drawer_icon_tint">@color/nav_drawer_title_text_color</color>
     <color name="nav_drawer_icon_tint_selected">@color/cyan</color>
     <color name="nav_drawer_selected_item_background">#1a000000</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

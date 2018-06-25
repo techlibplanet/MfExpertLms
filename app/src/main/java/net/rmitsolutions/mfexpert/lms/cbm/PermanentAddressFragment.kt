@@ -7,13 +7,16 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.permanent_address_fragment.*
 import kotlinx.android.synthetic.main.present_address_fragment.*
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.R.id.*
+import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.CBMDataEntity
 import net.rmitsolutions.mfexpert.lms.databinding.PermanentAddressFragmentBinding
 import net.rmitsolutions.mfexpert.lms.viewmodels.AddressModel
@@ -24,17 +27,20 @@ class PermanentAddressFragment : Fragment(), Step {
     private lateinit var permanentAddressModel: AddressModel
     var cbmDataEntity: CBMDataEntity? = null
     private lateinit var checkPermanentAddress: CheckBox
+    var database : MfExpertLmsDatabase? = null
+    private lateinit var districtListSpinner: MaterialBetterSpinner
 
     companion object {
 
         private const val LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId"
 
-        fun newInstance(@LayoutRes layoutResId: Int, cbmDataEntity: CBMDataEntity?): PermanentAddressFragment {
+        fun newInstance(@LayoutRes layoutResId: Int, cbmDataEntity: CBMDataEntity?, database: MfExpertLmsDatabase?): PermanentAddressFragment {
             val args = Bundle()
             args.putInt(LAYOUT_RESOURCE_ID_ARG_KEY, layoutResId)
             val fragment = PermanentAddressFragment()
             fragment.arguments = args
             fragment.cbmDataEntity = cbmDataEntity;
+            fragment.database = database
             return fragment
         }
     }
@@ -44,6 +50,10 @@ class PermanentAddressFragment : Fragment(), Step {
 
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.permanent_address_fragment, container, false)
         val v = dataBinding.root
+
+        districtListSpinner = v.findViewById(R.id.chooseDistrictPermanent)
+        val villageInfoAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line,getDistricts())
+        districtListSpinner.setAdapter<ArrayAdapter<String>>(villageInfoAdapter)
 
         if (cbmDataEntity?.permanentAddresInfo == null) {
             cbmDataEntity?.permanentAddresInfo = AddressModel("", "", "", "", "", "", "")
@@ -68,6 +78,10 @@ class PermanentAddressFragment : Fragment(), Step {
             }
         }
         return v
+    }
+
+    private fun getDistricts(): List<String> {
+        return database?.districtDao()?.getDistrictNames()!!
     }
 
     fun handlePresentAndPermanentEvalution() {
@@ -129,12 +143,19 @@ class PermanentAddressFragment : Fragment(), Step {
         } else {
             lblPhonePermanent.isErrorEnabled = false
         }
+//        if (permanentAddressModel.district.isBlank()) {
+//            lblDistrictPermanent.error = "District is required."
+//            return false
+//        } else {
+//            lblDistrictPermanent.isErrorEnabled = false
+//        }
         if (permanentAddressModel.district.isBlank()) {
-            lblDistrictPermanent.error = "District is required."
+            chooseDistrictPermanent.error = "District is required."
             return false
         } else {
-            lblDistrictPermanent.isErrorEnabled = false
+            chooseDistrictPermanent.error = null
         }
+
         if (permanentAddressModel.pincode.isBlank()) {
             lblPincodePermanent.error = "Pin code as on is required."
             return false

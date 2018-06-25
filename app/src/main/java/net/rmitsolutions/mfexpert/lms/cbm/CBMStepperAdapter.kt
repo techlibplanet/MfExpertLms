@@ -24,12 +24,12 @@ class CBMStepperAdapter(fm: FragmentManager, context: Context) : AbstractFragmen
         cbmActivity=(context as? CbmActivity)
         when (position) {
             0 -> return PersonalInfoFragment.newInstance(R.layout.personal_info_fragment,cbmDataEntity)
-            1 -> return PresentAddressFragment.newInstance(R.layout.present_address_fragment,cbmDataEntity)
+            1 -> return PresentAddressFragment.newInstance(R.layout.present_address_fragment,cbmDataEntity, database)
             2 ->   {
-                permanentAddressFragment=PermanentAddressFragment.newInstance(R.layout.permanent_address_fragment,cbmDataEntity)
+                permanentAddressFragment=PermanentAddressFragment.newInstance(R.layout.permanent_address_fragment,cbmDataEntity, database)
                 return permanentAddressFragment!!
             }
-            3 ->  return FamilyDetailsFragment.newInstance(R.layout.family_details_fragment,cbmDataEntity)
+            3 ->  return FamilyDetailsFragment.newInstance(R.layout.family_details_fragment,cbmDataEntity, database)
             4 ->  return IdentificationInfoFragment.newInstance(R.layout.identification_info_fragment,cbmDataEntity,database)
 
             else -> throw IllegalArgumentException("Unsupported position: $position") as Throwable

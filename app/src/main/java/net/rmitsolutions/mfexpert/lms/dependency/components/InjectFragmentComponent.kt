@@ -1,6 +1,7 @@
 package net.rmitsolutions.mfexpert.lms.dependency.components
 
 import dagger.Component
+import net.rmitsolutions.mfexpert.lms.cbm.PresentAddressFragment
 import net.rmitsolutions.mfexpert.lms.dependency.components.ApplicationComponent
 import net.rmitsolutions.mfexpert.lms.dependency.scopes.ActivityScope
 
@@ -10,5 +11,5 @@ import net.rmitsolutions.mfexpert.lms.dependency.scopes.ActivityScope
 @ActivityScope
 @Component(dependencies = arrayOf(ApplicationComponent::class))
 interface InjectFragmentComponent {
-
+    fun injectPresentAddressFragment(presentAddressFragment: PresentAddressFragment)
 }
