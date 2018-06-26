@@ -13,6 +13,13 @@ object SharedPrefKeys {
     const val SP_ID_TOKEN_KEY = "sp_id_token_key"
     const val SP_ACCESS_TOKEN_KEY = "sp_access_token_key"
     const val SP_USER_KEY = "sp_user_key"
+    const val SP_DISTRICT_SYNC_TIME = "district_sync_time"
+    const val SP_RELATION_SYNC_TIME = "relation_sync_time"
+    const val SP_OCCUPATION_SYNC_TIME = "occupation_sync_time"
+    const val SP_LITERACY_SYNC_TIME = "literacy_sync_time"
+    const val SP_PRIMARY_KYC_SYNC_TIME = "primary_kyc_sync_time"
+    const val SP_SECONDARY_KYC_SYNC_TIME = "secondary_kyc_sync_time"
+    const val SP_LOAN_PURPOSE_SYNC_TIME = "loan_purpose_sync_time"
 }
 
 val Context.defaultSharedPreferences: SharedPreferences

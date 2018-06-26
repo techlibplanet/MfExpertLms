@@ -261,7 +261,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme" />
         <activity android:name=".sample.SampleActivity" />
-        <activity android:name=".settings.Settings"
+        <activity android:name=".settings.SettingsActivity"
             android:label="Settings"
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme"></activity>

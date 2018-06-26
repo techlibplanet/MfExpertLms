@@ -1,10 +1,10 @@
-package net.rmitsolutions.mfexpert.lms.settings.adapter
+package net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersettings
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import net.rmitsolutions.libcam.Constants.logD
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.viewmodels.SettingViewModel
@@ -19,12 +19,6 @@ class SettingsAdapter : RecyclerView.Adapter<SettingsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {
         context = parent.context
         val v = LayoutInflater.from(context).inflate(R.layout.setting_layout_rows, parent, false)
-        v.setOnClickListener(object :View.OnClickListener{
-            override fun onClick(view: View?) {
-
-            }
-
-        })
         return SettingsViewHolder(v)
     }
 
@@ -33,7 +27,7 @@ class SettingsAdapter : RecyclerView.Adapter<SettingsViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: SettingsViewHolder, position: Int) {
-        holder.bindView(items[position])
-
+        holder.bindView(context, items[position], position)
     }
+
 }

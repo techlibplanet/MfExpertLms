@@ -7,12 +7,16 @@ import android.content.ContentProviderClient
 import android.content.Context
 import android.content.SyncResult
 import android.os.Bundle
+import android.widget.Toast
 import net.rmitsolutions.libcam.Constants
 import net.rmitsolutions.libcam.Constants.logD
+import net.rmitsolutions.mfexpert.lms.Constants.getFormatDate
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
+import net.rmitsolutions.mfexpert.lms.helpers.putPref
 import net.rmitsolutions.mfexpert.lms.models.Globals
-import java.util.ArrayList
+import java.util.*
 
 class DistrictSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean, database : MfExpertLmsDatabase) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
 
@@ -42,6 +46,7 @@ class DistrictSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
 
             if (messages.size == 0){
                 Constants.logD(TAG, "District sync success !")
+                context.putPref(SharedPrefKeys.SP_DISTRICT_SYNC_TIME, getFormatDate())
             }else{
                 NotificationHelper.notifyGroupedError(context, "District Sync failed", messages.size.toString() + " Modules failed to sync", messages)
             }

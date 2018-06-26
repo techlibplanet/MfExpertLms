@@ -2,6 +2,9 @@ package net.rmitsolutions.mfexpert.lms
 
 import net.openid.appauth.ResponseTypeValues
 import net.rmitsolutions.appauthwebview.AppAuthWebViewData
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Constants {
    /* const val BASE_URL = "http://10.0.2.2:5000/"
@@ -50,6 +53,15 @@ object Constants {
         data.responseType = ResponseTypeValues.CODE
         data.isGenerateCodeVerifier = true
         return data
+    }
+
+    const val DISPLAY_FULL_DATE_FORMAT = "dd-MM-yyyy hh:mm:ss a"
+
+    fun getFormatDate(): String? {
+        val calendar = Calendar.getInstance()
+        val date = calendar.time
+        val formatter : DateFormat = SimpleDateFormat(DISPLAY_FULL_DATE_FORMAT)
+        return formatter.format(date)
     }
 
 

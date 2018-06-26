@@ -27,7 +27,7 @@ class RelationSyncService : Service() {
         synchronized(syncAdapterLocker) {
             if (syncAdapter == null) {
 //                syncAdapter = MastersSyncAdapter(applicationContext, true, false, roomDatabase, masterService)
-                syncAdapter = DistrictSyncAdapter(applicationContext, true, false, database)
+                syncAdapter = RelationSyncAdapter(applicationContext, true, false, database)
                 Log.d("Sync", "Relation sync adapter created.")
             }
         }
@@ -39,6 +39,6 @@ class RelationSyncService : Service() {
 
     companion object {
         private val syncAdapterLocker = Any()
-        private var syncAdapter: DistrictSyncAdapter? = null
+        private var syncAdapter: RelationSyncAdapter? = null
     }
 }

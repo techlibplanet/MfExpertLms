@@ -8,8 +8,11 @@ import android.content.Context
 import android.content.SyncResult
 import android.os.Bundle
 import net.rmitsolutions.libcam.Constants
+import net.rmitsolutions.mfexpert.lms.Constants.getFormatDate
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
+import net.rmitsolutions.mfexpert.lms.helpers.putPref
 import net.rmitsolutions.mfexpert.lms.models.Globals
 import net.rmitsolutions.mfexpert.lms.sync.district.SyncDistrict
 import java.util.ArrayList
@@ -42,6 +45,7 @@ class LoanPurposeSyncAdapter(context: Context, autoInitialize: Boolean, allowPar
 
             if (messages.size == 0){
                 Constants.logD(TAG, "Loan purpose sync success !")
+                context.putPref(SharedPrefKeys.SP_LOAN_PURPOSE_SYNC_TIME, getFormatDate())
             }else{
                 NotificationHelper.notifyGroupedError(context, "Loan purpose Sync failed", messages.size.toString() + " Modules failed to sync", messages)
             }
