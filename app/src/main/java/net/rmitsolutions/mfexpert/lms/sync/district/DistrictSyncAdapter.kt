@@ -2,10 +2,8 @@ package net.rmitsolutions.mfexpert.lms.sync.district
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.content.AbstractThreadedSyncAdapter
-import android.content.ContentProviderClient
-import android.content.Context
-import android.content.SyncResult
+import android.app.Activity
+import android.content.*
 import android.os.Bundle
 import android.widget.Toast
 import net.rmitsolutions.libcam.Constants
@@ -16,6 +14,8 @@ import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
 import net.rmitsolutions.mfexpert.lms.helpers.putPref
 import net.rmitsolutions.mfexpert.lms.models.Globals
+import net.rmitsolutions.mfexpert.lms.settings.SettingsActivity
+import net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersyncsettings.SyncSettingsViewHolder
 import java.util.*
 
 class DistrictSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean, database : MfExpertLmsDatabase) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
@@ -28,6 +28,7 @@ class DistrictSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
     init {
         accountManager = AccountManager.get(context)
     }
+
 
     override fun onPerformSync(account: Account?, bundle: Bundle?, p2: String?, contentProvider: ContentProviderClient?, syncResult: SyncResult?) {
         try {
@@ -47,6 +48,11 @@ class DistrictSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
             if (messages.size == 0){
                 Constants.logD(TAG, "District sync success !")
                 context.putPref(SharedPrefKeys.SP_DISTRICT_SYNC_TIME, getFormatDate())
+//                val intent = Intent(context, SyncSettingsViewHolder::class.java)
+//                intent.putExtra("position", 0)
+//                intent.action = SyncSettingsViewHolder.ACTION_FINISHED_SYNC
+//                context.sendBroadcast(intent)
+                context.sendBroadcast(Intent(SyncSettingsViewHolder.ACTION_FINISHED_SYNC).putExtra("position", 0));
             }else{
                 NotificationHelper.notifyGroupedError(context, "District Sync failed", messages.size.toString() + " Modules failed to sync", messages)
             }

@@ -3,6 +3,7 @@ package net.rmitsolutions.mfexpert.lms.settings
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -25,6 +26,8 @@ class SettingsActivity : BaseActivity(), SettingsMenuFragment.OnFragmentInteract
     val adapter: SettingsAdapter by lazy { SettingsAdapter() }
     private lateinit var modelList: MutableList<SettingViewModel>
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -46,6 +49,7 @@ class SettingsActivity : BaseActivity(), SettingsMenuFragment.OnFragmentInteract
 
 
     }
+
 
     private fun setSettingsItem() {
         modelList.clear()

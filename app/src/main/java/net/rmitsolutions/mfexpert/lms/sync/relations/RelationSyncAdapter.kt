@@ -2,10 +2,7 @@ package net.rmitsolutions.mfexpert.lms.sync.relations
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.content.AbstractThreadedSyncAdapter
-import android.content.ContentProviderClient
-import android.content.Context
-import android.content.SyncResult
+import android.content.*
 import android.os.Bundle
 import net.rmitsolutions.libcam.Constants
 import net.rmitsolutions.mfexpert.lms.Constants.getFormatDate
@@ -14,6 +11,7 @@ import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
 import net.rmitsolutions.mfexpert.lms.helpers.putPref
 import net.rmitsolutions.mfexpert.lms.models.Globals
+import net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersyncsettings.SyncSettingsViewHolder
 import net.rmitsolutions.mfexpert.lms.sync.district.SyncDistrict
 import java.util.ArrayList
 
@@ -46,6 +44,7 @@ class RelationSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
             if (messages.size == 0){
                 Constants.logD(TAG, "Relations sync success !")
                 context.putPref(SharedPrefKeys.SP_RELATION_SYNC_TIME, getFormatDate())
+                context.sendBroadcast(Intent(SyncSettingsViewHolder.ACTION_FINISHED_SYNC).putExtra("position", 1));
             }else{
                 NotificationHelper.notifyGroupedError(context, "Relations Sync failed", messages.size.toString() + " Modules failed to sync", messages)
             }
