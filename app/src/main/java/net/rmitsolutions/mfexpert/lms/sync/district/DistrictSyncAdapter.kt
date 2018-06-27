@@ -48,10 +48,6 @@ class DistrictSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
             if (messages.size == 0){
                 Constants.logD(TAG, "District sync success !")
                 context.putPref(SharedPrefKeys.SP_DISTRICT_SYNC_TIME, getFormatDate())
-//                val intent = Intent(context, SyncSettingsViewHolder::class.java)
-//                intent.putExtra("position", 0)
-//                intent.action = SyncSettingsViewHolder.ACTION_FINISHED_SYNC
-//                context.sendBroadcast(intent)
                 context.sendBroadcast(Intent(SyncSettingsViewHolder.ACTION_FINISHED_SYNC).putExtra("position", 0));
             }else{
                 NotificationHelper.notifyGroupedError(context, "District Sync failed", messages.size.toString() + " Modules failed to sync", messages)

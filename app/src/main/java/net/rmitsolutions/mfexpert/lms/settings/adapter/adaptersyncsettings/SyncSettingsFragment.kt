@@ -37,8 +37,6 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class SyncSettingsFragment : Fragment() {
-
-    private val TAG = SyncSettingsFragment::class.java.simpleName
     private lateinit var syncSettingRecyclerView : RecyclerView
     val adapter: SyncSettingsAdapter by lazy { SyncSettingsAdapter() }
     private lateinit var modelList: MutableList<SyncViewModels>
