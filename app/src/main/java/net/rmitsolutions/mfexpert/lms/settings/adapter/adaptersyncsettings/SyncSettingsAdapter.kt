@@ -19,8 +19,7 @@ class SyncSettingsAdapter : RecyclerView.Adapter<SyncSettingsViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return items.size
-    }
+        return items.size }
 
     override fun onBindViewHolder(holder: SyncSettingsViewHolder, position: Int) {
         holder.bindView(context,items[position], position)

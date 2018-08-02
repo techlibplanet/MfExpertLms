@@ -8,11 +8,9 @@ internal class ImageInformation {
 
     val imageInformationObject: ImageInformationObject
 
-
     init {
         imageInformationObject = ImageInformationObject()
     }
-
 
     private fun getAllFeatures(realPath: String): ExifInterface? {
         if (realPath != "") {

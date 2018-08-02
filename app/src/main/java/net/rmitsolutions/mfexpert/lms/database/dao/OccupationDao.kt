@@ -9,7 +9,7 @@ import net.rmitsolutions.mfexpert.lms.database.entities.Occupation
 @Dao
 interface OccupationDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(occupation: Occupation)
 
     @Query("SELECT * FROM occupations")

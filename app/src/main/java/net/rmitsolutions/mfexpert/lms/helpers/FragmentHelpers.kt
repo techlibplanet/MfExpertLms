@@ -11,6 +11,9 @@ import timber.log.Timber
 val Fragment.apiAccessToken: String
     get() = activity!!.apiAccessToken
 
+val Fragment.apiRefreshToken : String
+    get() = activity!!.apiRefreshToken
+
 fun Fragment.toast(message: String?) = activity!!.toast("$message")
 
 fun Fragment.showProgress() = activity!!.showProgress()

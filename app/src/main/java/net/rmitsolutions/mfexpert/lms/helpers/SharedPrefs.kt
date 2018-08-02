@@ -10,8 +10,11 @@ import net.rmitsolutions.mfexpert.lms.R
  */
 
 object SharedPrefKeys {
+    const val SP_TOKEN_KEY = "sp_token_key"
     const val SP_ID_TOKEN_KEY = "sp_id_token_key"
     const val SP_ACCESS_TOKEN_KEY = "sp_access_token_key"
+    var SP_ENCRYPTED_TOKEN_KEY = "sp_encrypted_token_key"
+    var SP_ENCRYPTED_IV = "sp_encrypted_iv"
     const val SP_USER_KEY = "sp_user_key"
     const val SP_DISTRICT_SYNC_TIME = "district_sync_time"
     const val SP_RELATION_SYNC_TIME = "relation_sync_time"
@@ -20,6 +23,18 @@ object SharedPrefKeys {
     const val SP_PRIMARY_KYC_SYNC_TIME = "primary_kyc_sync_time"
     const val SP_SECONDARY_KYC_SYNC_TIME = "secondary_kyc_sync_time"
     const val SP_LOAN_PURPOSE_SYNC_TIME = "loan_purpose_sync_time"
+    const val SP_KYC_DETAILS_SYNC_TIME = "kyc_details_sync_time"
+    const val SP_ASSIGN_CATEGORY_SYNC_TIME = "assign_category_sync_time"
+    const val SP_BANKS_SYNC_TIME = "assign_category_sync_time"
+    const val SP_CASTE_SYNC_TIME = "caste_sync_time"
+    const val SP_HOUSE_OWNERSHIP_SYNC_TIME = "house_ownership_sync_time"
+    const val SP_INCOME_PROOF_SYNC_TIME = "income_proof_sync_time"
+    const val SP_LOAN_CLOSE_TYPE_SYNC_TIME = "loan_close_type_sync_time"
+    const val SP_LOAN_REJECTION_REASON_SYNC_TIME = "loan_rejection_reason_sync_time"
+    const val SP_MEMBER_REJECTION_REASON_SYNC_TIME = "member_rejection_reason_sync_time"
+    const val SP_NATIONALITY_SYNC_TIME = "nationality_sync_time"
+    const val SP_PRODUCTS_SYNC_TIME = "products_sync_time"
+    const val SP_RELIGION_SYNC_TIME = "religion_sync_time"
 }
 
 val Context.defaultSharedPreferences: SharedPreferences

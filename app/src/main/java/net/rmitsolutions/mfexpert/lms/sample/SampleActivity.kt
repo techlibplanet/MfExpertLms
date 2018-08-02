@@ -1,7 +1,9 @@
 package net.rmitsolutions.mfexpert.lms.sample
 
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.Toast
@@ -12,6 +14,7 @@ import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.*
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
+import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
 import net.rmitsolutions.mfexpert.lms.helpers.logD
 import net.rmitsolutions.mfexpert.lms.helpers.logE
 import net.rmitsolutions.mfexpert.lms.helpers.processRequest
@@ -41,7 +44,15 @@ class SampleActivity : AppCompatActivity() {
         depComponent.injectSampleActivity(this)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun saveData(view: View){
+        //saveData()
+//        NotificationHelper.notify(this, "Test Notification", "Default")
+
+
+    }
+
+    private fun saveData(){
         var districtList = District()
         districtList.id = 123
         districtList.name = "Hyderabad"
@@ -63,7 +74,7 @@ class SampleActivity : AppCompatActivity() {
         var relationList = Relation()
         relationList.id = 123
         relationList.name = "Father"
-        relationList.gender = 0
+
 
         compositeDisposable.add(Single.fromCallable {
             database.runInTransaction {
@@ -168,8 +179,6 @@ class SampleActivity : AppCompatActivity() {
                 }
         ))
 
-
-
     }
 
     fun getData(view: View){
@@ -180,14 +189,7 @@ class SampleActivity : AppCompatActivity() {
 
         val relation = database.relationDao().getAllRelation()
         var gender : String
-        for (data in relation){
-            gender = if (data.gender?.toInt() == 0){
-                "Male"
-            }else {
-                "Female"
-            }
-            logD("Relation Id : ${data.id} Relation Name : ${data.name} Gender : $gender")
-        }
+
 
         val occupation = database.occupationDao().getAllOccupation()
         for (data in occupation){

@@ -7,6 +7,7 @@ import android.util.Log
 import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectServiceComponent
+import net.rmitsolutions.mfexpert.lms.network.IMasters
 import net.rmitsolutions.mfexpert.lms.sync.district.DistrictSyncAdapter
 import net.rmitsolutions.mfexpert.lms.sync.district.DistrictSyncService
 import javax.inject.Inject
@@ -15,6 +16,9 @@ class RelationSyncService : Service() {
 
     @Inject
     lateinit var database: MfExpertLmsDatabase
+
+    @Inject
+    lateinit var mastersService: IMasters
 
     override fun onCreate() {
         super.onCreate()
@@ -27,7 +31,7 @@ class RelationSyncService : Service() {
         synchronized(syncAdapterLocker) {
             if (syncAdapter == null) {
 //                syncAdapter = MastersSyncAdapter(applicationContext, true, false, roomDatabase, masterService)
-                syncAdapter = RelationSyncAdapter(applicationContext, true, false, database)
+                syncAdapter = RelationSyncAdapter(applicationContext, true, false, database, mastersService)
                 Log.d("Sync", "Relation sync adapter created.")
             }
         }

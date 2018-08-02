@@ -9,7 +9,7 @@ import net.rmitsolutions.mfexpert.lms.database.entities.LoanPurpose
 
 @Dao
 interface LoanPurposeDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(loanPurpose: LoanPurpose)
 
     @Query("SELECT * FROM loan_purpose")

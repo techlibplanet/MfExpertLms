@@ -8,7 +8,7 @@ import net.rmitsolutions.mfexpert.lms.database.entities.SecondaryKYC
 
 @Dao
 interface SecondaryKycDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(secondaryKYC: SecondaryKYC)
 
     @Query("SELECT * FROM secondary_kyc")

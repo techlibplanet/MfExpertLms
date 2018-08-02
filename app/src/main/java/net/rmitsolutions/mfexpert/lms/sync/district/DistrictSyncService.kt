@@ -8,12 +8,16 @@ import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectServiceComponent
+import net.rmitsolutions.mfexpert.lms.network.IMasters
 import javax.inject.Inject
 
 class DistrictSyncService : Service() {
 
     @Inject
     lateinit var database: MfExpertLmsDatabase
+
+    @Inject
+    lateinit var mastersService: IMasters
 
     override fun onCreate() {
         super.onCreate()
@@ -26,7 +30,7 @@ class DistrictSyncService : Service() {
         synchronized(syncAdapterLocker) {
             if (syncAdapter == null) {
 //                syncAdapter = MastersSyncAdapter(applicationContext, true, false, roomDatabase, masterService)
-                syncAdapter = DistrictSyncAdapter(applicationContext, true, false, database)
+                syncAdapter = DistrictSyncAdapter(applicationContext, true, false, database, mastersService)
                 Log.d("Sync", "District sync adapter created.")
             }
         }

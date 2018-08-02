@@ -8,7 +8,7 @@ import net.rmitsolutions.mfexpert.lms.database.entities.Literacy
 @Dao
 interface LiteracyDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(literacy: Literacy)
 
     @Query("SELECT * FROM literacy")

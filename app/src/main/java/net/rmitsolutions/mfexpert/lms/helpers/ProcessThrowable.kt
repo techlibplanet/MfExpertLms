@@ -16,7 +16,7 @@ object ProcessThrowable {
         is SocketTimeoutException -> if (t.message == null) "Request timeout." else t.message
         is HttpException -> {
             val err = t.response().errorBody()
-            if (t.code() == 401) "Session expired"
+            if (t.code() == 401) "401"
             else if (err == null) "Request failed."
             else {
                 try {

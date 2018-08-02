@@ -9,7 +9,7 @@ import net.rmitsolutions.mfexpert.lms.database.entities.Relation
 @Dao
 interface RelationDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(relation: Relation)
 
     @Query("SELECT * FROM relations")

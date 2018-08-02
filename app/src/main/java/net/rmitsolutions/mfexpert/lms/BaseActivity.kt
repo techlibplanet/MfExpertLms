@@ -20,7 +20,10 @@ import net.rmitsolutions.mfexpert.lms.cbm.CbmActivity
 import net.rmitsolutions.mfexpert.lms.center.CenterActivity
 import net.rmitsolutions.mfexpert.lms.dashboard.DashboardActivity
 import net.rmitsolutions.mfexpert.lms.group.GroupActivity
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
+import net.rmitsolutions.mfexpert.lms.helpers.apiTokens
 import net.rmitsolutions.mfexpert.lms.helpers.finishNoAnim
+import net.rmitsolutions.mfexpert.lms.helpers.removePref
 import net.rmitsolutions.mfexpert.lms.sample.SampleActivity
 import net.rmitsolutions.mfexpert.lms.settings.SettingsActivity
 import net.rmitsolutions.mfexpert.lms.village.VillageActivity
@@ -202,8 +205,16 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
             R.id.nav_village -> startActivity<VillageActivity>()
             R.id.nav_center -> startActivity<CenterActivity>()
             R.id.nav_group -> startActivity<GroupActivity>()
+            R.id.nav_logout -> logout()
         }
         finishNoAnim()
+    }
+
+    private fun logout() {
+        removePref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, SharedPrefKeys.SP_ENCRYPTED_IV)
+        Constants.accessToken= null
+        Constants.ACCESS_TOKEN = ""
+        startActivity<WelcomeActivity>()
     }
 
 }

@@ -45,7 +45,7 @@ class LoginActivity : BaseActivity(), IAppAuthWebViewListener {
     }
 
     override fun onUserAuthorize(authState: net.openid.appauth.AuthState?) {
-        Constants.ACCESS_TOKEN = authState!!.accessToken
+        Constants.ACCESS_TOKEN = authState!!.accessToken!!
         putPref(SharedPrefKeys.SP_ACCESS_TOKEN_KEY, authState.accessToken)
         startActivity<DashboardActivity>()
         finish()

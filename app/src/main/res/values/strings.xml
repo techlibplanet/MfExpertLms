@@ -11,6 +11,9 @@
     <string name="no_results">No results to show</string>
     <string name="you_are_offline">You are offline</string>
 
+    <string name="login">Login</string>
+    <string name="logo_img_description">MfExpert</string>
+
     <!--cbm Details-->
 
     <string name="first_name">First Name</string>
@@ -106,9 +109,26 @@
     <string name="sync_content_authority_primary_kyc">net.rmitsolutions.mfexpert.primarykycsyncprovider</string>
     <string name="sync_content_authority_secondary_kyc">net.rmitsolutions.mfexpert.secondarykycsyncprovider</string>
     <string name="sync_content_authority_loan_purpose">net.rmitsolutions.mfexpert.loanpurposesyncprovider</string>
+    <string name="sync_content_authority_kyc_details">net.rmitsolutions.mfexpert.kycdetailssyncprovider</string>
+    <string name="sync_content_authority_assign_category">net.rmitsolutions.mfexpert.assigncategorysyncprovider</string>
+    <string name="sync_content_authority_banks">net.rmitsolutions.mfexpert.banksyncprovider</string>
+    <string name="sync_content_authority_caste">net.rmitsolutions.mfexpert.castesyncprovider</string>
+    <string name="sync_content_authority_house_ownership">net.rmitsolutions.mfexpert.houseownershipsyncprovider</string>
+    <string name="sync_content_authority_loan_close_type">net.rmitsolutions.mfexpert.loanclosetypesyncprovider</string>
+    <string name="sync_content_authority_income_proof">net.rmitsolutions.mfexpert.incomeproofsyncprovider</string>
+    <string name="sync_content_authority_loan_rejection">net.rmitsolutions.mfexpert.loanrejectionsyncprovider</string>
+    <string name="sync_content_authority_member_rejection">net.rmitsolutions.mfexpert.memberrejectionsyncprovider</string>
+    <string name="sync_content_authority_nationality">net.rmitsolutions.mfexpert.nationalitysyncprovider</string>
+    <string name="sync_content_authority_products">net.rmitsolutions.mfexpert.productsyncprovider</string>
+    <string name="sync_content_authority_religion">net.rmitsolutions.mfexpert.religionsyncprovider</string>
+
+    <string name="refresh_token_dialog_fragment_tag">refresh_token_dialog_fragment_tag</string>
 
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_hint_username">Username</string>
+    <string name="login_forgot_password">Forgot Password</string>
 
 </resources>

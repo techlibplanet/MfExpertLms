@@ -9,7 +9,7 @@ import net.rmitsolutions.mfexpert.lms.database.entities.District
 @Dao
 interface DistrictDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(district: District)
 
     @Query("SELECT * FROM districts")

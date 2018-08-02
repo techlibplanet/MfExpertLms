@@ -2,6 +2,7 @@ package net.rmitsolutions.mfexpert.lms.dependency.components
 
 import dagger.Component
 import net.rmitsolutions.mfexpert.lms.BaseActivity
+import net.rmitsolutions.mfexpert.lms.WelcomeActivity
 import net.rmitsolutions.mfexpert.lms.group.GroupActivity
 import net.rmitsolutions.mfexpert.lms.village.VillageActivity
 import net.rmitsolutions.mfexpert.lms.cbm.CbmActivity
@@ -23,5 +24,6 @@ interface InjectActivityComponent {
     fun injectGroupActivity(activity: GroupActivity)
     fun injectCenterActivity(activity: CenterActivity)
     fun injectSampleActivity(activity: SampleActivity)
+    fun injectWelcomeActivity(activity: WelcomeActivity)
 
 }

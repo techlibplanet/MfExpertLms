@@ -29,7 +29,6 @@ class SettingsActivity : BaseActivity(), SettingsMenuFragment.OnFragmentInteract
 
     }
 
-
     override fun getSelfNavDrawerItem() = R.id.nav_dashboard
 
 

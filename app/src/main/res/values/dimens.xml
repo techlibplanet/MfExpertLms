@@ -39,6 +39,8 @@
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">20dp</dimen>
     <dimen name="margin_right">20dp</dimen>
+    <dimen name="welcome_image_width">180dp</dimen>
+    <dimen name="welcome_image_height">180dp</dimen>
 
 
 </resources>

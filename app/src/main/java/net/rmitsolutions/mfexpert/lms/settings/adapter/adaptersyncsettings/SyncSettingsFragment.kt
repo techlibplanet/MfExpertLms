@@ -12,12 +12,24 @@ import android.view.View
 import android.view.ViewGroup
 
 import net.rmitsolutions.mfexpert.lms.R
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_ASSIGN_CATEGORY_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_BANKS_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_CASTE_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_DISTRICT_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_HOUSE_OWNERSHIP_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_INCOME_PROOF_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_KYC_DETAILS_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_LITERACY_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_LOAN_CLOSE_TYPE_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_LOAN_PURPOSE_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_LOAN_REJECTION_REASON_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_MEMBER_REJECTION_REASON_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_NATIONALITY_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_OCCUPATION_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_PRIMARY_KYC_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_PRODUCTS_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_RELATION_SYNC_TIME
+import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_RELIGION_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys.SP_SECONDARY_KYC_SYNC_TIME
 import net.rmitsolutions.mfexpert.lms.helpers.getPref
 import net.rmitsolutions.mfexpert.lms.viewmodels.SyncViewModels
@@ -37,9 +49,11 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class SyncSettingsFragment : Fragment() {
+
     private lateinit var syncSettingRecyclerView : RecyclerView
     val adapter: SyncSettingsAdapter by lazy { SyncSettingsAdapter() }
     private lateinit var modelList: MutableList<SyncViewModels>
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -77,8 +91,19 @@ class SyncSettingsFragment : Fragment() {
         modelList.add(SyncViewModels("Primary Kyc",activity?.getPref(SP_PRIMARY_KYC_SYNC_TIME,"")!!, R.id.sync_switch))
         modelList.add(SyncViewModels("Secondary Kyc",activity?.getPref(SP_SECONDARY_KYC_SYNC_TIME,"")!!, R.id.sync_switch))
         modelList.add(SyncViewModels("Loan Purpose",activity?.getPref(SP_LOAN_PURPOSE_SYNC_TIME,"")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Kyc Details", activity?.getPref(SP_KYC_DETAILS_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Assign Category", activity?.getPref(SP_ASSIGN_CATEGORY_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Bank Details", activity?.getPref(SP_BANKS_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Caste Details", activity?.getPref(SP_CASTE_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("House Ownership", activity?.getPref(SP_HOUSE_OWNERSHIP_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Income Proof", activity?.getPref(SP_INCOME_PROOF_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Loan Close Type", activity?.getPref(SP_LOAN_CLOSE_TYPE_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Loan Rejection Reasons", activity?.getPref(SP_LOAN_REJECTION_REASON_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Member Rejection Reasons", activity?.getPref(SP_MEMBER_REJECTION_REASON_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Nationality", activity?.getPref(SP_NATIONALITY_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Products", activity?.getPref(SP_PRODUCTS_SYNC_TIME, "")!!, R.id.sync_switch))
+        modelList.add(SyncViewModels("Religion", activity?.getPref(SP_RELIGION_SYNC_TIME, "")!!, R.id.sync_switch))
         setRecyclerViewAdapter(modelList)
-
     }
 
     private fun setRecyclerViewAdapter(list: List<SyncViewModels>) {

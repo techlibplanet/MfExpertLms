@@ -14,6 +14,4 @@ class Relation {
     @ColumnInfo(name = "name")
     var name: String? = null
 
-    @ColumnInfo(name = "gender")
-    var gender: Byte? = null
 }

@@ -11,8 +11,6 @@ import net.rmitsolutions.mfexpert.lms.viewmodels.SettingViewModel
 
 class SettingsAdapter : RecyclerView.Adapter<SettingsViewHolder>() {
 
-    private val TAG = SettingsAdapter::class.java.simpleName
-
     var items: List<SettingViewModel> = emptyList()
     lateinit var  context : Context
 

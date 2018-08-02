@@ -200,6 +200,274 @@
             android:label="Loan Purpose"
             android:syncable="true" />
 
+        <!-- Kyc Details sync service -->
+        <service
+            android:name=".sync.kycdetails.KycDetailSyncService"
+            android:exported="false"
+            android:label="Kyc Details">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/kyc_details_sync" />
+        </service>
+
+        <!-- Kyc Details sync provider -->
+        <provider
+            android:name=".sync.kycdetails.KycDetailContentProvider"
+            android:authorities="@string/sync_content_authority_kyc_details"
+            android:exported="false"
+            android:label="Kyc Details"
+            android:syncable="true" />
+
+        <!-- Assign category sync service -->
+        <service
+            android:name=".sync.assigncategory.AssignCategorySyncService"
+            android:exported="false"
+            android:label="Assign Category">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/assign_category_sync" />
+        </service>
+
+        <!-- Assign category sync provider -->
+        <provider
+            android:name=".sync.assigncategory.AssignCategoryContentProvider"
+            android:authorities="@string/sync_content_authority_assign_category"
+            android:exported="false"
+            android:label="Assign Category"
+            android:syncable="true" />
+
+        <!-- Bank sync service -->
+        <service
+            android:name=".sync.banks.BankSyncService"
+            android:exported="false"
+            android:label="Banks">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/banks_sync" />
+        </service>
+
+        <!-- Bank sync provider -->
+        <provider
+            android:name=".sync.banks.BankSyncContentProvider"
+            android:authorities="@string/sync_content_authority_banks"
+            android:exported="false"
+            android:label="Banks"
+            android:syncable="true" />
+
+
+        <!-- Caste sync service -->
+        <service
+            android:name=".sync.caste.CasteDetailSyncService"
+            android:exported="false"
+            android:label="Caste">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/caste_detail_sync" />
+        </service>
+
+        <!-- Caste sync provider -->
+        <provider
+            android:name=".sync.caste.CasteDetailContentProvider"
+            android:authorities="@string/sync_content_authority_caste"
+            android:exported="false"
+            android:label="Caste"
+            android:syncable="true" />
+
+        <!-- House Ownership sync service -->
+        <service
+            android:name=".sync.houseownership.HouseOwnershipSyncService"
+            android:exported="false"
+            android:label="House Ownership">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/house_ownership_sync" />
+        </service>
+
+        <!-- House Ownership sync provider -->
+        <provider
+            android:name=".sync.houseownership.HouseOwnershipContentProvider"
+            android:authorities="@string/sync_content_authority_house_ownership"
+            android:exported="false"
+            android:label="House Ownership"
+            android:syncable="true" />
+
+        <!-- Income Proof sync service -->
+        <service
+            android:name=".sync.incomeproof.IncomeProofSyncService"
+            android:exported="false"
+            android:label="Income Proof">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/income_proof_sync" />
+        </service>
+
+        <!-- Income Proof sync provider -->
+        <provider
+            android:name=".sync.incomeproof.IncomeProofContentProvider"
+            android:authorities="@string/sync_content_authority_income_proof"
+            android:exported="false"
+            android:label="Income Proof"
+            android:syncable="true" />
+
+        <!-- Loan Close Type sync service -->
+        <service
+            android:name=".sync.loanclosetype.LoanCloseTypeSyncService"
+            android:exported="false"
+            android:label="Loan Close Type">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/loan_close_type_sync" />
+        </service>
+
+        <!-- Loan Close Type sync provider -->
+        <provider
+            android:name=".sync.loanclosetype.LoanCloseTypeContentProvider"
+            android:authorities="@string/sync_content_authority_loan_close_type"
+            android:exported="false"
+            android:label="Loan Close Type"
+            android:syncable="true" />
+
+        <!-- Loan Rejection sync service -->
+        <service
+            android:name=".sync.loanrejection.LoanRejectionSyncService"
+            android:exported="false"
+            android:label="Loan Rejection Reasons">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/loan_rejection_sync" />
+        </service>
+
+        <!-- Loan Rejection sync provider -->
+        <provider
+            android:name=".sync.loanrejection.LoanRejectionContentProvider"
+            android:authorities="@string/sync_content_authority_loan_rejection"
+            android:exported="false"
+            android:label="Loan Rejection Reasons"
+            android:syncable="true" />
+
+
+        <!-- Nationality sync service -->
+        <service
+            android:name=".sync.nationality.NationalitySyncService"
+            android:exported="false"
+            android:label="Nationality">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/nationality_sync" />
+        </service>
+
+        <!-- Nationality sync provider -->
+        <provider
+            android:name=".sync.nationality.NationalitySyncContentProvider"
+            android:authorities="@string/sync_content_authority_nationality"
+            android:exported="false"
+            android:label="Nationality"
+            android:syncable="true" />
+
+        <!-- Member Rejection sync service -->
+        <service
+            android:name=".sync.memberejection.MemberRejectionSyncService"
+            android:exported="false"
+            android:label="Member Rejection Reasons">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/member_rejection_reason_sync" />
+        </service>
+
+        <!-- Member rejection reason sync provider -->
+        <provider
+            android:name=".sync.memberejection.MemberRejectionReasonContentProvider"
+            android:authorities="@string/sync_content_authority_member_rejection"
+            android:exported="false"
+            android:label="Member Rejection Reasons"
+            android:syncable="true" />
+
+        <!-- Products sync service -->
+        <service
+            android:name=".sync.products.ProductSyncService"
+            android:exported="false"
+            android:label="Products">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/products_sync" />
+        </service>
+
+        <!-- Products sync provider -->
+        <provider
+            android:name=".sync.products.ProductSyncContentProvider"
+            android:authorities="@string/sync_content_authority_products"
+            android:exported="false"
+            android:label="Products"
+            android:syncable="true" />
+
+        <!-- Religion sync service -->
+        <service
+            android:name=".sync.religion.ReligionSyncService"
+            android:exported="false"
+            android:label="Religion">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/religion_sync" />
+        </service>
+
+        <!-- Religion sync provider -->
+        <provider
+            android:name=".sync.religion.ReligionSyncContentProvider"
+            android:authorities="@string/sync_content_authority_religion"
+            android:exported="false"
+            android:label="Religion"
+            android:syncable="true" />
+
+
+
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -261,10 +529,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme" />
         <activity android:name=".sample.SampleActivity" />
-        <activity android:name=".settings.SettingsActivity"
+        <activity
+            android:name=".settings.SettingsActivity"
             android:label="Settings"
             android:screenOrientation="portrait"
-            android:theme="@style/BaseAppTheme"></activity>
+            android:theme="@style/BaseAppTheme" />
+        <activity android:name=".WelcomeActivity"
+            android:screenOrientation="portrait"
+            android:label="MfExpert"></activity>
     </application>
 
 </manifest>

@@ -4,20 +4,45 @@ import android.app.Activity
 import android.content.Context
 import android.os.Environment
 import android.support.design.widget.Snackbar
+import android.util.Base64
 import android.view.View
+import com.example.mayank.libraries.androidkeystore.DeCryptor
 import com.madhuteja.checknet.CheckConnection
 import kotlinx.android.synthetic.main.include_status_view.*
+import net.rmitsolutions.libcam.Constants.logD
 import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.R.id.progressBar
+import net.rmitsolutions.mfexpert.lms.models.AccessToken
+import net.rmitsolutions.mfexpert.lms.models.Globals
 import timber.log.Timber
+import java.io.IOException
+import java.security.KeyStoreException
+import java.security.NoSuchAlgorithmException
+import java.security.cert.CertificateException
 
 
 /**
  * Created by Madhu on 24-Apr-2018.
  */
-val Context.apiAccessToken: String
+val Context.apiTokens: AccessToken?
     get() = getAccessToken(applicationContext)
+
+val Activity.apiTokens: AccessToken?
+    get() = getAccessToken(applicationContext)
+
+val Context.apiAccessToken: String
+    get() = "Bearer ${apiTokens!!.accessToken}"
+
+val Activity.apiAccessToken: String
+    get() = "Bearer ${apiTokens!!.accessToken}"
+
+val Activity.apiRefreshToken: String
+    get() = apiTokens!!.refreshToken
+
+val Context.apiRefreshToken: String
+    get() = apiTokens!!.refreshToken
+
 
 val Context.isExternalStorageWritable: Boolean
     get() = isExternalStorageAvail()
@@ -27,8 +52,14 @@ fun Activity.finishNoAnim() {
     overridePendingTransition(0, 0)
 }
 
-val Activity.apiAccessToken: String
-    get() = getAccessToken(applicationContext)
+
+fun Context.getNewRefreshToken(): String {
+    return getRefreshToken(applicationContext)
+}
+
+fun Activity.getNewRefreshToken(): String {
+    return getRefreshToken(applicationContext)
+}
 
 fun Activity.showProgress() {
     hideStatus()
@@ -94,10 +125,113 @@ val Activity.isExternalStorageWritable: Boolean
 
 private fun isExternalStorageAvail() = Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
 
-private fun getAccessToken(context: Context): String {
-    if (Constants.ACCESS_TOKEN == null) {
-        Constants.ACCESS_TOKEN = context.getPref(SharedPrefKeys.SP_ACCESS_TOKEN_KEY, "")
+//private fun getAccessToken(context: Context): String {
+//    if (Constants.ACCESS_TOKEN == null) {
+//        Constants.ACCESS_TOKEN = context.getPref(SharedPrefKeys.SP_ACCESS_TOKEN_KEY, "")
+//    }
+//
+//    return "Bearer ${Constants.ACCESS_TOKEN}"
+//}
+
+private var decryptor: DeCryptor? = null
+
+
+private fun getAccessToken(context: Context): AccessToken?{
+    if (Constants.accessToken == null) {
+        val encryptedTokenKey = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
+        val encryptedIv = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
+        try {
+            decryptor = DeCryptor()
+        } catch (e: CertificateException) {
+            e.printStackTrace()
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
+        } catch (e: KeyStoreException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val userAccessToken = decryptor?.decryptData(Constants.TOKEN_OBJECT_KEY, encryptedTokenKey, encryptedIv)
+        if (userAccessToken != null && !userAccessToken.isEmpty()) {
+            Constants.accessToken = JsonHelper.jsonToKt<AccessToken>(userAccessToken)
+            Constants.ACCESS_TOKEN = Constants.accessToken!!.accessToken
+        }
+    }
+    return Constants.accessToken
+}
+
+//private fun getAccessToken(context: Context): AccessToken? {
+//
+//    val encryptedTokenKey = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
+//    val encryptedIv = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
+//    try {
+//        decryptor = DeCryptor()
+//    } catch (e: CertificateException) {
+//        e.printStackTrace()
+//    } catch (e: NoSuchAlgorithmException) {
+//        e.printStackTrace()
+//    } catch (e: KeyStoreException) {
+//        e.printStackTrace()
+//    } catch (e: IOException) {
+//        e.printStackTrace()
+//    }
+//    val userAccessToken = decryptor?.decryptData(Constants.TOKEN_OBJECT_KEY, encryptedTokenKey, encryptedIv)
+//    if (userAccessToken != null && !userAccessToken.isEmpty()) {
+//        Constants.accessToken = JsonHelper.jsonToKt<AccessToken>(userAccessToken)
+//        Constants.ACCESS_TOKEN = Constants.accessToken!!.accessToken
+//    }
+//
+//    return Constants.accessToken
+//}
+
+
+
+//private fun getAccessToken(context: Context): String {
+//
+//    if (Constants.ACCESS_TOKEN == null) {
+//        val encryptedTokenKey = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
+//        val encryptedIv = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
+//        try {
+//            decryptor = DeCryptor()
+//        } catch (e: CertificateException) {
+//            e.printStackTrace()
+//        } catch (e: NoSuchAlgorithmException) {
+//            e.printStackTrace()
+//        } catch (e: KeyStoreException) {
+//            e.printStackTrace()
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//
+//        val userAccessToken = decryptor?.decryptData(Constants.TOKEN_OBJECT_KEY, encryptedTokenKey, encryptedIv)
+//        logD("Access Token", "User Access Token - $userAccessToken")
+//        if (userAccessToken != null && !userAccessToken.isEmpty()) {
+//            Constants.ACCESS_TOKEN = JsonHelper.jsonToKt<AccessToken>(userAccessToken).accessToken
+//        }
+//    }
+//    return "Bearer ${Constants.ACCESS_TOKEN}"
+//}
+
+private fun getRefreshToken(context: Context): String {
+    val encryptedTokenKey = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
+    val encryptedIv = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
+    try {
+        decryptor = DeCryptor()
+    } catch (e: CertificateException) {
+        e.printStackTrace()
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
+    } catch (e: KeyStoreException) {
+        e.printStackTrace()
+    } catch (e: IOException) {
+        e.printStackTrace()
     }
 
-    return "Bearer ${Constants.ACCESS_TOKEN}"
+    val userAccessToken = decryptor?.decryptData(Constants.TOKEN_OBJECT_KEY, encryptedTokenKey, encryptedIv)
+    if (userAccessToken != null && !userAccessToken.isEmpty()) {
+        Constants.REFRESH_TOKEN = JsonHelper.jsonToKt<AccessToken>(userAccessToken).refreshToken
+    }
+
+    return "${Constants.REFRESH_TOKEN}"
 }
+

@@ -44,7 +44,7 @@ class LogoutActivity : BaseActivity() {
     }
 
     private fun onLogout() {
-        Constants.ACCESS_TOKEN = null
+        Constants.ACCESS_TOKEN = ""
         removePref(SharedPrefKeys.SP_ACCESS_TOKEN_KEY)
         AppAuthWebView.updateAuthState(this, null)
         CookieManager.getInstance().removeAllCookies(null);
