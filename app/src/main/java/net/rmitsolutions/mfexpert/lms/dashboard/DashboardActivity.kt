@@ -3,8 +3,10 @@ package net.rmitsolutions.mfexpert.lms.dashboard
 import android.Manifest
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.app.AlertDialog
 import android.content.ContentResolver
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -43,8 +45,7 @@ import net.rmitsolutions.mfexpert.lms.network.IMasters
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-class DashboardActivity : BaseActivity(), RefreshTokenListener {
-
+class DashboardActivity : BaseActivity() {
 
     private val TAG = DashboardActivity::class.java.simpleName
     @Inject
@@ -85,67 +86,10 @@ class DashboardActivity : BaseActivity(), RefreshTokenListener {
 
     fun getRelations(view: View) {
         showProgress()
-
-//        logD("Access token - $apiAccessToken")
-
-        //syncRelations()
-
-
-//        val tokenService = TokenService()
-//        encryptor = EnCryptor(this)
-//        val encryptedTokenKey = Base64.decode(getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
-//        val encryptedIv = Base64.decode(getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
-//        try {
-//            decryptor = DeCryptor()
-//        } catch (e: CertificateException) {
-//            e.printStackTrace()
-//        } catch (e: NoSuchAlgorithmException) {
-//            e.printStackTrace()
-//        } catch (e: KeyStoreException) {
-//            e.printStackTrace()
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//
-//        val userAccessToken = decryptor?.decryptData(Constants.TOKEN_OBJECT_KEY, encryptedTokenKey, encryptedIv)
-//        if (userAccessToken!=null && !userAccessToken.isEmpty()){
-//            refreshToken = JsonHelper.jsonToKt<AccessToken>(userAccessToken).refreshToken
-//        }
-        //logD("Old Refresh Token - $refreshToken")
-//        val apiAccessToken = Globals.getAccessToken(this)
-//        refreshToken = apiAccessToken?.refreshToken
-//        logD("Refresh Token - $refreshToken")
-
-        logD("Refresh Token = ${apiRefreshToken}")
-        val refreshTokenCallback = RefreshTokenCallback()
-        refreshTokenCallback.setRefreshTokenListener(this)
-        refreshTokenCallback.startTokenRefresh(this, apiRefreshToken)
-
-
-//        val compositeDisposable = CompositeDisposable()
-//        compositeDisposable.add(tokenService.getService<IUser>().refreshToken(Constants.REFRESH_TOKEN_GRANT_TYPE, Constants.CLIENT_ID, Constants.CLIENT_SECRET,refreshToken!!)
-//                .processRequest(this, {token ->
-//                    Constants.accessToken = token
-//
-//                    logD("New Access token - ${token.accessToken} New Refresh Token - ${token.refreshToken}")
-//                    encryptor?.encryptText(Constants.TOKEN_OBJECT_KEY, JsonHelper.KtToJson(token))
-//                    Log.d("RefreshToken", "Token refresh successfully!")
-//                    hideProgress()
-//                },{err ->
-//                    Log.d("RefreshToken", "Error = $err")
-//                    if (err == "401"){
-//                        val intent = Intent(this, WelcomeActivity::class.java)
-//                        startActivity(intent)
-//
-//                    }
-//                    hideProgress()
-//                }))
-
-//        syncRelations()
+        syncRelations()
     }
 
     private fun syncRelations(){
-        val accessToken = Globals.getAccessToken(this)
         logD("SyncRelation ApiAccessToken - ${apiAccessToken}")
         compositeDisposable.add(mastersService.getRelation(apiAccessToken)
                 .processRequest(this,
@@ -160,33 +104,24 @@ class DashboardActivity : BaseActivity(), RefreshTokenListener {
 //                            var rel = ""
 //                            relations.forEach { r -> rel += r.name + " == " }
 //                            relationsList.text = rel
-                        },
-                        { err ->
-                            logD("Error $err")
-                            hideProgress(true, err)
-                            if (err == Constants.TOKEN_REFRESH_SUCCESS){
-                                toast("Token refresh successfully")
-//                                syncRelations()
-                            }else {
-
-                                logD("Unknown error occurred - $err")
-                            }
-//                            Globals.getErrorMessage(this, err!!)
                         }
-                )
+                ) { err ->
+                    logD("Error $err")
+                    hideProgress()
+                    if (err == Constants.TOKEN_REFRESH_SUCCESS){
+                        showDialog(this,"Access Token Expired !\nAgain click on submit button to process the transaction.")
+                    }else if (err == Constants.TOKEN_REFRESH_FAILED){
+                        toast("Session expired! Login again!")
+                        logout()
+                    }
+                    else {
+                        logD("Unknown error occurred - $err")
+                    }
+                }
         )
     }
 
-    override fun onTokenRefreshed(response: String) {
-        toast("Response - $response")
-        hideProgress()
-        if (response  == Constants.TOKEN_REFRESH_SUCCESS){
-            logD("Response - $response")
-            syncRelations()
-        }else{
-            logD("Response - $response")
-        }
-    }
+
 
     private fun enableMasterSync(){
         val runnable = Runnable {

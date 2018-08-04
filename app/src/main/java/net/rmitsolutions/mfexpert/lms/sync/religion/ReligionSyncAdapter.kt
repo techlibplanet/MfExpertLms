@@ -40,6 +40,11 @@ class ReligionSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
             // Sync District
             var message = syncMasters.syncReligionDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Religion Sync", "Message $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Religion: $message")
             }

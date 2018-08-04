@@ -40,6 +40,11 @@ class HouseOwnershipSyncAdapter(context: Context, autoInitialize: Boolean, allow
             // Sync District
             var message = syncMasters.syncHouseOwnershipDetails(context.apiAccessToken, database, masterService)
             Constants.logD("House ownership Sync", "Message $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("House ownership : $message")
             }

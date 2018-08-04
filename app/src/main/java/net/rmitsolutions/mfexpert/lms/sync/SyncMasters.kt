@@ -4,13 +4,15 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import io.reactivex.disposables.CompositeDisposable
-import net.rmitsolutions.libcam.Constants
 import net.rmitsolutions.libcam.Constants.logD
+import net.rmitsolutions.mfexpert.lms.BaseActivity
+import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.*
-import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
-import net.rmitsolutions.mfexpert.lms.helpers.processRequest
+import net.rmitsolutions.mfexpert.lms.helpers.*
+import net.rmitsolutions.mfexpert.lms.models.Globals
 import net.rmitsolutions.mfexpert.lms.network.IMasters
+import org.jetbrains.anko.toast
 import retrofit2.Response
 import java.io.IOException
 
@@ -23,7 +25,7 @@ class SyncMasters {
     // Sync districts
     internal fun syncDistricts(context: Context, apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String? {
         var message = ""
-        Constants.logD(TAG, "Start syncing district !")
+        logD(TAG, "Start syncing district !")
         val response: Response<List<District>>
         try {
             response = masterService.getDistricts(apiAccessToken).execute()
@@ -52,28 +54,37 @@ class SyncMasters {
             return response.message()
         }
 
-//        val compositeDisposable = CompositeDisposable()
-//        compositeDisposable.add(masterService.getDistricts(apiAccessToken)
-//                .processRequest(
-//                        { districts ->
-//                            val district = District()
-//                            districts.forEach { r ->
-//                                district.id = r.id
-//                                district.name = r.name
-//                                Constants.logD("SyncDistricts", "District Id : ${r.id}")
-//                                Constants.logD("SyncDistricts", "District Name  : ${r.name}")
-//                                database.districtDao().insert(district)
-//                            }
-//                            Constants.logD("SyncDistricts", "Districts added successfully")
-//
-//                        },
-//                        { err ->
-//                            message = err.toString()
-//                            Constants.logE("Error", "Message $message")
-//                            Toast.makeText(context, "$message Unauthorized\nDistrict Sync Failed", Toast.LENGTH_SHORT).show()
-//                        }
-//                )
-//        )
+        val compositeDisposable = CompositeDisposable()
+        compositeDisposable.add(masterService.getDistrict(apiAccessToken)
+                .processRequest(context,
+                        { districts ->
+                            districts.forEach { r ->
+                                logD(TAG,"Districts Id : ${r.id}")
+                                logD(TAG, "Districts Name  : ${r.name}")
+                            }
+                        }
+                ) { err ->
+                    logD("SyncMasters","Error - $err")
+                    when (err) {
+                        Constants.TOKEN_REFRESH_SUCCESS -> {
+                            message = Constants.TOKEN_REFRESH_SUCCESS
+                            logD(TAG, "Token Refresh Success")
+                            context.toast("Session Expired. Tap again to refresh.")
+
+                            context.showDialog(context, "Session Expired. Tap again to refresh.")
+                        }
+                        Constants.TOKEN_REFRESH_FAILED -> {
+                            logD(TAG, "Token refresh Failed")
+                            message = Constants.TOKEN_REFRESH_FAILED
+                        }
+                        else -> {
+                            logD("SyncMasters","Unknown error occurred - $err")
+                            message = err.toString()
+                        }
+                    }
+                }
+        )
+
         return message
     }
 
@@ -81,7 +92,7 @@ class SyncMasters {
     // Sync Literacy
     internal fun syncLiteracy(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Literacy !")
+        logD(TAG, "Start syncing Literacy !")
         val response: Response<List<Literacy>>
         try {
             response = masterService.getLiteracyTypes(apiAccessToken).execute()
@@ -116,7 +127,7 @@ class SyncMasters {
     // Sync Loan Purpose
     internal fun syncLoanPurpose(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Loan purpose !")
+        logD(TAG, "Start syncing Loan purpose !")
         val response: Response<List<LoanPurpose>>
         try {
             response = masterService.getPurposes(apiAccessToken).execute()
@@ -150,7 +161,7 @@ class SyncMasters {
     // Sync Occupations
     internal fun syncOccupation(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Occupations !")
+        logD(TAG, "Start syncing Occupations !")
         val response: Response<List<Occupation>>
         try {
             response = masterService.getOccupations(apiAccessToken).execute()
@@ -184,7 +195,7 @@ class SyncMasters {
     // Sync Primary Kyc
     internal fun syncPrimaryKyc(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing primary kyc !")
+        logD(TAG, "Start syncing primary kyc !")
         val response: Response<List<PrimaryKYC>>
         try {
             response = masterService.getPrimaryKycDetails(apiAccessToken).execute()
@@ -218,7 +229,7 @@ class SyncMasters {
     // Sync Relations
     internal fun syncRelations(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing relations !")
+        logD(TAG, "Start syncing relations !")
         val response: Response<List<Relation>>
         try {
             response = masterService.getRelations(apiAccessToken).execute()
@@ -252,7 +263,7 @@ class SyncMasters {
     // Sync Secondary Kyc
     internal fun syncSecondaryKyc(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing secondary kyc !")
+        logD(TAG, "Start syncing secondary kyc !")
         val response: Response<List<SecondaryKYC>>
         try {
             response = masterService.getSecondaryKycDetails(apiAccessToken).execute()
@@ -286,7 +297,7 @@ class SyncMasters {
     // Sync Kyc Details
     internal fun syncKycDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing kyc details !")
+        logD(TAG, "Start syncing kyc details !")
         val response: Response<List<KycDetails>>
         try {
             response = masterService.getKycDetails(apiAccessToken).execute()
@@ -320,7 +331,7 @@ class SyncMasters {
     // Sync Products
     internal fun syncProductsDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Products !")
+        logD(TAG, "Start syncing Products !")
         val response: Response<List<Products>>
         try {
             response = masterService.getProducts(apiAccessToken).execute()
@@ -354,7 +365,7 @@ class SyncMasters {
     // Sync Banks
     internal fun syncBanksDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Banks !")
+        logD(TAG, "Start syncing Banks !")
         val response: Response<List<Banks>>
         try {
             response = masterService.getBanks(apiAccessToken).execute()
@@ -388,7 +399,7 @@ class SyncMasters {
     // Sync Nationality
     internal fun syncNationalityDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Nationality !")
+        logD(TAG, "Start syncing Nationality !")
         val response: Response<List<Nationality>>
         try {
             response = masterService.getNationalityDetails(apiAccessToken).execute()
@@ -422,7 +433,7 @@ class SyncMasters {
     // Sync Religion
     internal fun syncReligionDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Religion !")
+        logD(TAG, "Start syncing Religion !")
         val response: Response<List<Religion>>
         try {
             response = masterService.getReligionDetails(apiAccessToken).execute()
@@ -456,7 +467,7 @@ class SyncMasters {
     // Sync Caste Details
     internal fun syncCasteDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Caste Details!")
+        logD(TAG, "Start syncing Caste Details!")
         val response: Response<List<Caste>>
         try {
             response = masterService.getCasteDetails(apiAccessToken).execute()
@@ -490,7 +501,7 @@ class SyncMasters {
     // Sync House Ownership Details
     internal fun syncHouseOwnershipDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing House Ownership Details!")
+        logD(TAG, "Start syncing House Ownership Details!")
         val response: Response<List<HouseOwnership>>
         try {
             response = masterService.getHouseOwnershipDetails(apiAccessToken).execute()
@@ -524,7 +535,7 @@ class SyncMasters {
     // Sync Income Proof Details
     internal fun syncIncomeProofDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Income Proof Details!")
+        logD(TAG, "Start syncing Income Proof Details!")
         val response: Response<List<IncomeProof>>
         try {
             response = masterService.getIncomeProofDetails(apiAccessToken).execute()
@@ -558,7 +569,7 @@ class SyncMasters {
     // Sync Assign Category Details
     internal fun syncAssignCategoryDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Assign Category Details!")
+        logD(TAG, "Start syncing Assign Category Details!")
         val response: Response<List<AssignCategory>>
         try {
             response = masterService.getAssignCategory(apiAccessToken).execute()
@@ -592,7 +603,7 @@ class SyncMasters {
     // Sync Loan Close Type
     internal fun syncLoanCloseType(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Loan Close Type!")
+        logD(TAG, "Start syncing Loan Close Type!")
         val response: Response<List<LoanCloseType>>
         try {
             response = masterService.getLoanCloseType(apiAccessToken).execute()
@@ -626,7 +637,7 @@ class SyncMasters {
     // Sync Member Rejection Reasons
     internal fun syncMemberRejectionReasons(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Member Rejection Reasons!")
+        logD(TAG, "Start syncing Member Rejection Reasons!")
         val response: Response<List<MemberRejectionReasons>>
         try {
             response = masterService.getMemberRejectionReasons(apiAccessToken).execute()
@@ -660,7 +671,7 @@ class SyncMasters {
     // Sync Loan Rejection Reasons
     internal fun syncLoanRejectionReasons(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
         var message = ""
-        Constants.logD(TAG, "Start syncing Loan Rejection Reasons!")
+        logD(TAG, "Start syncing Loan Rejection Reasons!")
         val response: Response<List<LoanRejectionReasons>>
         try {
             response = masterService.getLoanRejectionReasons(apiAccessToken).execute()

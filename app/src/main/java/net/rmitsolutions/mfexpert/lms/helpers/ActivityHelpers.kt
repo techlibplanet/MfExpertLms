@@ -2,8 +2,10 @@ package net.rmitsolutions.mfexpert.lms.helpers
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Environment
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.util.Base64
 import android.view.View
 import com.example.mayank.libraries.androidkeystore.DeCryptor
@@ -27,6 +29,8 @@ import java.security.cert.CertificateException
  */
 val Context.apiTokens: AccessToken?
     get() = getAccessToken(applicationContext)
+
+
 
 val Activity.apiTokens: AccessToken?
     get() = getAccessToken(applicationContext)
@@ -100,6 +104,10 @@ fun Activity.snackBar(view: View, message: String?, duration: Int = Snackbar.LEN
     Snackbar.make(view, "$message", duration).show()
 }
 
+fun Context.snackBar(view: View, message: String?, duration: Int = Snackbar.LENGTH_LONG) {
+    Snackbar.make(view, "$message", duration).show()
+}
+
 fun Activity.snackBar(view: View, message: String?, duration: Int = Snackbar.LENGTH_INDEFINITE,
                       actionText: String = "Ok", action: () -> Unit) {
     Snackbar.make(view, "$message", duration)
@@ -160,58 +168,6 @@ private fun getAccessToken(context: Context): AccessToken?{
     return Constants.accessToken
 }
 
-//private fun getAccessToken(context: Context): AccessToken? {
-//
-//    val encryptedTokenKey = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
-//    val encryptedIv = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
-//    try {
-//        decryptor = DeCryptor()
-//    } catch (e: CertificateException) {
-//        e.printStackTrace()
-//    } catch (e: NoSuchAlgorithmException) {
-//        e.printStackTrace()
-//    } catch (e: KeyStoreException) {
-//        e.printStackTrace()
-//    } catch (e: IOException) {
-//        e.printStackTrace()
-//    }
-//    val userAccessToken = decryptor?.decryptData(Constants.TOKEN_OBJECT_KEY, encryptedTokenKey, encryptedIv)
-//    if (userAccessToken != null && !userAccessToken.isEmpty()) {
-//        Constants.accessToken = JsonHelper.jsonToKt<AccessToken>(userAccessToken)
-//        Constants.ACCESS_TOKEN = Constants.accessToken!!.accessToken
-//    }
-//
-//    return Constants.accessToken
-//}
-
-
-
-//private fun getAccessToken(context: Context): String {
-//
-//    if (Constants.ACCESS_TOKEN == null) {
-//        val encryptedTokenKey = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
-//        val encryptedIv = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
-//        try {
-//            decryptor = DeCryptor()
-//        } catch (e: CertificateException) {
-//            e.printStackTrace()
-//        } catch (e: NoSuchAlgorithmException) {
-//            e.printStackTrace()
-//        } catch (e: KeyStoreException) {
-//            e.printStackTrace()
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//
-//        val userAccessToken = decryptor?.decryptData(Constants.TOKEN_OBJECT_KEY, encryptedTokenKey, encryptedIv)
-//        logD("Access Token", "User Access Token - $userAccessToken")
-//        if (userAccessToken != null && !userAccessToken.isEmpty()) {
-//            Constants.ACCESS_TOKEN = JsonHelper.jsonToKt<AccessToken>(userAccessToken).accessToken
-//        }
-//    }
-//    return "Bearer ${Constants.ACCESS_TOKEN}"
-//}
-
 private fun getRefreshToken(context: Context): String {
     val encryptedTokenKey = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, ""), Base64.DEFAULT)
     val encryptedIv = Base64.decode(context.getPref(SharedPrefKeys.SP_ENCRYPTED_IV, ""), Base64.DEFAULT)
@@ -233,5 +189,24 @@ private fun getRefreshToken(context: Context): String {
     }
 
     return "${Constants.REFRESH_TOKEN}"
+}
+
+fun Activity.showDialog(context: Context,message : String){
+    AlertDialog.Builder(context).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which ->
+
+        dialog.dismiss()
+    }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+        dialog.dismiss()
+    }).show()
+}
+
+
+fun Context.showDialog(context: Context,message : String){
+    AlertDialog.Builder(context).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which ->
+
+        dialog.dismiss()
+    }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+        dialog.dismiss()
+    }).show()
 }
 

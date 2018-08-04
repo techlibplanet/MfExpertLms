@@ -40,6 +40,11 @@ class MemberRejectionReasonSyncAdapter(context: Context, autoInitialize: Boolean
             // Sync District
             var message = syncMasters.syncMemberRejectionReasons(context.apiAccessToken, database, masterService)
             Constants.logD("Member rejection reason Sync", "Message $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Member Rejection Reason: $message")
             }

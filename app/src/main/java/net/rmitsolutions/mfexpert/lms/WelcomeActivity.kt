@@ -39,7 +39,6 @@ class WelcomeActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         if (apiTokens!=null){
             Constants.accessToken = apiTokens
             logD("WelcomeActivity - AccessToken - ${apiTokens?.accessToken} Refresh Token - ${apiTokens?.refreshToken}")
@@ -57,9 +56,7 @@ class WelcomeActivity : AppCompatActivity(){
         val depComponent = DaggerInjectActivityComponent.builder()
                 .applicationComponent(MfExpertApp.applicationComponent)
                 .build()
-
         depComponent.injectWelcomeActivity(this)
-
         compositeDisposable = CompositeDisposable()
 
         encryptor = EnCryptor(this)

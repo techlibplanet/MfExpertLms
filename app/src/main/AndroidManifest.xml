@@ -266,7 +266,6 @@
             android:label="Banks"
             android:syncable="true" />
 
-
         <!-- Caste sync service -->
         <service
             android:name=".sync.caste.CasteDetailSyncService"
@@ -377,7 +376,6 @@
             android:label="Loan Rejection Reasons"
             android:syncable="true" />
 
-
         <!-- Nationality sync service -->
         <service
             android:name=".sync.nationality.NationalitySyncService"
@@ -466,8 +464,6 @@
             android:label="Religion"
             android:syncable="true" />
 
-
-
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -487,18 +483,18 @@
             android:label="About"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
-            android:label="Login"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseAppTheme" />
-        <activity
-            android:name=".LogoutActivity"
-            android:exported="false"
-            android:label="Logout"
-            android:screenOrientation="portrait"
-            android:theme="@style/BaseAppTheme" />
+        <!-- <activity -->
+        <!-- android:name=".LoginActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="Login" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/BaseAppTheme" /> -->
+        <!-- <activity -->
+        <!-- android:name=".LogoutActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="Logout" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/BaseAppTheme" /> -->
         <activity
             android:name=".dashboard.DashboardActivity"
             android:exported="false"
@@ -534,9 +530,12 @@
             android:label="Settings"
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme" />
-        <activity android:name=".WelcomeActivity"
+        <activity
+            android:name=".WelcomeActivity"
+            android:label="MfExpert"
             android:screenOrientation="portrait"
-            android:label="MfExpert"></activity>
+            android:theme="@style/BaseAppTheme" />
+        <activity android:name=".repayment.RepaymentActivity"></activity>
     </application>
 
 </manifest>

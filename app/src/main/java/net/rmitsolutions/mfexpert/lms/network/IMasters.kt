@@ -76,6 +76,9 @@ interface IMasters {
     @GET("Masters/GetRelations")
     fun getRelation(@Header("Authorization") authToken: String) : Observable<List<IdNameLong>>
 
+    @GET("Masters/GetDistricts")
+    fun getDistrict(@Header("Authorization") authToken: String) : Observable<List<IdNameLong>>
+
 
 
 

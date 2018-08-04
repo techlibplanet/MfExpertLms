@@ -1,6 +1,7 @@
 package net.rmitsolutions.mfexpert.lms
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
@@ -32,6 +34,7 @@ import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
+import java.lang.reflect.Method
 
 abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     companion object {
@@ -210,11 +213,20 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         finishNoAnim()
     }
 
-    private fun logout() {
+    fun logout() {
         removePref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, SharedPrefKeys.SP_ENCRYPTED_IV)
         Constants.accessToken= null
         Constants.ACCESS_TOKEN = ""
         startActivity<WelcomeActivity>()
     }
+
+//    fun showDialog(message : String){
+//        AlertDialog.Builder(this).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener {dialog, which ->
+//
+//            dialog.dismiss()
+//        }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+//            dialog.dismiss()
+//        }).show()
+//    }
 
 }

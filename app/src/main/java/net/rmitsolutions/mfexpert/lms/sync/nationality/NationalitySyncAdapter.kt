@@ -40,6 +40,12 @@ class NationalitySyncAdapter(context: Context, autoInitialize: Boolean, allowPar
             // Sync District
             var message = syncMasters.syncNationalityDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Nationality Sync", "Message $message")
+
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Nationality: $message")
             }

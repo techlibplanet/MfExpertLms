@@ -5,6 +5,7 @@ import android.accounts.AccountManager
 import android.content.*
 import android.os.Bundle
 import net.rmitsolutions.libcam.Constants
+import net.rmitsolutions.libcam.Constants.logD
 import net.rmitsolutions.mfexpert.lms.Constants.getFormatDate
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
@@ -40,6 +41,12 @@ class SecondaryKycSyncAdapter(context: Context, autoInitialize: Boolean, allowPa
 
             // Sync Secondary Kyc
             var message = syncMasters.syncSecondaryKyc(context.apiAccessToken, database, masterService)
+            logD(TAG, "Message - $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Secondary Kyc : $message")
             }

@@ -1,6 +1,8 @@
 package net.rmitsolutions.mfexpert.lms.refreshTokenCallback
 
+import android.content.Context
+
 interface RefreshTokenListener {
 
-    fun onTokenRefreshed(response : String)
+    fun onTokenRefreshFinished(response : String)
 }

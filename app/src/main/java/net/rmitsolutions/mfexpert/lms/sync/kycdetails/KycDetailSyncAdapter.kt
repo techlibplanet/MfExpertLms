@@ -40,6 +40,12 @@ class KycDetailSyncAdapter(context: Context, autoInitialize: Boolean, allowParal
             // Sync Kyc Details
             var message = syncMasters.syncKycDetails(context.apiAccessToken, database, masterService)
             Constants.logD("KycDetails Sync", "Message $message")
+
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("KycDetails : $message")
             }

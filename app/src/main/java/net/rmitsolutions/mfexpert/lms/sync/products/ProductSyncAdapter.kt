@@ -40,6 +40,11 @@ class ProductSyncAdapter(context: Context, autoInitialize: Boolean, allowParalle
             // Sync District
             var message = syncMasters.syncProductsDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Products Sync", "Message $message")
+
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
             if (!Globals.isEmptyString(message)) {
                 messages.add("Products: $message")
             }

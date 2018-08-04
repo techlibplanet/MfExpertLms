@@ -40,6 +40,12 @@ class IncomeProofSyncAdapter(context: Context, autoInitialize: Boolean, allowPar
             // Sync District
             var message = syncMasters.syncIncomeProofDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Income Proof Sync", "Message $message")
+
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Income Proof : $message")
             }

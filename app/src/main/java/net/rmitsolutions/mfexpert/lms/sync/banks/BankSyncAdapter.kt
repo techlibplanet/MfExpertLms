@@ -40,6 +40,11 @@ class BankSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSy
             // Sync District
             var message = syncMasters.syncBanksDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Banks Sync", "Message $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Banks : $message")
             }

@@ -40,6 +40,12 @@ class LoanRejectionReasonSyncAdapter(context: Context, autoInitialize: Boolean, 
             // Sync District
             var message = syncMasters.syncLoanRejectionReasons(context.apiAccessToken, database, masterService)
             Constants.logD("Loan rejection reason Sync", "Message $message")
+
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+            
             if (!Globals.isEmptyString(message)) {
                 messages.add("Loan Rejection Reason: $message")
             }

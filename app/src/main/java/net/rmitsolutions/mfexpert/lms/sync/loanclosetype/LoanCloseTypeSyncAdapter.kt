@@ -40,6 +40,11 @@ class LoanCloseTypeSyncAdapter(context: Context, autoInitialize: Boolean, allowP
             // Sync District
             var message = syncMasters.syncLoanCloseType(context.apiAccessToken, database, masterService)
             Constants.logD("Loan close type Sync", "Message $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Loan Close Type: $message")
             }

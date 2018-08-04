@@ -37,6 +37,10 @@ class AssignCategorySyncAdapter(context: Context, autoInitialize: Boolean, allow
             // Sync District
             var message = syncMasters.syncAssignCategoryDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Assign Category Sync", "Message $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
             if (!Globals.isEmptyString(message)) {
                 messages.add("Assign Category : $message")
             }

@@ -40,6 +40,11 @@ class CasteDetailSyncAdapter(context: Context, autoInitialize: Boolean, allowPar
             // Sync District
             var message = syncMasters.syncCasteDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Caste Sync", "Message $message")
+            if (message == "Unauthorized"){
+                Globals.refreshToken(context)
+                return
+            }
+
             if (!Globals.isEmptyString(message)) {
                 messages.add("Caste : $message")
             }

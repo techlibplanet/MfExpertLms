@@ -16,6 +16,7 @@ import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
 import net.rmitsolutions.mfexpert.lms.helpers.getPref
 import net.rmitsolutions.mfexpert.lms.helpers.isNetConnected
+import net.rmitsolutions.mfexpert.lms.helpers.showDialog
 import net.rmitsolutions.mfexpert.lms.viewmodels.SyncViewModels
 
 class SyncSettingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -72,6 +73,10 @@ class SyncSettingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         override fun onReceive(context: Context, intent: Intent) {
             if (ACTION_FINISHED_SYNC == intent.action) {
                 val key = intent.getIntExtra("position", -1)
+                val tokenRefreshStatus = intent.getStringExtra(Constants.TOKEN_REFRESH_STATUS)
+                if (tokenRefreshStatus == Constants.TOKEN_REFRESH_SUCCESS){
+                    context.showDialog(context, "Session Expired !\nAgain press Sync button to process the transaction")
+                }
                 when (key) {
                     0 -> lastSync = context.getPref(SharedPrefKeys.SP_DISTRICT_SYNC_TIME, "")
                     1 -> lastSync = context.getPref(SharedPrefKeys.SP_RELATION_SYNC_TIME, "")

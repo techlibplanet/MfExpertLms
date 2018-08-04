@@ -14,6 +14,7 @@ import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.*
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
+import net.rmitsolutions.mfexpert.lms.framework.RefreshTokenDialogFragment
 import net.rmitsolutions.mfexpert.lms.helpers.NotificationHelper
 import net.rmitsolutions.mfexpert.lms.helpers.logD
 import net.rmitsolutions.mfexpert.lms.helpers.logE
@@ -49,7 +50,11 @@ class SampleActivity : AppCompatActivity() {
         //saveData()
 //        NotificationHelper.notify(this, "Test Notification", "Default")
 
-
+        val error = Error()
+        val fragmentManager = supportFragmentManager
+        val refresh = RefreshTokenDialogFragment.newInstance(error)
+        refresh.isCancelable = false
+        refresh.show(fragmentManager, getString(R.string.refresh_token_dialog_fragment_tag))
     }
 
     private fun saveData(){
