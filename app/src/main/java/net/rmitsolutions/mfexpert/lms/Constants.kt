@@ -35,7 +35,8 @@ object Constants {
     const val TOKEN_REFRESH_SUCCESS = "TOKEN_REFRESH_SUCCESS"
     const val TOKEN_REFRESH_FAILED = "TOKEN_REFRESH_FAILED"
 
-    val UNAUTHORIZED_CODE = "401"
+    const val UNAUTHORIZED_CODE = "401"
+    const val UNAUTHORIZED = "Unauthorized"
 
     var ACCESS_TOKEN: String = ""
     var REFRESH_TOKEN : String = ""

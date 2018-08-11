@@ -40,7 +40,7 @@ class MemberRejectionReasonSyncAdapter(context: Context, autoInitialize: Boolean
             // Sync District
             var message = syncMasters.syncMemberRejectionReasons(context.apiAccessToken, database, masterService)
             Constants.logD("Member rejection reason Sync", "Message $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

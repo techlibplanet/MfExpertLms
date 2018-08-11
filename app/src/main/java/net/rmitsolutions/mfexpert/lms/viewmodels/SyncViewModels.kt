@@ -1,3 +1,3 @@
 package net.rmitsolutions.mfexpert.lms.viewmodels
 
-class SyncViewModels(val syncHeader : String,val syncDescription : String, val id : Int)
+class SyncViewModels(val syncHeader : String,val syncDescription : String)

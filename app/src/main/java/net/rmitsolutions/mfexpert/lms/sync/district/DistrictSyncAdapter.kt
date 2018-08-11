@@ -46,7 +46,7 @@ class DistrictSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
             // Sync District
             var message = syncMasters.syncDistricts(context, context.apiAccessToken, database, masterService)
             logD("District", "Message - $message")
-            if (message == "Unauthorized"){
+            if (message == Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

@@ -37,14 +37,13 @@ class AssignCategorySyncAdapter(context: Context, autoInitialize: Boolean, allow
             // Sync District
             var message = syncMasters.syncAssignCategoryDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Assign Category Sync", "Message $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }
             if (!Globals.isEmptyString(message)) {
                 messages.add("Assign Category : $message")
             }
-
             if (messages.size == 0){
                 Constants.logD(TAG, "Assign Category sync success !")
                 context.putPref(SharedPrefKeys.SP_ASSIGN_CATEGORY_SYNC_TIME, net.rmitsolutions.mfexpert.lms.Constants.getFormatDate())

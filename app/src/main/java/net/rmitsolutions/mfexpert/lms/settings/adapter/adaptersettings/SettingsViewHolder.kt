@@ -12,8 +12,7 @@ import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersyncsettings.SyncSettingsFragment
 import net.rmitsolutions.mfexpert.lms.viewmodels.SettingViewModel
 import android.support.v7.app.AppCompatActivity
-
-
+import org.jetbrains.anko.toast
 
 
 class SettingsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -29,12 +28,11 @@ class SettingsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
         itemView.setOnClickListener{
             when(position){
-                0 -> showToast(context, "Profile Settings")
+                0 -> context.toast("Profile settings clicked.")
                 1 -> showDataAndSyncFragment(it)
             }
         }
     }
-
 
     private fun showDataAndSyncFragment(it: View) {
         val manager = (context as AppCompatActivity).supportFragmentManager
@@ -48,11 +46,5 @@ class SettingsViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
                 .commit()
 
     }
-
-    private fun showToast(context: Context, message : String){
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-
 
 }

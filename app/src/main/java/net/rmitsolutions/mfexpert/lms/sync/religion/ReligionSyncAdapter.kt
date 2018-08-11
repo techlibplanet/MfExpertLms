@@ -40,7 +40,7 @@ class ReligionSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
             // Sync District
             var message = syncMasters.syncReligionDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Religion Sync", "Message $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

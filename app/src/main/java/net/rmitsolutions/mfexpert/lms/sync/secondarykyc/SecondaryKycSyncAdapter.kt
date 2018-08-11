@@ -42,7 +42,7 @@ class SecondaryKycSyncAdapter(context: Context, autoInitialize: Boolean, allowPa
             // Sync Secondary Kyc
             var message = syncMasters.syncSecondaryKyc(context.apiAccessToken, database, masterService)
             logD(TAG, "Message - $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

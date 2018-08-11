@@ -41,7 +41,7 @@ class LoanRejectionReasonSyncAdapter(context: Context, autoInitialize: Boolean, 
             var message = syncMasters.syncLoanRejectionReasons(context.apiAccessToken, database, masterService)
             Constants.logD("Loan rejection reason Sync", "Message $message")
 
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

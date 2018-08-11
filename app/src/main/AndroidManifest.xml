@@ -535,7 +535,10 @@
             android:label="MfExpert"
             android:screenOrientation="portrait"
             android:theme="@style/BaseAppTheme" />
-        <activity android:name=".repayment.RepaymentActivity"></activity>
+        <activity android:name=".repayment.RepaymentActivity"
+            android:label="MfExpert"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseAppTheme"/>
     </application>
 
 </manifest>

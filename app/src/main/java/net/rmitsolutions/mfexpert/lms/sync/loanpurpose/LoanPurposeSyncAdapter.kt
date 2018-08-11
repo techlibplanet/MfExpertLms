@@ -42,7 +42,7 @@ class LoanPurposeSyncAdapter(context: Context, autoInitialize: Boolean, allowPar
             // Sync Loan purpose
             var message = syncMasters.syncLoanPurpose(context.apiAccessToken, database, masterService)
             logD(TAG, "Message - $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

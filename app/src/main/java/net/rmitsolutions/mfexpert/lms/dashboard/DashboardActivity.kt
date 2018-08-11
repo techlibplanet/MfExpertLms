@@ -80,9 +80,6 @@ class DashboardActivity : BaseActivity() {
 
     override fun getSelfNavDrawerItem() = R.id.nav_dashboard
 
-    private lateinit var enCryptor: EnCryptor
-    private var decryptor: DeCryptor? = null
-    private var refreshToken : String? = null
 
     fun getRelations(view: View) {
         showProgress()
@@ -108,14 +105,13 @@ class DashboardActivity : BaseActivity() {
                 ) { err ->
                     logD("Error $err")
                     hideProgress()
-                    if (err == Constants.TOKEN_REFRESH_SUCCESS){
-                        showDialog(this,"Access Token Expired !\nAgain click on submit button to process the transaction.")
-                    }else if (err == Constants.TOKEN_REFRESH_FAILED){
-                        toast("Session expired! Login again!")
-                        logout()
-                    }
-                    else {
-                        logD("Unknown error occurred - $err")
+                    when (err) {
+                        Constants.TOKEN_REFRESH_SUCCESS -> showDialog(this,"Access Token Expired !\nAgain click on submit button to process the transaction.")
+                        Constants.TOKEN_REFRESH_FAILED -> {
+                            toast("Session expired! Login again!")
+                            logout()
+                        }
+                        else -> logD("Unknown error occurred - $err")
                     }
                 }
         )

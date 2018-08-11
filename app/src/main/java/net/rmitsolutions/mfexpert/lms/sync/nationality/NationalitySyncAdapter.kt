@@ -41,7 +41,7 @@ class NationalitySyncAdapter(context: Context, autoInitialize: Boolean, allowPar
             var message = syncMasters.syncNationalityDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Nationality Sync", "Message $message")
 
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

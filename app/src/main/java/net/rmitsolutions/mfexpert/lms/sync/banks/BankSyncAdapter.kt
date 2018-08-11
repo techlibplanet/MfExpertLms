@@ -40,7 +40,7 @@ class BankSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSy
             // Sync District
             var message = syncMasters.syncBanksDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Banks Sync", "Message $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

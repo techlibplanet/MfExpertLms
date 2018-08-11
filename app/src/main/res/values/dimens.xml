@@ -35,7 +35,7 @@
     <dimen name="navdrawer_profile_image_size">96dp</dimen>
 
     <!-- CBM Personal info sizes -->
-    <dimen name="padding">16sp</dimen>
+    <dimen name="padding">16dp</dimen>
     <dimen name="margin_top">60dp</dimen>
     <dimen name="margin_left">20dp</dimen>
     <dimen name="margin_right">20dp</dimen>

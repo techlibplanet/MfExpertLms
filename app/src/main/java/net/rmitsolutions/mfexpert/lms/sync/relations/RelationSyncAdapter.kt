@@ -42,7 +42,7 @@ class RelationSyncAdapter(context: Context, autoInitialize: Boolean, allowParall
             // Sync Relations
             var message = syncMasters.syncRelations(context.apiAccessToken, database, masterService)
             logD(TAG, "Message - $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

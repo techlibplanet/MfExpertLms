@@ -26,6 +26,7 @@ import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
 import net.rmitsolutions.mfexpert.lms.helpers.apiTokens
 import net.rmitsolutions.mfexpert.lms.helpers.finishNoAnim
 import net.rmitsolutions.mfexpert.lms.helpers.removePref
+import net.rmitsolutions.mfexpert.lms.repayment.RepaymentActivity
 import net.rmitsolutions.mfexpert.lms.sample.SampleActivity
 import net.rmitsolutions.mfexpert.lms.settings.SettingsActivity
 import net.rmitsolutions.mfexpert.lms.village.VillageActivity
@@ -201,7 +202,7 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         when (itemId) {
             R.id.nav_dashboard -> startActivity<DashboardActivity>()
         //R.id.nav_downloads -> startActivity<DownloadsActivity>()
-            R.id.nav_contact -> startActivity<SampleActivity>()
+            R.id.nav_contact -> startActivity<RepaymentActivity>()
             R.id.nav_settings -> startActivity<SettingsActivity>()
             R.id.nav_cbm_details -> startActivity<CbmActivity>()
             R.id.nav_about -> startActivity<AboutActivity>()

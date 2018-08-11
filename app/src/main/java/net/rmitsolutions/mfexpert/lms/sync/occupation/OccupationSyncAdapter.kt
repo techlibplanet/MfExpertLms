@@ -42,7 +42,7 @@ class OccupationSyncAdapter(context: Context, autoInitialize: Boolean, allowPara
             // Sync Occupation
             var message = syncMasters.syncOccupation(context.apiAccessToken, database, masterService)
             logD(TAG, "Message - $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

@@ -41,7 +41,7 @@ class IncomeProofSyncAdapter(context: Context, autoInitialize: Boolean, allowPar
             var message = syncMasters.syncIncomeProofDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Income Proof Sync", "Message $message")
 
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

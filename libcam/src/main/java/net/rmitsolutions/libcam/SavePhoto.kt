@@ -60,7 +60,6 @@ internal class SavePhoto {
                         wallpaperDirectory = Environment.getRootDirectory()
                     }
                 }
-
             }
 
             if (wallpaperDirectory != null) {
@@ -68,7 +67,6 @@ internal class SavePhoto {
                     wallpaperDirectory.exists()
                     wallpaperDirectory.mkdirs()
                 }
-
                 val f = File(wallpaperDirectory, photoName)
                 try {
                     f.createNewFile()
@@ -78,22 +76,18 @@ internal class SavePhoto {
                     fo.close()
                     activity.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                             Uri.parse("file://" + f.absolutePath)))
-
                     try {
                         //Update the System
                         val u = Uri.parse(f.absolutePath)
                         activity.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, u))
-
                     } catch (ex: Exception) {
                         logE(TAG, "Exception : $ex")
                     }
-
                     return f.absolutePath
                 } catch (ex: Exception) {
                     logE(TAG, "Exception : $ex")
                     return null
                 }
-
             } else {
                 return null
             }

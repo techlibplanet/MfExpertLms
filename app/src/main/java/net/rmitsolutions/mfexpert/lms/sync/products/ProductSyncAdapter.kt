@@ -41,7 +41,7 @@ class ProductSyncAdapter(context: Context, autoInitialize: Boolean, allowParalle
             var message = syncMasters.syncProductsDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Products Sync", "Message $message")
 
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

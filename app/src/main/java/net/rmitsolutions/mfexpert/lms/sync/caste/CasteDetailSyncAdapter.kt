@@ -40,15 +40,13 @@ class CasteDetailSyncAdapter(context: Context, autoInitialize: Boolean, allowPar
             // Sync District
             var message = syncMasters.syncCasteDetails(context.apiAccessToken, database, masterService)
             Constants.logD("Caste Sync", "Message $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }
-
             if (!Globals.isEmptyString(message)) {
                 messages.add("Caste : $message")
             }
-
             if (messages.size == 0){
                 Constants.logD(TAG, "Caste sync success !")
                 context.putPref(SharedPrefKeys.SP_CASTE_SYNC_TIME, net.rmitsolutions.mfexpert.lms.Constants.getFormatDate())

@@ -40,7 +40,7 @@ class HouseOwnershipSyncAdapter(context: Context, autoInitialize: Boolean, allow
             // Sync District
             var message = syncMasters.syncHouseOwnershipDetails(context.apiAccessToken, database, masterService)
             Constants.logD("House ownership Sync", "Message $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

@@ -41,7 +41,7 @@ class KycDetailSyncAdapter(context: Context, autoInitialize: Boolean, allowParal
             var message = syncMasters.syncKycDetails(context.apiAccessToken, database, masterService)
             Constants.logD("KycDetails Sync", "Message $message")
 
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

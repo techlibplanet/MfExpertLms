@@ -1,16 +1,14 @@
 package net.rmitsolutions.mfexpert.lms.refreshTokenCallback
 
-import android.app.Activity
 import android.content.Context
-import android.util.Log
 import com.example.mayank.libraries.androidkeystore.EnCryptor
 import io.reactivex.disposables.CompositeDisposable
-import net.rmitsolutions.libcam.Constants.logD
 import net.rmitsolutions.libcam.Constants.logE
 import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.helpers.*
 import net.rmitsolutions.mfexpert.lms.network.IUser
 import net.rmitsolutions.mfexpert.lms.network.TokenService
+import org.jetbrains.anko.toast
 
 class RefreshTokenCallback {
 
@@ -35,6 +33,7 @@ class RefreshTokenCallback {
                     }))
         } else {
             logE("RefreshTokenCallback", "Listener is null")
+            context.toast("Refresh Token Listener is null")
         }
 
     }

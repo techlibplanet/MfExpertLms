@@ -40,7 +40,7 @@ class LoanCloseTypeSyncAdapter(context: Context, autoInitialize: Boolean, allowP
             // Sync District
             var message = syncMasters.syncLoanCloseType(context.apiAccessToken, database, masterService)
             Constants.logD("Loan close type Sync", "Message $message")
-            if (message == "Unauthorized"){
+            if (message == net.rmitsolutions.mfexpert.lms.Constants.UNAUTHORIZED){
                 Globals.refreshToken(context)
                 return
             }

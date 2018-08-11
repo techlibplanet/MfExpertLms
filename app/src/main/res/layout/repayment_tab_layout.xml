@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:id="@+id/textInputLblAmount"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<android.support.design.widget.TextInputEditText-->
+                    <!--android:inputType="numberDecimal"-->
+                    <!--android:id="@+id/textInputAmount"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:hint="Enter Amount" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <TextView
+                android:id="@+id/label_one"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label One"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_two"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Two"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_three"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Three"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_four"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Foue"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_five"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Five"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_six"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Six"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_seven"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Seven"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_eight"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Eight"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_nine"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Nine"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/label_ten"
+                android:padding="@dimen/space8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Label Ten"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
