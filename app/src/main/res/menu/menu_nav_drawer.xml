@@ -34,6 +34,21 @@
             android:title="CBMember Details" />
 
         <item
+            android:id="@+id/nav_repayment"
+            android:checkable="true"
+            android:icon="@drawable/currency_inr"
+            android:title="Repayment"/>
+
+
+        <item
+            android:id="@+id/loan_utilization_check"
+            android:checkable="true"
+            android:icon="@drawable/currency_inr"
+            android:title="Loan Utilization Check"/>
+
+
+
+        <item
             android:id="@+id/nav_reports"
             android:checkable="true"
             android:icon="@drawable/ic_finance"
@@ -53,12 +68,6 @@
             android:checkable="true"
             android:icon="@drawable/ic_settings"
             android:title="Settings" />
-
-
-
-
-
-
 
         <item
             android:id="@+id/nav_about"

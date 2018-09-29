@@ -9,7 +9,7 @@
             type="net.rmitsolutions.mfexpert.lms.viewmodels.UserViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".WelcomeActivity"
@@ -29,7 +29,7 @@
             tools:layout_editor_absoluteY="0dp"/>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/loginCardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,8 +49,8 @@
                 android:id="@+id/loginLayout"
                 layout="@layout/login_layout"
                 app:userVm="@{user}" />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

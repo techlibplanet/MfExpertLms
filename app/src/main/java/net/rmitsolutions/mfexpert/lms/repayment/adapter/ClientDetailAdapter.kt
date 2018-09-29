@@ -1,18 +1,21 @@
 package net.rmitsolutions.mfexpert.lms.repayment.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.R
-import net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersyncsettings.SyncSettingsViewHolder
-import net.rmitsolutions.mfexpert.lms.viewmodels.ClientViewModels
-import net.rmitsolutions.mfexpert.lms.viewmodels.SyncViewModels
+import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
+import net.rmitsolutions.mfexpert.lms.network.IRepayment
+import net.rmitsolutions.mfexpert.lms.repayment.RepaymentModel
+import javax.inject.Inject
 
 class ClientDetailAdapter : RecyclerView.Adapter<ClientViewHolder>() {
 
-    var items: List<ClientViewModels> = emptyList()
-    lateinit var context: Context
+    var items: List<RepaymentModel> = emptyList()
+    private lateinit var context: Context
+    private lateinit var names: String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
         context = parent.context
@@ -21,9 +24,15 @@ class ClientDetailAdapter : RecyclerView.Adapter<ClientViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return items.size }
+        return items.size
+    }
 
     override fun onBindViewHolder(holder: ClientViewHolder, position: Int) {
-        holder.bindView(context,items[position], position)
+        holder.bindView(context, items[position], position)
+    }
+
+    fun filterList(filterdNames: ArrayList<RepaymentModel>) {
+        this.items = filterdNames
+        notifyDataSetChanged()
     }
 }

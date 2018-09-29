@@ -8,6 +8,8 @@ import android.util.Log
 
 object Constants {
 
+    const val MEMBER_CODE = "M0198000222"
+
     val TAKE_PHOTO = 201
     val CROP_PHOTO = 203
 

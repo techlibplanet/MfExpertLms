@@ -1,17 +1,16 @@
 package net.rmitsolutions.mfexpert.lms.center
 
 import android.app.DatePickerDialog
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.design.widget.TextInputEditText
-import android.support.v4.app.Fragment
+import androidx.annotation.LayoutRes
+import com.google.android.material.textfield.TextInputEditText
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ScrollView
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
@@ -24,7 +23,6 @@ import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.databinding.PrimaryInfoBinding
 import net.rmitsolutions.mfexpert.lms.viewmodels.CenterPrimaryInformationModel
 
-import java.text.SimpleDateFormat
 import java.util.*
 import net.rmitsolutions.mfexpert.lms.database.entities.CenterDetailsEntity
 import net.rmitsolutions.mfexpert.lms.helpers.logE
@@ -77,14 +75,14 @@ class PrimaryInformationFragment : Fragment(), Step {
             year = calender.get(Calendar.YEAR)
             month = calender.get(Calendar.MONTH)
             day = calender.get(Calendar.DAY_OF_MONTH)
-            dialog = DatePickerDialog(activity, mDateSetListener, year, month, day)
+            dialog = DatePickerDialog(context!!, mDateSetListener, year, month, day)
             dialog.show()
         }
         compositeDisposable.add(Single.fromCallable {
             database?.villageDao()?.getVillagesInfo()
         }.processRequest({ villageNameList ->
             villageList = villageNameList!!.toTypedArray();
-            val villageListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, villageList)
+            val villageListAdapter = ArrayAdapter<String>(context!!, android.R.layout.simple_dropdown_item_1line, villageList)
             villageListSpinner = v.findViewById(R.id.chooseVillage)
             villageListSpinner.setAdapter<ArrayAdapter<String>>(villageListAdapter)
         }, { err ->
@@ -106,12 +104,12 @@ class PrimaryInformationFragment : Fragment(), Step {
          villageListSpinner = v.findViewById(R.id.chooseVillage)
          villageListSpinner.setAdapter<ArrayAdapter<String>>(villageListAdapter)*/
 
-        val paymentListAdapter = ArrayAdapter<String>(activity,
+        val paymentListAdapter = ArrayAdapter<String>(context!!,
                 android.R.layout.simple_dropdown_item_1line, repaymentList)
         repaymentListSpinner = v.findViewById(R.id.chooseRepaymentType)
         repaymentListSpinner.setAdapter<ArrayAdapter<String>>(paymentListAdapter)
 
-        val categoryListAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, categoryList)
+        val categoryListAdapter = ArrayAdapter<String>(context!!, android.R.layout.simple_dropdown_item_1line, categoryList)
         categoryListSpinner = v.findViewById(R.id.chooseCategory)
         categoryListSpinner.setAdapter<ArrayAdapter<String>>(categoryListAdapter)
         return v

@@ -8,7 +8,10 @@ import net.rmitsolutions.mfexpert.lms.dependency.modules.DatabaseModule
 import net.rmitsolutions.mfexpert.lms.dependency.modules.NetworkApiModule
 import net.rmitsolutions.mfexpert.lms.dependency.qualifiers.ApplicationContextQualifier
 import net.rmitsolutions.mfexpert.lms.dependency.scopes.ApplicationScope
+import net.rmitsolutions.mfexpert.lms.network.ICBMember
+import net.rmitsolutions.mfexpert.lms.network.ILoanUtilization
 import net.rmitsolutions.mfexpert.lms.network.IMasters
+import net.rmitsolutions.mfexpert.lms.network.IRepayment
 import net.rmitsolutions.mfexpert.lms.network.IUser
 import okhttp3.OkHttpClient
 
@@ -27,6 +30,12 @@ interface ApplicationComponent {
 
     fun getMasterService(): IMasters
 
-    fun getTokenService() : IUser
+    fun getTokenService(): IUser
+
+    fun getCBMemberService() : ICBMember
+
+    fun getLoanUtilizationService(): ILoanUtilization
+
+    fun getRepaymentService(): IRepayment
 
 }

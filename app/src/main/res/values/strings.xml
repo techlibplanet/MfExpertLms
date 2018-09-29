@@ -55,6 +55,13 @@
     <string name="open_date">Open Date*</string>
     <string name="distance">Distance*</string>
 
+
+    <!--- Loan Utilization Check-->
+    <string name="member_code">Member Code*</string>
+    <string name="last_uc_date">Last UC Date*</string>
+    <string name="remarks">Remarks</string>
+    <string name="average_monthly_income">Average Monthly Income*</string>
+
     <!--Group-->
     <string name="group_Code_auto">Auto Code</string>
     <string name="group_name">Group Name*</string>
@@ -131,5 +138,8 @@
     <string name="login_hint_username">Username</string>
     <string name="login_forgot_password">Forgot Password</string>
     <string name="repayment_amount_hint">Repayment Amount</string>
+
+    <string name="rupeeSymbol">u20B9</string>
+    <string name="rupeeText">u20A8</string>
 
 </resources>

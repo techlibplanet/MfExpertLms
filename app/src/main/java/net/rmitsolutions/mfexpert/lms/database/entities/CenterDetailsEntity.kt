@@ -1,7 +1,7 @@
 package net.rmitsolutions.mfexpert.lms.database.entities
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import net.rmitsolutions.mfexpert.lms.viewmodels.CenterAddressInformationModel
 import net.rmitsolutions.mfexpert.lms.viewmodels.CenterPrimaryInformationModel
 

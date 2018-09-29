@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/layout_background">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -35,8 +35,15 @@
                     android:layout_marginTop="5dp"
                     android:text="Sync details...."
                     android:textSize="12sp"/>
+
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/sync_progress"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <Switch
                 android:padding="@dimen/space8dp"
@@ -47,5 +54,6 @@
                 android:text="" />
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

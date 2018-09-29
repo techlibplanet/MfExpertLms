@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="loanOneVm"
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.Repayment.LoanDetails"/>
+
+        <variable
+            name="handler"
+            type="net.rmitsolutions.mfexpert.lms.loans.LoanOneFragment"/>
+    </data>
+
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="loanOneFragHandler"-->
+            <!--type="net.rmitsolutions.mfexpert.lms.loans.LoanOneFragment"/>-->
+    <!--</data>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+            <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:id="@+id/textInputLblAmount"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<android.support.design.widget.TextInputEditText-->
+            <!--android:inputType="numberDecimal"-->
+            <!--android:id="@+id/textInputAmount"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Enter Amount" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <TextView
+                android:id="@+id/textViewProductNameLoanOne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:padding="@dimen/space8dp"
+                android:text="@{loanOneVm.productName}"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                        android:id="@+id/choosePrepaymentTypeLoanOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginStart="@dimen/space16dp"
+                        android:layout_marginTop="@dimen/space4dp"
+                        android:focusableInTouchMode="true"
+                        android:hint="Select*"
+                        android:text=""
+                        android:textColorHint="@color/colorAccent"
+                        app:met_floatingLabel="normal" />
+
+                    <!--<android.support.v7.widget.AppCompatSpinner-->
+                    <!--android:id="@+id/choosePrepaymentTypeLoanOne"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginStart="@dimen/space16dp"-->
+                    <!--android:layout_marginTop="@dimen/space4dp"-->
+                    <!--android:hint="Select"-->
+                    <!--android:textColorHint="@color/colorAccent" />-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelLoanAmountLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Loan Amount :"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:text="@{Double.toString(loanOneVm.loanAmount)}"
+                            android:id="@+id/loanAmountLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="0.00"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelOutstandingLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Outstanding :"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:text="@{Double.toString(loanOneVm.outstanding)}"
+                            android:id="@+id/outstandingLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="0.00"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelPrincipleDueLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Principle Due :"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:text="@{Double.toString(loanOneVm.principleDue)}"
+                            android:id="@+id/principleDueLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="0.00"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelInterestDueLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Interest Due :"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:text="@{Double.toString(loanOneVm.interestDue)}"
+                            android:id="@+id/interestDueLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="0.00"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelPenalChargesLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Penal Charges :"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:text="@{Double.toString(loanOneVm.penalCharges)}"
+                            android:id="@+id/penalChargesLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="0.00"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelAdjustedAmountLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Adjusted Amount :"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:text="@{Double.toString(loanOneVm.adjustedAmount)}"
+                            android:id="@+id/adjustedAmountLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="0.00"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelTotalLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Total :"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:text="@{Double.toString(loanOneVm.totalAmount)}"
+                            android:id="@+id/totalLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="0.00"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <!--android:onTextChanged="@{() -> handler.setTotalAmount(loanOneVm.totalAmount)}"-->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <LinearLayout
+                        android:id="@+id/bankAccNoLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelBankAccNumberLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Bank Account No :"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:inputType="number"
+                            android:text="@={loanOneVm.bankAccNo}"
+                            android:id="@+id/editTextBankAccNumberLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="Account Number"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bankNameLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/labelBankNameLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="Bank Name :"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:inputType="text"
+                            android:text="@={loanOneVm.bankName}"
+                            android:id="@+id/editTextBankNameLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="Bank Name"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bankIfscLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/space20dp"
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginTop="@dimen/space8dp"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/activity_vertical_padding">
+
+                        <TextView
+                            android:id="@+id/labelIfscCodeLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:padding="@dimen/space8dp"
+                            android:text="IFSC Code :"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:inputType="text"
+                            android:text="@={loanOneVm.bankIfsc}"
+                            android:id="@+id/editTextIfscCodeLoanOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_text_border"
+                            android:hint="IFSC Code"
+                            android:padding="@dimen/space8dp"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+    </LinearLayout>
+</layout>
+

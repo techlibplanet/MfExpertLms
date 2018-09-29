@@ -3,10 +3,11 @@ package net.rmitsolutions.mfexpert.lms.village
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
+import android.location.Location
 
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
+import com.google.android.material.textfield.TextInputEditText
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,8 +25,11 @@ import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.databinding.VillageInfoBinding
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
+import net.rmitsolutions.mfexpert.lms.helpers.logD
 import net.rmitsolutions.mfexpert.lms.helpers.logE
 import net.rmitsolutions.mfexpert.lms.helpers.processRequest
+import net.rmitsolutions.mfexpert.lms.location.LocationHelper
+import net.rmitsolutions.mfexpert.lms.location.LocationListener
 
 import net.rmitsolutions.mfexpert.lms.viewmodels.VillageInfoModel
 import org.jetbrains.anko.toast
@@ -33,7 +37,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class VillageActivity : BaseActivity() {
+class VillageActivity : BaseActivity(), LocationListener {
+
     private lateinit var villageInfoModel: VillageInfoModel
     lateinit var dataBinding: VillageInfoBinding
     private lateinit var districtListSpinner: MaterialBetterSpinner
@@ -48,6 +53,7 @@ class VillageActivity : BaseActivity() {
     private var month: Int = 0
     private var day: Int = 0
     private val LIB_CAMERA_RESULT = 420
+    private lateinit var locationHelper: LocationHelper
 
     @Inject
     lateinit var database: MfExpertLmsDatabase
@@ -62,6 +68,8 @@ class VillageActivity : BaseActivity() {
                 .applicationComponent(MfExpertApp.applicationComponent)
                 .build()
         depComponent.injectVillageActivity(this)
+
+        locationHelper = LocationHelper(this)
 
         districtListSpinner = findViewById(R.id.chooseDistrict)
         openDateEditText = findViewById(R.id.txtOpenDate)
@@ -162,8 +170,8 @@ class VillageActivity : BaseActivity() {
 
     private fun getCurrentDate() {
         val calendar = Calendar.getInstance()
-        val mdformat = SimpleDateFormat("dd-MMM-yyyy ")
-        strDate = mdformat.format(calendar.time)
+        val mdFormat = SimpleDateFormat("dd-MMM-yyyy ")
+        strDate = mdFormat.format(calendar.time)
         // strDate=date
         openDateEditText.setText(strDate)
     }
@@ -230,10 +238,20 @@ class VillageActivity : BaseActivity() {
                     villageInfoModel.latitude = data?.getStringExtra(ImageData.Constants.IMAGE_LATITUDE).toString()
                     villageInfoModel.longitude = data?.getStringExtra(ImageData.Constants.IMAGE_LONGITUDE).toString()
                     villageInfoModel.timeStamp = data?.getStringExtra(ImageData.Constants.IMAGE_TIME_STAMP).toString()
+                    logD("Latitude - ${villageInfoModel.latitude}, Longitude - ${villageInfoModel.longitude}")
                     val libCamera = LibCamera(this)
                     villageInfoModel.imageByteArray = libCamera.getByteArrayFromBase64String(data?.getStringExtra(ImageData.Constants.IMAGE_STRING_BASE_64)!!)
                 }
             }
         }
     }
+
+    override fun onSuccessListener(location: Location) {
+        logD("Village Activity OnSuccessListenerCalled")
+    }
+
+    override fun onFailedListener(error: Exception) {
+        logD("Village Activity OnFailedListener Called")
+    }
+
 }

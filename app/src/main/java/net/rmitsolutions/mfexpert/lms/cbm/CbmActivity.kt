@@ -10,10 +10,8 @@ import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.CBMDataEntity
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
 import javax.inject.Inject
-import android.databinding.adapters.TextViewBindingAdapter.setText
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import android.widget.ImageView
-import android.widget.TextView
-import org.jetbrains.anko.find
 
 
 class CbmActivity : BaseActivity() {
@@ -25,7 +23,7 @@ class CbmActivity : BaseActivity() {
     private var cbmDataEntity: CBMDataEntity? = null;
     var addIconImage: ImageView? = null
     private val CURRENT_STEP_POSITION_KEY = "position"
-    lateinit var toolbar: android.support.v7.widget.Toolbar
+    lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

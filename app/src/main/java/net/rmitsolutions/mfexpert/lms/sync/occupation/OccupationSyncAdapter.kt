@@ -20,7 +20,6 @@ import java.util.ArrayList
 
 class OccupationSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean, database : MfExpertLmsDatabase, masterService : IMasters) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
 
-
     private val TAG = OccupationSyncAdapter::class.java.simpleName
     private val accountManager : AccountManager
     private val database = database

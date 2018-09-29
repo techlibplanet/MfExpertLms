@@ -1,6 +1,6 @@
 package net.rmitsolutions.mfexpert.lms.helpers
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import org.jetbrains.anko.toast
 import timber.log.Timber
 

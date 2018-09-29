@@ -1,11 +1,9 @@
 package net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersettings
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import net.rmitsolutions.libcam.Constants.logD
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.viewmodels.SettingViewModel
 

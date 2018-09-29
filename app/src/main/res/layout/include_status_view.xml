@@ -7,7 +7,7 @@
     android:layout_marginTop="@dimen/padding2x"
     android:elevation="@dimen/space8dp">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:layout_margin="@dimen/padding2x"
             app:indicatorColor="@color/deep_orange"
             app:indicatorName="LineScalePulseOutIndicator" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <tr.xip.errorview.ErrorView
         android:id="@+id/statusView"

@@ -1,7 +1,7 @@
 package net.rmitsolutions.mfexpert.lms
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 import io.reactivex.disposables.CompositeDisposable
 
@@ -11,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
  */
 abstract class BaseFragment : Fragment() {
 
-    lateinit internal var compositeDisposable: CompositeDisposable
+    internal lateinit var compositeDisposable: CompositeDisposable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         compositeDisposable = CompositeDisposable()

@@ -23,17 +23,10 @@ object SharedPrefKeys {
     const val SP_PRIMARY_KYC_SYNC_TIME = "primary_kyc_sync_time"
     const val SP_SECONDARY_KYC_SYNC_TIME = "secondary_kyc_sync_time"
     const val SP_LOAN_PURPOSE_SYNC_TIME = "loan_purpose_sync_time"
-    const val SP_KYC_DETAILS_SYNC_TIME = "kyc_details_sync_time"
-    const val SP_ASSIGN_CATEGORY_SYNC_TIME = "assign_category_sync_time"
     const val SP_BANKS_SYNC_TIME = "assign_category_sync_time"
     const val SP_CASTE_SYNC_TIME = "caste_sync_time"
     const val SP_HOUSE_OWNERSHIP_SYNC_TIME = "house_ownership_sync_time"
     const val SP_INCOME_PROOF_SYNC_TIME = "income_proof_sync_time"
-    const val SP_LOAN_CLOSE_TYPE_SYNC_TIME = "loan_close_type_sync_time"
-    const val SP_LOAN_REJECTION_REASON_SYNC_TIME = "loan_rejection_reason_sync_time"
-    const val SP_MEMBER_REJECTION_REASON_SYNC_TIME = "member_rejection_reason_sync_time"
-    const val SP_NATIONALITY_SYNC_TIME = "nationality_sync_time"
-    const val SP_PRODUCTS_SYNC_TIME = "products_sync_time"
     const val SP_RELIGION_SYNC_TIME = "religion_sync_time"
 }
 

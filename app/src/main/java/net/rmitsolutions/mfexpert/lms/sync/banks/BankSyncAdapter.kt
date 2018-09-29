@@ -16,16 +16,10 @@ import net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersyncsettings.SyncS
 import net.rmitsolutions.mfexpert.lms.sync.SyncMasters
 import java.util.ArrayList
 
-class BankSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean, database : MfExpertLmsDatabase, masterService: IMasters) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
+class BankSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean, private val database: MfExpertLmsDatabase, private val masterService: IMasters) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
 
     private val TAG = BankSyncAdapter::class.java.simpleName
-    private val accountManager : AccountManager
-    private val database = database
-    private val masterService = masterService
-
-    init {
-        accountManager = AccountManager.get(context)
-    }
+    private val accountManager : AccountManager = AccountManager.get(context)
 
 
     override fun onPerformSync(account: Account?, bundle: Bundle?, p2: String?, contentProvider: ContentProviderClient?, syncResult: SyncResult?) {

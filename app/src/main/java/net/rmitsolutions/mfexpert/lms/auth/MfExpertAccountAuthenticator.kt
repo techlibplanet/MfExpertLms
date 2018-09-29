@@ -10,7 +10,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import net.rmitsolutions.mfexpert.lms.Constants
-import net.rmitsolutions.mfexpert.lms.LoginActivity
+import net.rmitsolutions.mfexpert.lms.WelcomeActivity
 import timber.log.Timber
 
 
@@ -54,7 +54,7 @@ class MfExpertAccountAuthenticator constructor(val context: Context) : AbstractA
             return result
         }
 
-        val intent = Intent(context, LoginActivity::class.java)
+        val intent = Intent(context, WelcomeActivity::class.java)
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response)
         intent.putExtra(Constants.ARG_ACCOUNT_TYPE, account?.type)
         intent.putExtra(Constants.ARG_AUTH_TYPE, authTokenType)
@@ -71,7 +71,7 @@ class MfExpertAccountAuthenticator constructor(val context: Context) : AbstractA
     }
 
     override fun addAccount(response: AccountAuthenticatorResponse?, accountType: String?, authTokenType: String?, requiredFeatures: Array<out String>?, options: Bundle?): Bundle {
-        val intent = Intent(context, LoginActivity::class.java)
+        val intent = Intent(context, WelcomeActivity::class.java)
         intent.putExtra(Constants.ARG_ACCOUNT_TYPE, accountType)
         intent.putExtra(Constants.ARG_AUTH_TYPE, authTokenType)
         intent.putExtra(Constants.ARG_IS_ADDING_NEW_ACCOUNT, true)

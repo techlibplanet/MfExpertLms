@@ -1,6 +1,6 @@
 package net.rmitsolutions.mfexpert.lms.models
 
-import android.arch.persistence.room.Ignore
+import androidx.room.Ignore
 import com.google.gson.annotations.SerializedName
 
 /**

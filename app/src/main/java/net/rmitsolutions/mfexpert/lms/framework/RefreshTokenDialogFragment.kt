@@ -2,14 +2,9 @@ package net.rmitsolutions.mfexpert.lms.framework
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.app.DialogFragment
-import android.app.ProgressDialog
-import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatDialogFragment
-import android.util.Log
+import androidx.appcompat.app.AppCompatDialogFragment
 import android.widget.Button
-import net.openid.appauth.AuthorizationService
 import net.rmitsolutions.mfexpert.lms.R
 
 

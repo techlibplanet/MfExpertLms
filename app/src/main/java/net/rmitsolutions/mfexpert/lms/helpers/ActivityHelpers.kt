@@ -4,19 +4,16 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Environment
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AlertDialog
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AlertDialog
 import android.util.Base64
 import android.view.View
-import com.example.mayank.libraries.androidkeystore.DeCryptor
+import net.rmitsolutions.mfexpert.lms.keystore.DeCryptor
 import com.madhuteja.checknet.CheckConnection
 import kotlinx.android.synthetic.main.include_status_view.*
-import net.rmitsolutions.libcam.Constants.logD
 import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.R
-import net.rmitsolutions.mfexpert.lms.R.id.progressBar
 import net.rmitsolutions.mfexpert.lms.models.AccessToken
-import net.rmitsolutions.mfexpert.lms.models.Globals
 import timber.log.Timber
 import java.io.IOException
 import java.security.KeyStoreException
@@ -36,16 +33,16 @@ val Activity.apiTokens: AccessToken?
     get() = getAccessToken(applicationContext)
 
 val Context.apiAccessToken: String
-    get() = "Bearer ${apiTokens!!.accessToken}"
+    get() = "Bearer ${apiTokens?.accessToken}"
 
 val Activity.apiAccessToken: String
-    get() = "Bearer ${apiTokens!!.accessToken}"
+    get() = "Bearer ${apiTokens?.accessToken}"
 
 val Activity.apiRefreshToken: String
     get() = apiTokens!!.refreshToken
 
 val Context.apiRefreshToken: String
-    get() = apiTokens!!.refreshToken
+    get() = apiTokens?.refreshToken!!
 
 
 val Context.isExternalStorageWritable: Boolean
@@ -84,16 +81,17 @@ fun Activity.hideStatus() {
     statusView?.visibility = View.INVISIBLE
 }
 
+
 //check network
 fun Activity.isNetConnected(showStatus: Boolean = true): Boolean {
-    if (CheckConnection.with(this).isConnected) {
+    return if (CheckConnection.with(this).isConnected) {
         hideStatus()
-        return true
+        true
     } else {
         if (showStatus) {
             showStatus(getString(R.string.you_are_offline))
         }
-        return false
+        false
     }
 }
 
@@ -111,11 +109,10 @@ fun Context.snackBar(view: View, message: String?, duration: Int = Snackbar.LENG
 fun Activity.snackBar(view: View, message: String?, duration: Int = Snackbar.LENGTH_INDEFINITE,
                       actionText: String = "Ok", action: () -> Unit) {
     Snackbar.make(view, "$message", duration)
-            .setAction(actionText,
-                    {
-                        action()
-                    }
-            ).show()
+            .setAction(actionText
+            ) {
+                action()
+            }.show()
 }
 
 // logging extensions
@@ -192,7 +189,7 @@ private fun getRefreshToken(context: Context): String {
 }
 
 fun Activity.showDialog(context: Context,message : String){
-    AlertDialog.Builder(context).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which ->
+    AlertDialog.Builder(context).setCancelable(false).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which ->
 
         dialog.dismiss()
     }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->

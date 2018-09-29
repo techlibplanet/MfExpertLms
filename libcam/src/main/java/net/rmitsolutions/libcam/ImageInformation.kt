@@ -13,17 +13,17 @@ internal class ImageInformation {
     }
 
     private fun getAllFeatures(realPath: String): ExifInterface? {
-        if (realPath != "") {
+        return if (realPath != "") {
             var exif: ExifInterface? = null
             try {
                 exif = ExifInterface(realPath)
-                return exif
+                exif
             } catch (e: IOException) {
-                return exif
+                exif
             }
 
         } else {
-            return null
+            null
         }
     }
 

@@ -1,7 +1,7 @@
 package net.rmitsolutions.mfexpert.lms.viewmodels
 
-import android.arch.persistence.room.Embedded
-import android.arch.persistence.room.Relation
+import androidx.room.Embedded
+import androidx.room.Relation
 
 class PersonInfoWithOtherDetails {
    @Embedded

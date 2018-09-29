@@ -5,8 +5,8 @@ import android.app.Fragment
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v4.content.ContextCompat
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -14,7 +14,7 @@ class LibPermissions {
 
     private var activity: Activity? = null
     private var fragment: Fragment? = null
-    private var fragmentV4: android.support.v4.app.Fragment? = null
+    private var fragmentV4: androidx.fragment.app.Fragment? = null
     private var permissions: Array<String>? = null
     private var allPermissions: Array<String>? = null
     private var task: Runnable? = null
@@ -32,7 +32,7 @@ class LibPermissions {
         this.allPermissions = permissions
     }
 
-    constructor(fragmentV4: android.support.v4.app.Fragment, permissions: Array<String>) {
+    constructor(fragmentV4: androidx.fragment.app.Fragment, permissions: Array<String>) {
         this.fragmentV4 = fragmentV4
         this.permissions = permissions
         this.allPermissions = permissions

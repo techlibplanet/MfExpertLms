@@ -3,9 +3,9 @@ package net.rmitsolutions.mfexpert.lms.group
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
+import com.google.android.material.textfield.TextInputEditText
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,7 +27,6 @@ import net.rmitsolutions.mfexpert.lms.helpers.logE
 import net.rmitsolutions.mfexpert.lms.helpers.processRequest
 import net.rmitsolutions.mfexpert.lms.viewmodels.GroupModel
 import org.jetbrains.anko.toast
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -123,17 +122,22 @@ class GroupActivity : BaseActivity() {
 
     private fun validate(): Boolean {
         if (groupModel.groupName.isBlank()) {
-            lblGroupName.error = "Group Name is required."
+            lblGroupName.error = "Group Name required."
             return false
         } else {
             lblGroupName.isErrorEnabled = false
         }
 
         if (groupModel.center.isBlank()) {
-            chooseCenter.error = "Center Name is required"
+            chooseCenter.error = "Center Name required"
             return false
         } else {
             chooseCenter.error = null
+        }
+
+        if (groupModel.openDate.isBlank()){
+            lblOpenDate.error = "Date required"
+            return false
         }
 
         if (groupModel.imageByteArray == null) {

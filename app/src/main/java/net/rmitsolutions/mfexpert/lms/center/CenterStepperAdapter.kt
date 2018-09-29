@@ -1,13 +1,11 @@
 package net.rmitsolutions.mfexpert.lms.center
 
 import android.content.Context
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter
 import com.stepstone.stepper.viewmodel.StepViewModel
 import net.rmitsolutions.mfexpert.lms.R
-import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
-import net.rmitsolutions.mfexpert.lms.database.entities.CenterDetailsEntity
 
 class CenterStepperAdapter (fm: FragmentManager, context: Context) : AbstractFragmentStepAdapter(fm, context) {
 
@@ -29,11 +27,11 @@ class CenterStepperAdapter (fm: FragmentManager, context: Context) : AbstractFra
         val builder = StepViewModel.Builder(context).setTitle(R.string.app_name)
         when (position) {
             0 -> {
-                centerActivity?.title = "Primary Information"
+                centerActivity?.title = "Center Information"
                 builder.setEndButtonLabel("Next")
             }
             1 ->{
-                centerActivity?.title = "Address Information"
+                centerActivity?.title = "Center Information"
                 builder
                         .setBackButtonLabel("back")
                         .setEndButtonLabel("")

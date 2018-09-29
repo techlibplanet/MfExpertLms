@@ -1,7 +1,7 @@
 package net.rmitsolutions.mfexpert.lms.refreshTokenCallback
 
 import android.content.Context
-import com.example.mayank.libraries.androidkeystore.EnCryptor
+import net.rmitsolutions.mfexpert.lms.keystore.EnCryptor
 import io.reactivex.disposables.CompositeDisposable
 import net.rmitsolutions.libcam.Constants.logE
 import net.rmitsolutions.mfexpert.lms.Constants
@@ -35,7 +35,6 @@ class RefreshTokenCallback {
             logE("RefreshTokenCallback", "Listener is null")
             context.toast("Refresh Token Listener is null")
         }
-
     }
 
     private fun onTokenRefreshed(response: String) {

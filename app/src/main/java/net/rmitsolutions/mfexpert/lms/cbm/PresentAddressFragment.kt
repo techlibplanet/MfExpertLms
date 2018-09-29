@@ -1,24 +1,29 @@
 package net.rmitsolutions.mfexpert.lms.cbm
 
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
-import android.support.v7.widget.Toolbar
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import net.rmitsolutions.mfexpert.lms.R
 import kotlinx.android.synthetic.main.present_address_fragment.*
+import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.CBMDataEntity
+import net.rmitsolutions.mfexpert.lms.database.entities.District
 import net.rmitsolutions.mfexpert.lms.databinding.PresentAddressFragmentBinding
+import net.rmitsolutions.mfexpert.lms.helpers.logD
 import net.rmitsolutions.mfexpert.lms.viewmodels.AddressModel
+import java.util.regex.Pattern
 
 
 class PresentAddressFragment : Fragment(), Step {
@@ -26,8 +31,9 @@ class PresentAddressFragment : Fragment(), Step {
     lateinit var dataBinding: PresentAddressFragmentBinding
     private lateinit var presentAddressModel: AddressModel
     var cbmDataEntity: CBMDataEntity? = null
-    var database : MfExpertLmsDatabase? = null
+    var database: MfExpertLmsDatabase? = null
     private lateinit var districtListSpinner: MaterialBetterSpinner
+    private var position :Int = 0
 
     companion object {
 
@@ -49,11 +55,30 @@ class PresentAddressFragment : Fragment(), Step {
 
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.present_address_fragment, container, false)
         val v = dataBinding.root
-        presentAddressModel = AddressModel("", "", "", "", "", "", "")
+        presentAddressModel = AddressModel("", "", "", "", "", "", "",0)
 
         districtListSpinner = v.findViewById(R.id.chooseDistrictPresent)
-        val villageInfoAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line,getDistricts())
+        val villageInfoAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, getDistricts())
         districtListSpinner.setAdapter<ArrayAdapter<String>>(villageInfoAdapter)
+
+        //        genderListSpinner.setOnItemClickListener{
+//            adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+//           if (){
+//               dataBinding.personalInfoVm?.gender = "0"
+//           }else if(i == 1){
+//               dataBinding.personalInfoVm?.gender = "1"
+//           }
+//
+//        }
+
+        districtListSpinner.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+            logD("Position CLicked - $i")
+            position = i
+            val list = getDistrictIds()
+            cbmDataEntity?.presentAddresInfo?.districtId = list[i].id.toInt()
+            logD("Id - ${list[i].id} District Name - ${list[i].name}")
+
+        }
 
         if (cbmDataEntity?.presentAddresInfo != null) {
             presentAddressModel = cbmDataEntity?.presentAddresInfo!!
@@ -68,13 +93,17 @@ class PresentAddressFragment : Fragment(), Step {
         return database?.districtDao()?.getDistrictNames()!!
     }
 
+    private fun getDistrictIds(): List<District> {
+        return database?.districtDao()?.getAllDistrict()!!
+    }
+
     override fun onSelected() {
     }
 
     override fun verifyStep(): VerificationError? {
-        if (!validate()) {
+      /*  if (!validate()) {
             return VerificationError("")
-        }
+        }*/
         return null
     }
 
@@ -118,6 +147,14 @@ class PresentAddressFragment : Fragment(), Step {
             lblPhone.isErrorEnabled = false
         }
 
+        if (isValidPhone(presentAddressModel.phone)) {
+            lblPhone.error = "Enter valid phone number"
+            return false
+        } else {
+            lblPhone.isErrorEnabled = false
+        }
+
+
 //        if (presentAddressModel.district.isBlank()) {
 //            lblDistrict.error = "District is required."
 //            return false
@@ -132,13 +169,39 @@ class PresentAddressFragment : Fragment(), Step {
             chooseDistrictPresent.error = null
         }
 
+
+
         if (presentAddressModel.pincode.isBlank()) {
             lblPincode.error = "Pin code as on is required."
             return false
         } else {
             lblPincode.isErrorEnabled = false
         }
+
+        if (!Constants.zipCodeValidate(presentAddressModel.pincode)){
+            lblPincode.error = "Enter valid Pin Code."
+            return false
+        } else {
+            lblPincode.isErrorEnabled = false
+        }
+
+        if (position == 0){
+            chooseDistrictPresent.error = "District is required."
+            return false
+        } else {
+            chooseDistrictPresent.error = null
+        }
         return true
+    }
+
+    private fun isValidPhone(phone: String): Boolean {
+        var check = false
+        check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
+            !(phone.length == 10)
+        } else {
+            false
+        }
+        return check
     }
 
 }

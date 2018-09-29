@@ -1,9 +1,9 @@
 package net.rmitsolutions.mfexpert.lms.database.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import net.rmitsolutions.mfexpert.lms.database.entities.District
 
 @Dao
@@ -17,6 +17,10 @@ interface DistrictDao {
 
     @Query("SELECT name FROM districts")
     fun getDistrictNames() : List<String>
+
+    @Query("SELECT id FROM districts")
+    fun getDistrictIds() : List<Int>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(district: List<District>?)

@@ -13,30 +13,22 @@
             <!--type="com.example.rmit.testproject.client.ClientSearchClickListener" />-->
     <!--</data>-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="@dimen/space8dp"
-        android:layout_marginEnd="@dimen/space8dp">
-
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:cardCornerRadius="1dp">
+            android:layout_marginBottom="@dimen/space8dp"
+            android:layout_marginEnd="@dimen/space8dp"
+            android:layout_marginStart="@dimen/space8dp"
+            app:cardCornerRadius="@dimen/space2dp"
+            app:cardElevation="@dimen/space2dp"
+            >
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RelativeLayout
-                    android:id="@+id/client_data_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space8dp"
+                android:layout_marginEnd="@dimen/space8dp">
                     <LinearLayout
                         android:layout_marginTop="@dimen/space8dp"
                         android:layout_width="match_parent"
@@ -44,24 +36,22 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:layout_marginTop="@dimen/space4dp"
                             android:id="@+id/client_id"
                             style="@style/DescriptionText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="24dp"
-                            android:layout_marginLeft="@dimen/padding"
-                            android:layout_marginRight="@dimen/padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:maxLines="1"
                             android:minLines="1"
                             android:text="ClientId" />
 
                         <TextView
+                            android:layout_marginTop="@dimen/space4dp"
                             android:textStyle="bold"
                             android:id="@+id/client_name"
                             style="@style/TitleText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_marginLeft="@dimen/padding"
-                            android:layout_marginRight="@dimen/padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:maxLines="1"
                             android:minLines="1"
                             android:text="Client Name" />
@@ -81,40 +71,45 @@
 
                     </LinearLayout>
 
-                </RelativeLayout>
 
                 <LinearLayout
+                    android:gravity="end"
+                    android:layout_marginTop="@dimen/space4dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/client_data_container"
-                    android:layout_marginLeft="@dimen/padding"
                     android:orientation="horizontal">
 
-                    <Switch
-                        android:id="@+id/switch_cheque_cash"
-                        style="@style/TextAppearance.AppCompat.Widget.Switch"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:text="Cheque"
-                        android:textColor="@color/colorPrimaryDark" />
+                    <!--<Switch-->
+                        <!--android:id="@+id/switch_cheque_cash"-->
+                        <!--style="@style/TextAppearance.AppCompat.Widget.Switch"-->
+                        <!--android:layout_width="120dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Cheque"-->
+                        <!--android:textColor="@color/colorPrimaryDark" />-->
 
-                    <Button
-                        android:id="@+id/button_repayment"
-                        style="?android:borderlessButtonStyle"
+                    <CheckBox
+                        android:layout_marginEnd="@dimen/space16dp"
+                        android:layout_marginBottom="@dimen/space16dp"
+                        android:id="@+id/prepayment_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:text="Prepay"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:text="Prepayment"/>
+
+
+                    <!--<Button-->
+                        <!--android:id="@+id/button_repayment"-->
+                        <!--style="?android:borderlessButtonStyle"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Prepay"-->
+                        <!--android:textAppearance="@style/TextAppearance.AppCompat.Button"-->
+                        <!--android:textColor="@color/colorPrimaryDark" />-->
 
                     <EditText
                         android:id="@+id/edit_text_repayment_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
                         android:background="@drawable/edit_text_border"
-                        android:gravity="right"
                         android:hint="Amount"
                         android:inputType="numberDecimal"
                         android:padding="10dp"
@@ -140,7 +135,6 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 </layout>

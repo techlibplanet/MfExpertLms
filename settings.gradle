@@ -1,3 +1,4 @@
 include ':app'
 include ':appauthwebview'
 include ':libcam'
+include ':scanlibrary'

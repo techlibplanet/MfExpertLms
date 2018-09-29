@@ -24,12 +24,6 @@ interface IMasters {
     @GET("Masters/GetSecondaryKYCDetails")
     fun getSecondaryKycDetails(@Header("Authorization") authToken: String) : Call<List<SecondaryKYC>>
 
-    @GET("Masters/GetKYCDetails")
-    fun getKycDetails(@Header("Authorization") authToken: String) : Call<List<KycDetails>>
-
-    @GET("Masters/GetProducts")
-    fun getProducts(@Header("Authorization") authToken: String) : Call<List<Products>>
-
     @GET("Masters/GetOccupations")
     fun getOccupations(@Header("Authorization") authToken: String) : Call<List<Occupation>>
 
@@ -41,9 +35,6 @@ interface IMasters {
 
     @GET("Masters/GetBanks")
     fun getBanks(@Header("Authorization") authToken: String) : Call<List<Banks>>
-
-    @GET("Masters/GetNationalityDetails")
-    fun getNationalityDetails(@Header("Authorization") authToken: String) : Call<List<Nationality>>
 
     @GET("Masters/GetReligionDetails")
     fun getReligionDetails(@Header("Authorization") authToken: String) : Call<List<Religion>>
@@ -57,33 +48,11 @@ interface IMasters {
     @GET("Masters/GetIncomeProofDetails")
     fun getIncomeProofDetails(@Header("Authorization") authToken: String) : Call<List<IncomeProof>>
 
-    @GET("Masters/GetAssignCategory")
-    fun getAssignCategory(@Header("Authorization") authToken: String) : Call<List<AssignCategory>>
-
-    @GET("Masters/GetLoanCloseType")
-    fun getLoanCloseType(@Header("Authorization") authToken: String) : Call<List<LoanCloseType>>
-
-    @GET("Masters/GetMemberRejectionReasons")
-    fun getMemberRejectionReasons(@Header("Authorization") authToken: String) : Call<List<MemberRejectionReasons>>
-
-//    @GET("Masters/GetLoanRejectionReasons")
-//    fun getLoanRejectionReasons(@Header("Authorization") authToken: String) : Observable<List<IdNameLong>>
-
-    @GET("Masters/GetLoanRejectionReasons")
-    fun getLoanRejectionReasons(@Header("Authorization") authToken: String) : Call<List<LoanRejectionReasons>>
-
-
     @GET("Masters/GetRelations")
     fun getRelation(@Header("Authorization") authToken: String) : Observable<List<IdNameLong>>
 
     @GET("Masters/GetDistricts")
     fun getDistrict(@Header("Authorization") authToken: String) : Observable<List<IdNameLong>>
-
-
-
-
-
-
 
 
 

@@ -20,7 +20,6 @@ import java.util.ArrayList
 
 class LoanPurposeSyncAdapter(context: Context, autoInitialize: Boolean, allowParallelSyncs: Boolean, database : MfExpertLmsDatabase, mastersService : IMasters) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
 
-
     private val TAG = LoanPurposeSyncAdapter::class.java.simpleName
     private val accountManager : AccountManager
     private val database = database

@@ -1,31 +1,25 @@
-package com.example.mayank.libraries.androidkeystore
+package net.rmitsolutions.mfexpert.lms.keystore
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import android.security.keystore.KeyProperties
 import android.security.keystore.KeyGenParameterSpec
-import android.support.annotation.NonNull
-import android.support.annotation.RequiresApi
+import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import android.util.Base64
-import android.util.Log
-import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
 import net.rmitsolutions.mfexpert.lms.helpers.putPref
 import java.io.IOException
 import java.security.*
-import java.util.*
 import javax.crypto.*
 
 
-internal class EnCryptor(context: Context) {
-
-    private var context: Context = context
+internal class EnCryptor(private var context: Context) {
 
     var encryption: ByteArray? = null
         private set
     var iv: ByteArray? = null
-        private set
+        //private set
 
     @RequiresApi(Build.VERSION_CODES.M)
     @Throws(UnrecoverableEntryException::class, NoSuchAlgorithmException::class, KeyStoreException::class, NoSuchProviderException::class, NoSuchPaddingException::class, InvalidKeyException::class, IOException::class, InvalidAlgorithmParameterException::class, SignatureException::class, BadPaddingException::class, IllegalBlockSizeException::class)
@@ -60,7 +54,6 @@ internal class EnCryptor(context: Context) {
     }
 
     companion object {
-
         private val TRANSFORMATION = "AES/GCM/NoPadding"
         private val ANDROID_KEY_STORE = "AndroidKeyStore"
     }

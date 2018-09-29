@@ -2,10 +2,10 @@ package net.rmitsolutions.mfexpert.lms.center
 
 import android.app.Activity
 import android.content.Intent
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -29,9 +29,8 @@ import net.rmitsolutions.mfexpert.lms.helpers.logE
 import net.rmitsolutions.mfexpert.lms.helpers.processRequest
 import net.rmitsolutions.mfexpert.lms.helpers.toast
 import net.rmitsolutions.mfexpert.lms.viewmodels.CenterAddressInformationModel
-import org.jetbrains.anko.support.v4.startActivity
 import java.util.regex.Pattern
-
+import org.jetbrains.anko.startActivity
 
 class AddressInformationFragment : Fragment(), Step {
 
@@ -102,7 +101,7 @@ class AddressInformationFragment : Fragment(), Step {
                 { cbmDetails ->
                     // hideProgress()
                     Toast.makeText(activity, "Successfully Saved", Toast.LENGTH_SHORT).show()
-                    startActivity<CenterActivity>()
+                    this.activity!!.startActivity<CenterActivity>()
                 },
                 { err ->
                     //  hideProgress(true, err)

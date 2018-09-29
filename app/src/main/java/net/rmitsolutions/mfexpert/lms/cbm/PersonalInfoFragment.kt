@@ -1,10 +1,10 @@
 package net.rmitsolutions.mfexpert.lms.cbm
 
-import android.databinding.DataBindingUtil
+
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.design.widget.TextInputEditText
-import android.support.v4.app.Fragment
+import androidx.annotation.LayoutRes
+import com.google.android.material.textfield.TextInputEditText
+import androidx.fragment.app.Fragment
 import android.widget.*
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
@@ -16,11 +16,17 @@ import net.rmitsolutions.mfexpert.lms.databinding.PersonalInfoFragmentBinding
 import net.rmitsolutions.mfexpert.lms.viewmodels.PersonalInfoModel
 import java.util.*
 import android.app.DatePickerDialog
+import androidx.databinding.DataBindingUtil
+import androidx.annotation.RequiresApi
+import android.text.Editable
+import android.text.TextWatcher
 
 import kotlinx.android.synthetic.main.personal_info_fragment.*
 import java.util.regex.Pattern
 import android.view.*
-import kotlinx.android.synthetic.main.nav_header_main.view.*
+import net.rmitsolutions.mfexpert.lms.Constants
+import net.rmitsolutions.mfexpert.lms.helpers.logD
+import net.rmitsolutions.mfexpert.lms.models.Globals
 
 
 class PersonalInfoFragment : Fragment(), Step {
@@ -41,6 +47,7 @@ class PersonalInfoFragment : Fragment(), Step {
     private var month: Int = 0
     private var day: Int = 0
     lateinit var title: String
+    private var dobAge: Boolean = false
 
 
     private var genderList = arrayOf("Female", "Male")
@@ -84,6 +91,7 @@ class PersonalInfoFragment : Fragment(), Step {
             day = calender.get(Calendar.DAY_OF_MONTH)
             dialog = DatePickerDialog(activity, mDateSetListenerAge, year, month, day)
             dialog.show()
+
         }
 
         personalInfoModel = PersonalInfoModel("", "", "", "",
@@ -101,6 +109,40 @@ class PersonalInfoFragment : Fragment(), Step {
         genderListSpinner.setAdapter<ArrayAdapter<String>>(genderListAdapter)
 
 
+        ageEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                val age = text.toString()
+                val date = 1
+                if (age != "") {
+                    val calendar = Calendar.getInstance()
+                    calendar.add(Calendar.YEAR, -age.toInt())
+                    calendar.set(Calendar.DATE, date)
+                    calendar.set(Calendar.MONTH, Calendar.JULY)
+                    val date = Constants.getDate(calendar.time)
+                    logD("Year - $date")
+                    dobEditText.setText(date)
+                }
+            }
+
+        })
+
+//        genderListSpinner.setOnItemClickListener{
+//            adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+//           if (){
+//               dataBinding.personalInfoVm?.gender = "0"
+//           }else if(i == 1){
+//               dataBinding.personalInfoVm?.gender = "1"
+//           }
+//
+//        }
+
+
         val maritalStatusListAdapter = ArrayAdapter<String>(activity,
                 android.R.layout.simple_dropdown_item_1line, marriageStatusList)
         maritalStatusSpinner = v.findViewById(R.id.maritalStatus)
@@ -114,9 +156,9 @@ class PersonalInfoFragment : Fragment(), Step {
     }
 
     override fun verifyStep(): VerificationError? {
-        if (!validate()) {
-            return VerificationError("")
-        }
+        /* if (!validate()) {
+             return VerificationError("")
+         }*/
         return null
     }
 
@@ -128,8 +170,9 @@ class PersonalInfoFragment : Fragment(), Step {
         year = y
         month = m + 1
         day = d
-        val date = StringBuilder().append(day).append("-").append(month).append("-").append(year).append("").toString()
+        val date = StringBuilder().append(year).append("-").append(month).append("-").append(day).append("").toString()
         dobEditText.setText(date)
+        logD("Date - $date")
         getAge(year, month, day)
     }
 
@@ -137,7 +180,7 @@ class PersonalInfoFragment : Fragment(), Step {
         year = y
         month = m + 1
         day = d
-        val date = StringBuilder().append(day).append("-").append(month).append("-").append(year).append("").toString()
+        val date = StringBuilder().append(year).append("-").append(month).append("-").append(day).append("").toString()
         ageAsOnEditText.setText(date)
     }
 
@@ -145,6 +188,13 @@ class PersonalInfoFragment : Fragment(), Step {
     private fun validate(): Boolean {
         if (personalInfoModel.firstName.isBlank()) {
             lblFirstName.error = "First name is required."
+            return false
+        } else {
+            lblFirstName.isErrorEnabled = false
+        }
+
+        if (personalInfoModel.firstName.length < 3) {
+            lblFirstName.error = "Enter valid name."
             return false
         } else {
             lblFirstName.isErrorEnabled = false
@@ -190,6 +240,14 @@ class PersonalInfoFragment : Fragment(), Step {
         } else {
             lblAge.isErrorEnabled = false
         }
+
+        if (personalInfoModel.age.toInt() < 18) {
+            lblAge.error = "Age must be greater than 18."
+            return false
+        } else {
+            lblAge.isErrorEnabled = false
+        }
+
         if (personalInfoModel.ageAsOn.isBlank()) {
             lblAgeAsOn.error = "Age as on is required."
             return false
@@ -203,12 +261,19 @@ class PersonalInfoFragment : Fragment(), Step {
             lblMobileNumber.isErrorEnabled = false
         }
 
-        if (isValidPhone(mobileEditText.text.toString())) {
+        if (Globals.isValidPhone(mobileEditText.text.toString())) {
             lblMobileNumber.isErrorEnabled = false
         } else {
             lblMobileNumber.error = "Please Enter Valid Mobile Number."
             return false
         }
+
+//        if (isValidPhone(mobileEditText.text.toString())) {
+//            lblMobileNumber.isErrorEnabled = false
+//        } else {
+//            lblMobileNumber.error = "Please Enter Valid Mobile Number."
+//            return false
+//        }
         return true
     }
 

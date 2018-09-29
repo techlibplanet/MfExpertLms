@@ -3,13 +3,12 @@ package net.rmitsolutions.libcam
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.RequiresApi
-import android.support.v7.widget.Toolbar
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -17,8 +16,6 @@ import kotlinx.android.synthetic.main.activity_lib_camera.*
 import net.rmitsolutions.libcam.Constants.CROP_PHOTO
 import net.rmitsolutions.libcam.Constants.TAKE_PHOTO
 import net.rmitsolutions.libcam.Constants.tag
-import java.text.SimpleDateFormat
-import java.util.*
 
 class LibCameraActivity : AppCompatActivity() {
 
@@ -57,7 +54,6 @@ class LibCameraActivity : AppCompatActivity() {
             Constants.logD(TAG, "All permission enabled")
         }
         libPermissions.askPermissions(runnable)
-
         libCamera = LibCamera(this)
 
     }
@@ -120,7 +116,6 @@ class LibCameraActivity : AppCompatActivity() {
                     finish()
                 } else {
                     Toast.makeText(this, "Please capture or select an Image !", Toast.LENGTH_SHORT).show()
-
                 }
                 return true
             }

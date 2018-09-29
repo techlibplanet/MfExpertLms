@@ -2,7 +2,7 @@ package net.rmitsolutions.mfexpert.lms.cbm
 
 import  android.content.Context
 
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import android.view.View
 
 import com.stepstone.stepper.Step
@@ -22,15 +22,15 @@ class CBMStepperAdapter(fm: FragmentManager, context: Context) : AbstractFragmen
 
     override fun createStep(position: Int): Step {
         cbmActivity=(context as? CbmActivity)
-        when (position) {
-            0 -> return PersonalInfoFragment.newInstance(R.layout.personal_info_fragment,cbmDataEntity)
-            1 -> return PresentAddressFragment.newInstance(R.layout.present_address_fragment,cbmDataEntity, database)
+        return when (position) {
+            0 -> PersonalInfoFragment.newInstance(R.layout.personal_info_fragment,cbmDataEntity)
+            1 -> PresentAddressFragment.newInstance(R.layout.present_address_fragment,cbmDataEntity, database)
             2 ->   {
                 permanentAddressFragment=PermanentAddressFragment.newInstance(R.layout.permanent_address_fragment,cbmDataEntity, database)
-                return permanentAddressFragment!!
+                permanentAddressFragment!!
             }
-            3 ->  return FamilyDetailsFragment.newInstance(R.layout.family_details_fragment,cbmDataEntity, database)
-            4 ->  return IdentificationInfoFragment.newInstance(R.layout.identification_info_fragment,cbmDataEntity,database)
+            3 -> FamilyDetailsFragment.newInstance(R.layout.family_details_fragment,cbmDataEntity, database)
+            4 -> IdentificationInfoFragment.newInstance(R.layout.identification_info_fragment,cbmDataEntity,database)
 
             else -> throw IllegalArgumentException("Unsupported position: $position") as Throwable
         }
@@ -46,12 +46,12 @@ class CBMStepperAdapter(fm: FragmentManager, context: Context) : AbstractFragmen
                 .setTitle(R.string.app_name)
         when (position) {
             0 -> {
-                cbmActivity?.title = "Personal info"
+                cbmActivity?.title = "Credit Bureau Member"
                 cbmActivity?.addIconImage!!.visibility = View.INVISIBLE
                 builder.setEndButtonLabel("Next")
             }
             1 ->{
-                cbmActivity?.title = "Present Address"
+                cbmActivity?.title = "Credit Bureau Member"
                 cbmActivity?.addIconImage!!.visibility = View.INVISIBLE
                 builder
                         .setEndButtonLabel("Next")
@@ -59,7 +59,7 @@ class CBMStepperAdapter(fm: FragmentManager, context: Context) : AbstractFragmen
             }
 
             2 -> {
-                cbmActivity?.title = "Permanent Address"
+                cbmActivity?.title = "Credit Bureau Member"
                 cbmActivity?.addIconImage!!.visibility = View.INVISIBLE
                 permanentAddressFragment?.handlePresentAndPermanentEvalution()
                 builder
@@ -68,7 +68,7 @@ class CBMStepperAdapter(fm: FragmentManager, context: Context) : AbstractFragmen
             }
 
             3 ->{
-                cbmActivity?.title = "Family Details"
+                cbmActivity?.title = "Credit Bureau Member"
                 cbmActivity?.addIconImage!!.visibility = View.VISIBLE
                 builder
                         .setEndButtonLabel("Next")
@@ -76,7 +76,7 @@ class CBMStepperAdapter(fm: FragmentManager, context: Context) : AbstractFragmen
             }
 
             4 -> {
-                cbmActivity?.title = "Identification Info"
+                cbmActivity?.title = "Credit Bureau Member"
                 cbmActivity?.addIconImage!!.visibility = View.INVISIBLE
                 builder
                         .setEndButtonLabel("")

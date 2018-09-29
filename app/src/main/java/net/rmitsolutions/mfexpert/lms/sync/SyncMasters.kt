@@ -2,15 +2,13 @@ package net.rmitsolutions.mfexpert.lms.sync
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import io.reactivex.disposables.CompositeDisposable
 import net.rmitsolutions.libcam.Constants.logD
-import net.rmitsolutions.mfexpert.lms.BaseActivity
 import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.*
-import net.rmitsolutions.mfexpert.lms.helpers.*
-import net.rmitsolutions.mfexpert.lms.models.Globals
+import net.rmitsolutions.mfexpert.lms.helpers.processRequest
+import net.rmitsolutions.mfexpert.lms.helpers.showDialog
 import net.rmitsolutions.mfexpert.lms.network.IMasters
 import org.jetbrains.anko.toast
 import retrofit2.Response
@@ -294,73 +292,6 @@ class SyncMasters {
         return message
     }
 
-    // Sync Kyc Details
-    internal fun syncKycDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
-        var message = ""
-        logD(TAG, "Start syncing kyc details !")
-        val response: Response<List<KycDetails>>
-        try {
-            response = masterService.getKycDetails(apiAccessToken).execute()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return e.message!!
-        }
-        Log.d("SyncMasterKycDetails", "Response - $response")
-        if (response.code() == 401){
-            return response.message()
-        }
-        if (response.isSuccessful){
-            val kycDetails = response.body()
-            val mKycDetails = KycDetails()
-            for(result in kycDetails!!){
-                logD("SyncMasterKycDetails", "Id - ${result.id}")
-                logD("SyncMasterKycDetails", "Name - ${result.name}")
-                mKycDetails.id = result.id
-                mKycDetails.name = result.name
-                database.kycDetailsDao().insert(mKycDetails)
-            }
-
-            logD("SyncMasterKycDetails", "Kyc Details sync successfully")
-
-        }else {
-            return response.message()
-        }
-        return message
-    }
-
-    // Sync Products
-    internal fun syncProductsDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
-        var message = ""
-        logD(TAG, "Start syncing Products !")
-        val response: Response<List<Products>>
-        try {
-            response = masterService.getProducts(apiAccessToken).execute()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return e.message!!
-        }
-        Log.d("SyncMasterProducts", "Response - $response")
-        if (response.code() == 401){
-            return response.message()
-        }
-        if (response.isSuccessful){
-            val products = response.body()
-            val mProducts = Products()
-            for(result in products!!){
-                logD("SyncMasterProducts", "Id - ${result.id}")
-                logD("SyncMasterProducts", "Name - ${result.name}")
-                mProducts.id = result.id
-                mProducts.name = result.name
-                database.productsDao().insert(mProducts)
-            }
-
-            logD("SyncMasterProducts", "Products sync successfully")
-
-        }else {
-            return response.message()
-        }
-        return message
-    }
 
     // Sync Banks
     internal fun syncBanksDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
@@ -389,40 +320,6 @@ class SyncMasters {
             }
 
             logD("SyncMasterBanks", "Banks sync successfully")
-
-        }else {
-            return response.message()
-        }
-        return message
-    }
-
-    // Sync Nationality
-    internal fun syncNationalityDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
-        var message = ""
-        logD(TAG, "Start syncing Nationality !")
-        val response: Response<List<Nationality>>
-        try {
-            response = masterService.getNationalityDetails(apiAccessToken).execute()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return e.message!!
-        }
-        Log.d("SyncMasterNationality", "Response - $response")
-        if (response.code() == 401){
-            return response.message()
-        }
-        if (response.isSuccessful){
-            val nationality = response.body()
-            val mNationality = Nationality()
-            for(result in nationality!!){
-                logD("SyncMasterNationality", "Id - ${result.id}")
-                logD("SyncMasterNationality", "Name - ${result.name}")
-                mNationality.id = result.id
-                mNationality.name = result.name
-                database.nationalityDao().insert(mNationality)
-            }
-
-            logD("SyncMasterNationality", "Nationality sync successfully")
 
         }else {
             return response.message()
@@ -559,142 +456,6 @@ class SyncMasters {
             }
 
             logD("SyncMasterIncomeProof", "IncomeProof sync successfully")
-
-        }else {
-            return response.message()
-        }
-        return message
-    }
-
-    // Sync Assign Category Details
-    internal fun syncAssignCategoryDetails(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
-        var message = ""
-        logD(TAG, "Start syncing Assign Category Details!")
-        val response: Response<List<AssignCategory>>
-        try {
-            response = masterService.getAssignCategory(apiAccessToken).execute()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return e.message!!
-        }
-        Log.d("SyncMasterACategory", "Response - $response")
-        if (response.code() == 401){
-            return response.message()
-        }
-        if (response.isSuccessful){
-            val assignCategory = response.body()
-            val mAssignCategory = AssignCategory()
-            for(result in assignCategory!!){
-                logD("SyncMasterACategory", "Id - ${result.id}")
-                logD("SyncMasterACategory", "Name - ${result.name}")
-                mAssignCategory.id = result.id
-                mAssignCategory.name = result.name
-                database.assignCategoryDao().insert(mAssignCategory)
-            }
-
-            logD("SyncMasterACategory", "Assign Category sync successfully")
-
-        }else {
-            return response.message()
-        }
-        return message
-    }
-
-    // Sync Loan Close Type
-    internal fun syncLoanCloseType(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
-        var message = ""
-        logD(TAG, "Start syncing Loan Close Type!")
-        val response: Response<List<LoanCloseType>>
-        try {
-            response = masterService.getLoanCloseType(apiAccessToken).execute()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return e.message!!
-        }
-        Log.d("SyncMasterCloseTypes", "Response - $response")
-        if (response.code() == 401){
-            return response.message()
-        }
-        if (response.isSuccessful){
-            val loanCloseTypes = response.body()
-            val mLoanCloseTypes = LoanCloseType()
-            for(result in loanCloseTypes!!){
-                logD("SyncMasterCLoseTypes", "Id - ${result.id}")
-                logD("SyncMasterCloseTypes", "Name - ${result.name}")
-                mLoanCloseTypes.id = result.id
-                mLoanCloseTypes.name = result.name
-                database.loanCloseTypeDao().insert(mLoanCloseTypes)
-            }
-
-            logD("SyncMasterCloseTypes", "Loan Close Types sync successfully")
-
-        }else {
-            return response.message()
-        }
-        return message
-    }
-
-    // Sync Member Rejection Reasons
-    internal fun syncMemberRejectionReasons(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
-        var message = ""
-        logD(TAG, "Start syncing Member Rejection Reasons!")
-        val response: Response<List<MemberRejectionReasons>>
-        try {
-            response = masterService.getMemberRejectionReasons(apiAccessToken).execute()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return e.message!!
-        }
-        Log.d("SyncMemberRReasons", "Response - $response")
-        if (response.code() == 401){
-            return response.message()
-        }
-        if (response.isSuccessful){
-            val memberRejectionReasons = response.body()
-            val mMemberRejectionReasons = MemberRejectionReasons()
-            for(result in memberRejectionReasons!!){
-                logD("SyncMemberRReasons", "Id - ${result.id}")
-                logD("SyncMemberRReasons", "Name - ${result.name}")
-                mMemberRejectionReasons.id = result.id
-                mMemberRejectionReasons.name = result.name
-                database.memberRejectionReasonsDao().insert(mMemberRejectionReasons)
-            }
-
-            logD("SyncMemberRReasons", "Member Rejection Reasons sync successfully")
-
-        }else {
-            return response.message()
-        }
-        return message
-    }
-
-    // Sync Loan Rejection Reasons
-    internal fun syncLoanRejectionReasons(apiAccessToken: String, database: MfExpertLmsDatabase, masterService: IMasters): String {
-        var message = ""
-        logD(TAG, "Start syncing Loan Rejection Reasons!")
-        val response: Response<List<LoanRejectionReasons>>
-        try {
-            response = masterService.getLoanRejectionReasons(apiAccessToken).execute()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return e.message!!
-        }
-        Log.d("SyncLoanRejReasons", "Response - $response")
-        if (response.code() == 401){
-            return response.message()
-        }
-        if (response.isSuccessful){
-            val loanRejectionReasons = response.body()
-            val mLoanRejectionReasons = LoanRejectionReasons()
-            for(result in loanRejectionReasons!!){
-                logD("SyncLoanRejectionReasons", "Id - ${result.id}")
-                logD("SyncLoanRejectionReasons", "Name - ${result.name}")
-                mLoanRejectionReasons.id = result.id
-                mLoanRejectionReasons.name = result.name
-                database.loanRejectionReasonsDao().insert(mLoanRejectionReasons)
-            }
-
-            logD("SyncLoanRejectionReasons", "Loan Rejection Reasons sync successfully")
 
         }else {
             return response.message()

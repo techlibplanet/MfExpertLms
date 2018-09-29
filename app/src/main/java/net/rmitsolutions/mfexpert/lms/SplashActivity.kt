@@ -1,10 +1,8 @@
 package net.rmitsolutions.mfexpert.lms
 
-import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import net.rmitsolutions.mfexpert.lms.dashboard.DashboardActivity
-import net.rmitsolutions.mfexpert.lms.repayment.RepaymentActivity
+import androidx.appcompat.app.AppCompatActivity
+import net.rmitsolutions.mfexpert.lms.sample.SampleActivity
 import org.jetbrains.anko.startActivity
 
 /**
@@ -14,7 +12,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startActivity<RepaymentActivity>()
+        startActivity<WelcomeActivity>()
         finish()
         overridePendingTransition(0, 0)
     }

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <data class="LoanUtilizationCheckBinding">
+        <import type="android.view.View" />
+
+        <variable
+            name="loanUtilizationCheckVm"
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.LoanUtilizationCheckModel"/>
+    </data>
+
+    <FrameLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/window_background">
+
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/header_bar" />
+        
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
+            android:paddingBottom="0dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lblMemberCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:layout_weight=".2"
+                app:errorTextAppearance="@style/ErrorStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtMemberCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/member_code"
+                    android:inputType="text"
+
+                    android:text="@={loanUtilizationCheckVm.memberCode}"
+                    android:maxLines="1"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addDetailsBtn"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight=".8"
+                    android:textAllCaps="false"
+                    android:onClick="addButtonClick"
+                    android:background="@color/colorAccent"
+                    android:text="Get"/>
+
+
+
+            </LinearLayout>
+
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:textColor="#000000"
+                android:id="@+id/chooseLoanDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={loanUtilizationCheckVm.loanDetails}"
+                android:hint="Loan Details*"
+                android:focusableInTouchMode="true"
+                android:textColorHint="@color/colorAccent"
+                app:met_floatingLabel="normal" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="17sp"
+                android:id="@+id/lastUcDateText"
+                android:textColor="@color/app_body_text_dark"
+                android:layout_marginTop="20dp"
+                android:text="@string/last_uc_date"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black_overlay"/>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_weight=".5">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_weight=".3"
+                android:textSize="16sp"
+                android:text="Utilization Status*"
+                />
+
+                <CheckBox
+                    android:id="@+id/chooseUtilizationStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight=".2"
+                    android:hint="YES/NO"
+                    />
+                
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_weight=".5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:paddingBottom="20dp"
+                    android:textSize="16sp"
+                    android:text="Loan Utilized for the same Purpose*"/>
+
+
+                <CheckBox
+                    android:id="@+id/loanUtilizedFortheSamePurpose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:enabled="false"
+                    android:layout_weight=".2"
+                    android:hint="YES/NO"/>
+
+
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lblAverageMonthlyIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+
+                app:errorTextAppearance="@style/ErrorStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtAverageMonthlyIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/average_monthly_income"
+                    android:inputType="number"
+                    android:focusable="false"
+                    android:text="@={loanUtilizationCheckVm.aveargeMonthlyIncome}"
+                    android:maxLines="1"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lblRemarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                app:errorTextAppearance="@style/ErrorStyle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtRemarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/remarks"
+                    android:text="@={loanUtilizationCheckVm.remarks}"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/saveDetailsBtn"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:onClick="saveButtonClick"
+                android:background="@color/colorAccent"
+                android:text="Save"/>
+
+        </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include layout="@layout/navdrawer" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+    </FrameLayout>
+</layout>

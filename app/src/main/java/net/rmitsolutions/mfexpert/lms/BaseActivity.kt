@@ -1,17 +1,17 @@
 package net.rmitsolutions.mfexpert.lms
 
+import android.content.ContentResolver
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
@@ -23,11 +23,11 @@ import net.rmitsolutions.mfexpert.lms.center.CenterActivity
 import net.rmitsolutions.mfexpert.lms.dashboard.DashboardActivity
 import net.rmitsolutions.mfexpert.lms.group.GroupActivity
 import net.rmitsolutions.mfexpert.lms.helpers.SharedPrefKeys
-import net.rmitsolutions.mfexpert.lms.helpers.apiTokens
 import net.rmitsolutions.mfexpert.lms.helpers.finishNoAnim
 import net.rmitsolutions.mfexpert.lms.helpers.removePref
+import net.rmitsolutions.mfexpert.lms.loanUtilizationCheck.LoanUtilizationActivity
+
 import net.rmitsolutions.mfexpert.lms.repayment.RepaymentActivity
-import net.rmitsolutions.mfexpert.lms.sample.SampleActivity
 import net.rmitsolutions.mfexpert.lms.settings.SettingsActivity
 import net.rmitsolutions.mfexpert.lms.village.VillageActivity
 import org.jetbrains.anko.find
@@ -35,7 +35,6 @@ import org.jetbrains.anko.findOptional
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import java.lang.reflect.Method
 
 abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     companion object {
@@ -47,6 +46,7 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     private val mainContentFadeOutDuration = 100
     private val mainContentFadeInDuration = 200
     private val navDrawerLaunchDelay = 250
+    var syncOnOff = 0
 
     // Primary toolbar
     private var actionBarToolbar: Toolbar? = null
@@ -114,6 +114,7 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         }
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean = super.onOptionsItemSelected(item)
 
     open fun getSelfNavDrawerItem(): Int = -1
@@ -123,7 +124,7 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
             actionBarToolbar = find<Toolbar>(R.id.toolbar_actionbar)
             if (actionBarToolbar != null) {
                 actionBarToolbar!!.navigationContentDescription = resources.getString(R.string.nav_drawer_description)
-              //  getSupportActionBar()?.setIcon(getResources().getDrawable(R.drawable.add_icon));
+                //  getSupportActionBar()?.setIcon(getResources().getDrawable(R.drawable.add_icon));
                 setSupportActionBar(actionBarToolbar)
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 actionBarToolbar!!.setNavigationOnClickListener {
@@ -201,8 +202,9 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     private fun goToNavViewItem(itemId: Int) {
         when (itemId) {
             R.id.nav_dashboard -> startActivity<DashboardActivity>()
-        //R.id.nav_downloads -> startActivity<DownloadsActivity>()
-            R.id.nav_contact -> startActivity<RepaymentActivity>()
+            //R.id.nav_downloads -> startActivity<DownloadsActivity>()
+            R.id.nav_repayment -> startActivity<RepaymentActivity>()
+            R.id.loan_utilization_check -> startActivity<LoanUtilizationActivity>()
             R.id.nav_settings -> startActivity<SettingsActivity>()
             R.id.nav_cbm_details -> startActivity<CbmActivity>()
             R.id.nav_about -> startActivity<AboutActivity>()
@@ -210,24 +212,18 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
             R.id.nav_center -> startActivity<CenterActivity>()
             R.id.nav_group -> startActivity<GroupActivity>()
             R.id.nav_logout -> logout()
+
         }
         finishNoAnim()
     }
 
     fun logout() {
         removePref(SharedPrefKeys.SP_ENCRYPTED_TOKEN_KEY, SharedPrefKeys.SP_ENCRYPTED_IV)
-        Constants.accessToken= null
+        Constants.accessToken = null
         Constants.ACCESS_TOKEN = ""
+        // Disable master sync automatically
+        // So that it will not work after logout
+        ContentResolver.setMasterSyncAutomatically(false)
         startActivity<WelcomeActivity>()
     }
-
-//    fun showDialog(message : String){
-//        AlertDialog.Builder(this).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener {dialog, which ->
-//
-//            dialog.dismiss()
-//        }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
-//            dialog.dismiss()
-//        }).show()
-//    }
-
 }

@@ -1,7 +1,7 @@
 package net.rmitsolutions.mfexpert.lms.viewmodels
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "primary_info")
 class PrimaryInformationModel ( var centerName: String, var description: String, var villageName: String, var openDate: String,

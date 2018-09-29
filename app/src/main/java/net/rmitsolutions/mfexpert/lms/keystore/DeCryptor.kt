@@ -1,14 +1,12 @@
-package com.example.mayank.libraries.androidkeystore
+package net.rmitsolutions.mfexpert.lms.keystore
 
 import net.rmitsolutions.libcam.Constants.logD
 import net.rmitsolutions.libcam.Constants.logE
-import java.io.FileInputStream
 import java.io.IOException
 import java.security.*
 import java.security.cert.CertificateException
 import javax.crypto.*
 import javax.crypto.spec.GCMParameterSpec
-import java.util.*
 
 
 internal class DeCryptor @Throws(CertificateException::class, NoSuchAlgorithmException::class, KeyStoreException::class, IOException::class)
@@ -50,9 +48,7 @@ constructor() {
             return (keyStore?.getEntry(alias, null) as KeyStore.SecretKeyEntry).secretKey
         }
         return null
-
     }
-
 
 
     companion object {
