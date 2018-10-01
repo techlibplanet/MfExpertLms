@@ -31,20 +31,6 @@ import org.jetbrains.anko.find
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [LoanThreeFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [LoanThreeFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class LoanThreeFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var memberLoanDetails : Repayment.LoanDetails
@@ -54,14 +40,6 @@ class LoanThreeFragment : Fragment() {
     private lateinit var inputBankIfscLoanThree : EditText
 
     private lateinit var repaymentTypeSpinnerLoanThree : MaterialBetterSpinner
-    private lateinit var productName :TextView
-    private lateinit var loanAmount : TextView
-    private lateinit var outstanding : TextView
-    private lateinit var principleDue : TextView
-    private lateinit var intrstDue : TextView
-    private lateinit var penalCharges : TextView
-    private lateinit var adjustedAmount : TextView
-    private lateinit var totalAmount : TextView
     private var total = 0.0
     private lateinit var repaymentDialogTabs: RepaymentDialogTabs
     private lateinit var totalAmountCallback: TotalAmountCallback
@@ -102,13 +80,10 @@ class LoanThreeFragment : Fragment() {
         repaymentTypeSpinnerLoanThree.setAdapter<ArrayAdapter<String>>(repaymentTypeAdapter)
 
         repaymentTypeSpinnerLoanThree.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            logD("Position CLicked - $i")
             val list = memberLoanDetails.preCloseTypes
             dataBindingLoanThree.loanThreeVm!!.preCloseTypeId = 0
             dataBindingLoanThree.loanThreeVm!!.preCloseTypeId = list[i].id
-            logD("Id - $id")
         }
-
         return view
     }
 
@@ -132,7 +107,6 @@ class LoanThreeFragment : Fragment() {
             }
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                logD("Text - $text")
                 val totalAmountCallback = TotalAmountCallback()
                 totalAmountCallback.setListener(repaymentDialogTabs)
                 when(text.toString()){
@@ -164,7 +138,6 @@ class LoanThreeFragment : Fragment() {
         total = memberLoanDetails.principleDue + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanThree.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanThree.loanThreeVm?.totalAmount = total     // Not working with data binding
-        logD("Total - ${dataBindingLoanThree.loanThreeVm?.totalAmount}")
         totalAmountCallback.onTotalAmountChanged()
     }
 
@@ -172,7 +145,6 @@ class LoanThreeFragment : Fragment() {
         total = memberLoanDetails.outstanding + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanThree.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanThree.loanThreeVm?.totalAmount = total     // Not working with data binding
-        logD("Total - ${dataBindingLoanThree.loanThreeVm?.totalAmount}")
         totalAmountCallback.onTotalAmountChanged()
     }
 
@@ -196,7 +168,6 @@ class LoanThreeFragment : Fragment() {
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }

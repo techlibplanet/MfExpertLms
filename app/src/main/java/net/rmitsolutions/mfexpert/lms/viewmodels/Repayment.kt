@@ -2,7 +2,9 @@ package net.rmitsolutions.mfexpert.lms.viewmodels
 
 import android.os.Parcelable
 import android.view.View
+import androidx.databinding.Bindable
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableArrayList
 import java.util.*
 import io.reactivex.Observable
 import net.rmitsolutions.mfexpert.lms.databinding.LoanFourLayoutBinding

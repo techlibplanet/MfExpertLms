@@ -37,16 +37,6 @@ class LoanFourFragment : Fragment() {
     private lateinit var inputBankNameLoanFour: EditText
     private lateinit var inputBankIfscLoanFour: EditText
 
-    private lateinit var productName: TextView
-    private lateinit var loanAmount: TextView
-    private lateinit var outstanding: TextView
-    private lateinit var principleDue: TextView
-    private lateinit var intrstDue: TextView
-    private lateinit var penalCharges: TextView
-    private lateinit var adjustedAmount: TextView
-    private lateinit var totalAmount: TextView
-
-    private var repaymentTypeList = arrayOf("Select", "NPP", "Two", "Three")
     private lateinit var repaymentTypeSpinnerLoanFour: MaterialBetterSpinner
     lateinit var dataBindingLoanFour: LoanFourLayoutBinding
     private var total = 0.0
@@ -88,11 +78,9 @@ class LoanFourFragment : Fragment() {
         repaymentTypeSpinnerLoanFour.setAdapter<ArrayAdapter<String>>(repaymentTypeAdapter)
 
         repaymentTypeSpinnerLoanFour.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            logD("Position CLicked - $i")
             val list = memberLoanDetails.preCloseTypes
             dataBindingLoanFour.loanFourVm!!.preCloseTypeId = 0
             dataBindingLoanFour.loanFourVm!!.preCloseTypeId = list[i].id
-            logD("Id - $id")
         }
         return view
     }
@@ -118,7 +106,6 @@ class LoanFourFragment : Fragment() {
             }
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                logD("Text - $text")
                 val totalAmountCallback = TotalAmountCallback()
                 totalAmountCallback.setListener(repaymentDialogTabs)
                 when (text.toString()) {
@@ -150,7 +137,6 @@ class LoanFourFragment : Fragment() {
         total = memberLoanDetails.principleDue + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanFour.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanFour.loanFourVm?.totalAmount = total     // Not working with data binding
-        logD("Total - ${dataBindingLoanFour.loanFourVm?.totalAmount}")
         totalAmountCallback.onTotalAmountChanged()
     }
 
@@ -158,7 +144,6 @@ class LoanFourFragment : Fragment() {
         total = memberLoanDetails.outstanding + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanFour.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanFour.loanFourVm?.totalAmount = total     // Not working with data binding
-        logD("Total - ${dataBindingLoanFour.loanFourVm?.totalAmount}")
         totalAmountCallback.onTotalAmountChanged()
     }
 

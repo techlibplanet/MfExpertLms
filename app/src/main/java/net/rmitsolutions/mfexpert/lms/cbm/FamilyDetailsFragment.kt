@@ -1,21 +1,24 @@
 package net.rmitsolutions.mfexpert.lms.cbm
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.annotation.LayoutRes
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
-import androidx.fragment.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.google.android.gms.common.util.ArrayUtils.indexOf
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 import com.stepstone.stepper.Step
@@ -24,7 +27,9 @@ import net.rmitsolutions.mfexpert.lms.R
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.family_details_fragment.*
 import kotlinx.android.synthetic.main.family_details_row.*
+import kotlinx.android.synthetic.main.family_details_row.view.*
 import net.rmitsolutions.mfexpert.lms.Constants
+import net.rmitsolutions.mfexpert.lms.R.id.*
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.database.entities.CBMDataEntity
 import net.rmitsolutions.mfexpert.lms.database.entities.Literacy
@@ -33,7 +38,9 @@ import net.rmitsolutions.mfexpert.lms.database.entities.Relation
 import net.rmitsolutions.mfexpert.lms.databinding.FamilyDetailsFragmentBinding
 import net.rmitsolutions.mfexpert.lms.databinding.FamilyDetailsRowBinding
 import net.rmitsolutions.mfexpert.lms.helpers.logD
+import net.rmitsolutions.mfexpert.lms.helpers.toast
 import net.rmitsolutions.mfexpert.lms.viewmodels.FamilyDetailModels
+import net.rmitsolutions.mfexpert.lms.viewmodels.FamilyDetailsInfoModel
 import org.jetbrains.anko.find
 import java.util.*
 import kotlin.math.log
@@ -63,7 +70,7 @@ class FamilyDetailsFragment : Fragment(), Step {
     private lateinit var hideLayout: LinearLayout
     private lateinit var containerLayout: LinearLayout
     private lateinit var scrollDown: ScrollView
-    lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    lateinit var toolbar: Toolbar
     var dobAndAgeMap: MutableMap<TextInputEditText, TextInputEditText>? = HashMap()
     var addViewList: MutableList<View>? = ArrayList();
     var addViewAndFamilyDetailsMap: MutableMap<View, FamilyDetailModels>? = HashMap()
@@ -126,7 +133,7 @@ class FamilyDetailsFragment : Fragment(), Step {
         dataBinding.familyDetailsInfoVm = familyDetailsInfoModel
 
         Log.d("check", "" + familyDetailsInfoModel)
-       // hideLayout.visibility = View.VISIBLE
+        // hideLayout.visibility = View.VISIBLE
         showBtn.visibility = View.VISIBLE
 
         showBtn.setOnClickListener(View.OnClickListener {
@@ -307,18 +314,14 @@ class FamilyDetailsFragment : Fragment(), Step {
             return VerificationError("")
         }
         logD("size--${familyDetailsInfoList.size}")
-        if(familyDetailsInfoList.size>0){
-
+        if(familyDetailsInfoList.size>1){
             if (clicked == true) {
+
                 if (!validateFamilySection()) {
                     return VerificationError("")
                 }
             }
         }
-
-
-
-
         return null
     }
 
@@ -602,7 +605,7 @@ class FamilyDetailsFragment : Fragment(), Step {
         // layout2 = addView.findViewById(R.id.layout2)
         containerLayout.addView(addView)
         addViewList!!.add(addView);
-        hideBtn1.setOnClickListener {
+        hideBtn1.setOnClickListener(View.OnClickListener {
 
             if (hideLayRow1.visibility == View.VISIBLE) {
                 hideLayRow1.visibility = View.GONE
@@ -612,16 +615,14 @@ class FamilyDetailsFragment : Fragment(), Step {
                     hideLayRow1.visibility = View.VISIBLE
                 }
             }
-        }
+        })
 
-        deleteBtn.setOnClickListener { button ->
+        deleteBtn.setOnClickListener(View.OnClickListener { button ->
             val addView1: View = deleteButtonAndAddViewMap!![button]!!
             containerLayout.removeView(addView1)
             addViewAndFamilyDetailsMap?.remove(addView1)
             familyDetailsInfoList.removeAt(familyDetailsInfoList.indexOf(familyDetailsInfoModel))
-
-
-        }
+        })
 
         relationsListSpinner.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {

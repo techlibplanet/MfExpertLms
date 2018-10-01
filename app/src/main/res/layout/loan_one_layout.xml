@@ -70,6 +70,11 @@
                         android:textColorHint="@color/colorAccent"
                         app:met_floatingLabel="normal" />
 
+                    <!--
+                    android:entries="@{() ->handler.getPreCloseTypeList()}"
+                    android:onItemSelected="@{(adView,view, pos,id) -> handler.onPreCloseTypesChanged(pos)}"
+                        -->
+
                     <!--<android.support.v7.widget.AppCompatSpinner-->
                     <!--android:id="@+id/choosePrepaymentTypeLoanOne"-->
                     <!--android:layout_width="match_parent"-->

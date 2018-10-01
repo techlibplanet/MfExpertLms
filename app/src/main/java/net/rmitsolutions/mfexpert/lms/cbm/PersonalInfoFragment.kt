@@ -125,7 +125,6 @@ class PersonalInfoFragment : Fragment(), Step {
                     calendar.set(Calendar.DATE, date)
                     calendar.set(Calendar.MONTH, Calendar.JULY)
                     val date = Constants.getDate(calendar.time)
-                    logD("Year - $date")
                     dobEditText.setText(date)
                 }
             }

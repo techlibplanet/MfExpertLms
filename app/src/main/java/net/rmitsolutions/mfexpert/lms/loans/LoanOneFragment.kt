@@ -13,6 +13,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.loan_one_layout.*
@@ -92,8 +93,9 @@ class LoanOneFragment : Fragment() {
         return view
     }
 
-
-
+    fun onPreCloseTypesChanged(position: Int) {
+        dataBindingLoanOne.loanOneVm?.preCloseTypeId= position + 1
+    }
 
 
     fun getPreCloseTypeList(): ArrayList<String> {

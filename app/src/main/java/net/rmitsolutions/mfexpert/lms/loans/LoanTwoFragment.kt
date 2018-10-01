@@ -15,7 +15,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-import kotlinx.android.synthetic.main.loan_one_layout.*
 import kotlinx.android.synthetic.main.loan_two_layout.*
 
 import net.rmitsolutions.mfexpert.lms.R
@@ -27,8 +26,6 @@ import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialogTabs
 import net.rmitsolutions.mfexpert.lms.repayment.callback.TotalAmountCallback
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
 import org.jetbrains.anko.find
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 
 class LoanTwoFragment : Fragment() {
@@ -42,14 +39,6 @@ class LoanTwoFragment : Fragment() {
 
     private lateinit var memberLoanDetails: Repayment.LoanDetails
 
-    private lateinit var productName: TextView
-    private lateinit var loanAmount: TextView
-    private lateinit var outstanding: TextView
-    private lateinit var principleDue: TextView
-    private lateinit var intrstDue: TextView
-    private lateinit var penalCharges: TextView
-    private lateinit var adjustedAmount: TextView
-    private lateinit var totalAmount: TextView
     private lateinit var repaymentDialogTabs: RepaymentDialogTabs
     private lateinit var totalAmountCallback: TotalAmountCallback
 
@@ -90,11 +79,9 @@ class LoanTwoFragment : Fragment() {
         repaymentTypeSpinnerLoanTwo.setAdapter<ArrayAdapter<String>>(repaymentTypeAdapter)
 
         repaymentTypeSpinnerLoanTwo.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            logD("Position CLicked - $i")
             val list = memberLoanDetails.preCloseTypes
             dataBindingLoanTwo.loanTwoVm!!.preCloseTypeId = 0
             dataBindingLoanTwo.loanTwoVm!!.preCloseTypeId = list[i].id
-            logD("Id - $id")
         }
 
         return view
@@ -120,7 +107,6 @@ class LoanTwoFragment : Fragment() {
             }
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                logD("Text - $text")
                 val totalAmountCallback = TotalAmountCallback()
                 totalAmountCallback.setListener(repaymentDialogTabs)
                 when (text.toString()) {
@@ -152,7 +138,6 @@ class LoanTwoFragment : Fragment() {
         total = memberLoanDetails.principleDue + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanTwo.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanTwo.loanTwoVm?.totalAmount = total     // Not working with data binding
-        logD("Total - ${dataBindingLoanTwo.loanTwoVm?.totalAmount}")
         totalAmountCallback.onTotalAmountChanged()
     }
 
@@ -160,7 +145,6 @@ class LoanTwoFragment : Fragment() {
         total = memberLoanDetails.outstanding + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanTwo.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanTwo.loanTwoVm?.totalAmount = total     // Not working with data binding
-        logD("Total - ${dataBindingLoanTwo.loanTwoVm?.totalAmount}")
         totalAmountCallback.onTotalAmountChanged()
     }
 
