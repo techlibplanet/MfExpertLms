@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.location.Location
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -23,6 +24,10 @@ import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.database.MfExpertLmsDatabase
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
 import net.rmitsolutions.mfexpert.lms.helpers.*
+import net.rmitsolutions.mfexpert.lms.loans.LoanFourFragment
+import net.rmitsolutions.mfexpert.lms.loans.LoanOneFragment
+import net.rmitsolutions.mfexpert.lms.loans.LoanThreeFragment
+import net.rmitsolutions.mfexpert.lms.loans.LoanTwoFragment
 import net.rmitsolutions.mfexpert.lms.location.LocationHelper
 import net.rmitsolutions.mfexpert.lms.location.LocationListener
 import net.rmitsolutions.mfexpert.lms.network.IRepayment
@@ -34,7 +39,11 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-class SampleActivity : BaseActivity() {
+class SampleActivity : BaseActivity(),
+        LoanOneFragment.OnFragmentInteractionListener,
+        LoanTwoFragment.OnFragmentInteractionListener,
+        LoanThreeFragment.OnFragmentInteractionListener,
+        LoanFourFragment.OnFragmentInteractionListener {
 
     //internal lateinit var compositeDisposable: CompositeDisposable
     @Inject
@@ -134,6 +143,10 @@ class SampleActivity : BaseActivity() {
     private fun setRecyclerViewAdapter(list: List<RepaymentModel>) {
         adapter.items = list
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
+
     }
 
 

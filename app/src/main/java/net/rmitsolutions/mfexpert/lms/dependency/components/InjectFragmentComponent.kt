@@ -6,6 +6,7 @@ import net.rmitsolutions.mfexpert.lms.cbm.PresentAddressFragment
 import net.rmitsolutions.mfexpert.lms.dependency.components.ApplicationComponent
 import net.rmitsolutions.mfexpert.lms.dependency.scopes.ActivityScope
 import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialogTabs
+import net.rmitsolutions.mfexpert.lms.sample.RepaymentDialog
 
 /**
  * Created by Madhu on 24-Apr-2018.
@@ -16,4 +17,5 @@ interface InjectFragmentComponent {
     fun injectPresentAddressFragment(presentAddressFragment: PresentAddressFragment)
     fun injectIdentificationInfoFragment(identificationInfoFragment: IdentificationInfoFragment)
     fun injectRepaymentDialogTabsFragment(repaymentDialogTabs: RepaymentDialogTabs)
+    fun injectRepaymentDialog(repaymentDialog: RepaymentDialog)
 }

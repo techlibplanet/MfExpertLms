@@ -25,7 +25,6 @@ class ClientAdapter : RecyclerView.Adapter<ClientHolder>() {
 
     override fun onBindViewHolder(holder: ClientHolder, position: Int) {
         val repaymentData = items[position]
-        holder.bind(holder,repaymentData)
-
+        holder.bind(context, holder, repaymentData)
     }
 }

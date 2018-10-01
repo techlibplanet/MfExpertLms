@@ -49,6 +49,7 @@ class LoanOneFragment : Fragment() {
 
     lateinit var dataBindingLoanOne: LoanOneLayoutBinding
     private var total = 0.0
+    private var mView : View? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,14 +148,14 @@ class LoanOneFragment : Fragment() {
         total = memberLoanDetails.principleDue + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanOne.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanOne.loanOneVm?.totalAmount = total     // Not working with data binding
-        totalAmountCallback.onTotalAmountChanged()
+        totalAmountCallback.onTotalAmountChanged(mView!!)
     }
 
     private fun addTotalOnOtherSelection(){
         total = memberLoanDetails.outstanding + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanOne.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanOne.loanOneVm?.totalAmount = total     // Not working with data binding
-        totalAmountCallback.onTotalAmountChanged()
+        totalAmountCallback.onTotalAmountChanged(mView!!)
     }
 
 //    fun setTotalAmount(amount : Double){
@@ -211,9 +212,10 @@ class LoanOneFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(memberLoanDetails: Repayment.LoanDetails) =
+        fun newInstance(memberLoanDetails: Repayment.LoanDetails, view : View) =
                 LoanOneFragment().apply {
                     this.memberLoanDetails = memberLoanDetails
+                    this.mView = view
                 }
     }
 }

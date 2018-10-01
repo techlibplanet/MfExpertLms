@@ -1,5 +1,7 @@
 package net.rmitsolutions.mfexpert.lms.repayment.callback
 
+import android.view.View
+
 
 class TotalAmountCallback {
 
@@ -9,7 +11,7 @@ class TotalAmountCallback {
         this.listener = totalAmountListener
     }
 
-    fun onTotalAmountChanged(){
-        listener.onTotalAmountChanged()
+    fun onTotalAmountChanged(view: View){
+        listener.onTotalAmountChanged(view)
     }
 }

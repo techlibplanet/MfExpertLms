@@ -138,14 +138,14 @@ class LoanThreeFragment : Fragment() {
         total = memberLoanDetails.principleDue + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanThree.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanThree.loanThreeVm?.totalAmount = total     // Not working with data binding
-        totalAmountCallback.onTotalAmountChanged()
+//        totalAmountCallback.onTotalAmountChanged()
     }
 
     private fun addTotalOnOtherSelection() {
         total = memberLoanDetails.outstanding + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanThree.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanThree.loanThreeVm?.totalAmount = total     // Not working with data binding
-        totalAmountCallback.onTotalAmountChanged()
+//        totalAmountCallback.onTotalAmountChanged()
     }
 
 

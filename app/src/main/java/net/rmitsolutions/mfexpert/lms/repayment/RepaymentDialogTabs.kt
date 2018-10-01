@@ -267,7 +267,7 @@ class RepaymentDialogTabs() : DialogFragment(), TotalAmountListener {
         // Adding fragment dynamically, passing loan details in new instance
         for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
             when (i) {
-                0 -> repaymentPagerAdapter.addFragment("Loan 1", LoanOneFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i]))
+                0 -> repaymentPagerAdapter.addFragment("Loan 1", LoanOneFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i], view))
                 1 -> repaymentPagerAdapter.addFragment("Loan 2", LoanTwoFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i]))
                 2 -> repaymentPagerAdapter.addFragment("Loan 3", LoanThreeFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i]))
                 3 -> repaymentPagerAdapter.addFragment("Loan 4", LoanFourFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i]))
@@ -283,7 +283,7 @@ class RepaymentDialogTabs() : DialogFragment(), TotalAmountListener {
 
 
     // Method to set the total amount of dialog fragment layout
-    override fun onTotalAmountChanged() {
+    override fun onTotalAmountChanged(view: View) {
         if (ViewDialog.mView != null) {
             totalLoanAmounts = ViewDialog.mView?.find(R.id.loanTotalAmount)!!
             for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
