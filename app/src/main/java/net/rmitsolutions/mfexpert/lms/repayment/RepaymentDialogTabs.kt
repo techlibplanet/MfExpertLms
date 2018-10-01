@@ -42,20 +42,18 @@ class RepaymentDialogTabs() : DialogFragment(), TotalAmountListener {
         var loanFourVm : Repayment.LoanDetails? = null
     }
 
-
     private lateinit var alertDialog: AlertDialog
     private lateinit var repaymentPagerAdapter: RepaymentPagerAdapter
     private lateinit var viewHolderContext: ClientViewHolder
-
     // Initialize listener
     private var mListener: RepaymentDialogTabListener? = null
+
     private lateinit var inputBankAccNumberLoanOne: EditText
     private lateinit var inputBankAccNumberLoanTwo: EditText
     private lateinit var inputBankAccNumberLoanThree: EditText
     private lateinit var inputBankAccNumberLoanFour: EditText
 
     private lateinit var compositeDisposable: CompositeDisposable
-
     private lateinit var totalLoanAmounts: TextView
     private lateinit var totalAmountLoanOne: TextView
     private lateinit var totalAmountLoanTwo: TextView
@@ -251,18 +249,19 @@ class RepaymentDialogTabs() : DialogFragment(), TotalAmountListener {
         val view = inflater.inflate(R.layout.dialog_repayment, container, false)
         val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
         val viewPager = view.findViewById<ViewPager>(R.id.masterViewPager)
+
+        // taking view static
         ViewDialog.mView = view
 
         totalLoanAmounts = view.find(R.id.loanTotalAmount)
-
         // Get the total amount of all loans from all fragments
         for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
-            ViewDialog.preTotalAmount += ViewDialog.memberLoanDetails!!.loanDetails[i].principleDue +
+            ViewDialog.totalAmount += ViewDialog.memberLoanDetails!!.loanDetails[i].principleDue +
                     ViewDialog.memberLoanDetails!!.loanDetails[i].interestDue +
                     ViewDialog.memberLoanDetails!!.loanDetails[i].penalCharges
 
         }
-        totalLoanAmounts.text = ViewDialog.preTotalAmount.toString()
+        totalLoanAmounts.text = ViewDialog.totalAmount.toString()
 
 
         // Adding fragment dynamically, passing loan details in new instance

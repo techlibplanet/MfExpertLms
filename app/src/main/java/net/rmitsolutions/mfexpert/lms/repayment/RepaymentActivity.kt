@@ -80,7 +80,7 @@ class RepaymentActivity : BaseActivity(),
         return when (item.itemId) {
             R.id.action_search -> {
                 logD("Search Clicked")
-                true
+                false
             }
             else -> super.onOptionsItemSelected(item)
         }

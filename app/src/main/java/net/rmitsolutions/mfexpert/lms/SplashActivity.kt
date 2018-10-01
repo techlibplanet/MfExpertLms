@@ -12,7 +12,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startActivity<WelcomeActivity>()
+        startActivity<SampleActivity>()
         finish()
         overridePendingTransition(0, 0)
     }

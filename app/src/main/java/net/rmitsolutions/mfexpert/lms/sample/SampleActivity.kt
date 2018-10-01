@@ -6,10 +6,17 @@ import android.content.Intent
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import android.view.View
+import android.widget.Button
+import android.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
 import net.rmitsolutions.libcam.LibPermissions
+import net.rmitsolutions.mfexpert.lms.BaseActivity
 import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.R
@@ -19,16 +26,24 @@ import net.rmitsolutions.mfexpert.lms.helpers.*
 import net.rmitsolutions.mfexpert.lms.location.LocationHelper
 import net.rmitsolutions.mfexpert.lms.location.LocationListener
 import net.rmitsolutions.mfexpert.lms.network.IRepayment
+import net.rmitsolutions.mfexpert.lms.repayment.RepaymentModel
+import net.rmitsolutions.mfexpert.lms.repayment.RepaymentParamsModel
+import net.rmitsolutions.mfexpert.lms.repayment.adapter.ClientDetailAdapter
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
+import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-class SampleActivity : AppCompatActivity() {
+class SampleActivity : BaseActivity() {
 
-    private val TAG = SampleActivity::class.java
-    internal lateinit var compositeDisposable: CompositeDisposable
+    //internal lateinit var compositeDisposable: CompositeDisposable
     @Inject
     lateinit var repayService : IRepayment
+
+    private lateinit var clientRecyclerView: RecyclerView
+    val adapter: ClientAdapter by lazy { ClientAdapter() }
+    lateinit var modelList: MutableList<RepaymentModel>
+    private lateinit var buttonPostData: Button
 
     private val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
 
@@ -36,230 +51,89 @@ class SampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
-
-
-//        val toolbar = findViewById<Toolbar>(R.id.toolbar_actionbar)
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        toolbar.setNavigationOnClickListener{
-//            finishAfterTransition()
-//        }
-
-
-        compositeDisposable = CompositeDisposable()
-
         val depComponent = DaggerInjectActivityComponent.builder()
                 .applicationComponent(MfExpertApp.applicationComponent)
                 .build()
         depComponent.injectSampleActivity(this)
+        compositeDisposable = CompositeDisposable()
+
+        buttonPostData = find(R.id.buttonPostData)
+
+        buttonPostData.visibility = View.GONE
+
+        clientRecyclerView = find(R.id.client_recycler_view)
+        clientRecyclerView.layoutManager = LinearLayoutManager(this)
+        clientRecyclerView.setHasFixedSize(true)
+        clientRecyclerView.adapter = adapter
+        modelList = mutableListOf<RepaymentModel>()
     }
 
-    fun testService(view: View){
-//        val clientId = 21213.toLong()
-//        getMemberLoanDetails(clientId)
 
-//        postRepaymentDataTrue().
-        postRepaymentDataFalse()
-    }
-
-
-    private fun getMemberLoanDetails(clientId : Long){
-//        val memberId = "M0091805950"
-//        compositeDisposable.add(repayService.getMemberLoanDetails(apiAccessToken,clientId).processRequest(this,{memberLoanDetails ->
-//            if (memberLoanDetails!=null){
-//                logD("Member Code - ${memberLoanDetails.memberCode}, Member Name - ${memberLoanDetails.memberName}")
-//                val loans = memberLoanDetails.loanDetails
-//
-//                for (loan in loans){
-//                    logD("Product Id - ${loan.productId}\n" +
-//                            "Product Name - ${loan.productName}")
-//
-//                    val preClose = loan.preCloseTypes
-//                    for (pre in preClose){
-//                        logD("${pre.name}")
-//                    }
-//                }
-//            }else{
-//                logD("Member loan details is null")
-//            }
-//
-//
-//        },{err->
-//            logD("Error - $err")
-//
-//        }))
-    }
-
-    /*
-    * [
-  {
-    "memberId": 0,
-    "recoveryDate": "2018-09-24T19:55:40.847Z",
-    "repaymentType": 0,
-    "paidAmount": 0,
-    "isPreClosure": true,
-    "loanRepaymentDetails": [
-      {
-        "loanId": 0,
-        "preClosureType": 0,
-        "paidAmount": 0,
-        "adjustetAmount": 0,
-        "bankIFSC": "string",
-        "bankName": "string",
-        "bankAccountNo": "string"
-      }
-    ],
-    "arrearReasonId": 0
-  }
-]
-*/
-
-    // Working Post Data with isPreClosure = true
-    private fun postRepaymentDataTrue(){
-
-        val repaymentDetail = Repayment.RepaymentDetail()
-
-        repaymentDetail.memberId = 0
-        repaymentDetail.repaymentType = 0
-        repaymentDetail.paidAmount = 0.toDouble()
-        repaymentDetail.isPreClosure = true
-
-
-
-
-        val loans = Repayment.LoanRepaymentDetail()
-
-        loans.loanId = 0
-        loans.preClosureType = 0
-        loans.adjustedAmount = 0.toDouble()
-        loans.paidAmount = 0.toDouble()
-        loans.bankIFSC = "SBIN0007726"
-        loans.bankAccountNo = "32895984735"
-        loans.bankName = "SBI"
-
-        val loanList = ArrayList<Repayment.LoanRepaymentDetail>()
-
-        loanList.add(loans)
-
-        repaymentDetail.loanRepaymentDetails = loanList
-
-
-        val repaymentDetailsList = ArrayList<Repayment.RepaymentDetail>()
-
-        repaymentDetailsList.add(repaymentDetail)
-
-        for (data in repaymentDetailsList){
-            for (d in data.loanRepaymentDetails!!){
-                logD("Bank Acc No - ${d.bankAccountNo} \nBank IFSC - ${d.bankIFSC}\nBank Name - ${d.bankName}")
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_repayment_client_search, menu)
+        val searchView = menu?.findItem(R.id.action_search)?.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                filter(query)
+                return false
             }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_search -> {
+                logD("Search Clicked")
+                false
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-
-
-
-//        repaymentDetail.memberId = 918000000005030
-//        repaymentDetail.repaymentType = 0
-//        repaymentDetail.paidAmount = 0.0
-//        repaymentDetail.isPreClosure = false
-
-
-
-
-
-//        loans.loanId = 918000000017719
-//        loans.preClosureType = 0
-//        loans.adjustedAmount = 0.0
-//        loans.paidAmount = 0.0
-//        loans.bankIFSC = "SBIN0007726"
-//        loans.bankAccountNo = "32895984735"
-//        loans.bankName = "SBI"
-
-
-
-
-        compositeDisposable.add(repayService.postRepaymentDetails(apiAccessToken, repaymentDetailsList).processRequest(this, { response ->
-            if (response.isSuccess) {
-                toast("Loan Repayment Details Post Successfully")
-            } else {
-                toast("${response.message}")
-            }
-        }, { err ->
-            toast("Error - $err")
-        }))
     }
 
+    private fun filter(text: String) {
+        if (!validate()) return
+        showProgress()
+        val repaymentParamsModel = RepaymentParamsModel(text, "GL")
+        compositeDisposable.add(repayService.getGroupLoansList(apiAccessToken, repaymentParamsModel)
+                .processRequest(this,
+                        { dues ->
+                            hideProgress()
+                            buttonPostData.visibility = View.VISIBLE
+                            // Adding Repayment Details to post
+                            for (repayData in dues) {
+                                val repaymentDetail = Repayment.RepaymentDetail()
+                                repaymentDetail.memberId = repayData.id
+                                repaymentDetail.repaymentType = 1
+                                repaymentDetail.paidAmount = repayData.pastDue + repayData.currentDue + repayData.otherCharges
+                                repaymentDetail.isPreClosure = false
+                                Repayment.RepaymentData.repaymentDataList.add(repaymentDetail)
+                            }
+                            setRecyclerViewAdapter(dues)
 
-    // Post data with isPreClosure = false
-    private fun postRepaymentDataFalse(){
-        val repaymentDetail = Repayment.RepaymentDetail()
+                        }
+                ) { err ->
+                    hideProgress()
+                    toast("Error: $err")
+                }
+        )
+    }
 
-        repaymentDetail.memberId = 0
-        repaymentDetail.repaymentType = 0
-        repaymentDetail.paidAmount = 0.toDouble()
-        repaymentDetail.isPreClosure = false
+    private fun validate(): Boolean{
+        if (!isNetConnected(false)) {
+            snackBar(buttonPostData, getString(R.string.you_are_offline))
+            return false
+        }
+        return true
+    }
 
-
-
-
-        val loans = Repayment.LoanRepaymentDetail()
-
-        loans.loanId = 0
-        loans.preClosureType = 0
-        loans.adjustedAmount = 0.toDouble()
-        loans.paidAmount = 0.toDouble()
-        loans.bankIFSC = "SBIN0007726"
-        loans.bankAccountNo = "32895984735"
-        loans.bankName = "SBI"
-
-        val loanList = ArrayList<Repayment.LoanRepaymentDetail>()
-
-        loanList.add(loans)
-
-        repaymentDetail.loanRepaymentDetails = null
-
-
-        val repaymentDetailsList = ArrayList<Repayment.RepaymentDetail>()
-
-        repaymentDetailsList.add(repaymentDetail)
-
-//        for (data in repaymentDetailsList){
-//            for (d in data.loanRepaymentDetails!!){
-//                logD("Bank Acc No - ${d.bankAccountNo} \nBank IFSC - ${d.bankIFSC}\nBank Name - ${d.bankName}")
-//            }
-//        }
-
-
-
-//        repaymentDetail.memberId = 918000000005030
-//        repaymentDetail.repaymentType = 0
-//        repaymentDetail.paidAmount = 0.0
-//        repaymentDetail.isPreClosure = false
-
-
-
-
-
-//        loans.loanId = 918000000017719
-//        loans.preClosureType = 0
-//        loans.adjustedAmount = 0.0
-//        loans.paidAmount = 0.0
-//        loans.bankIFSC = "SBIN0007726"
-//        loans.bankAccountNo = "32895984735"
-//        loans.bankName = "SBI"
-
-
-
-
-        compositeDisposable.add(repayService.postRepaymentDetails(apiAccessToken, repaymentDetailsList).processRequest(this, { response ->
-            if (response.isSuccess) {
-                toast("Loan Repayment Details Post Successfully")
-                logD("Response is successful")
-            } else {
-                toast("${response.message}")
-                logD("Message - ${response.message}")
-            }
-        }, { err ->
-            toast("Error - $err")
-        }))
+    private fun setRecyclerViewAdapter(list: List<RepaymentModel>) {
+        adapter.items = list
+        adapter.notifyDataSetChanged()
     }
 
 

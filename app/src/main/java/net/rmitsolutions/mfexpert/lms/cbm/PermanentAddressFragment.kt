@@ -115,9 +115,9 @@ class PermanentAddressFragment : Fragment(), Step {
 
     override fun verifyStep(): VerificationError? {
         if (!isChecked){
-            if (!validate()) {
+            /*if (!validate()) {
                 return VerificationError("")
-            }
+            }*/
         }
         return null
     }

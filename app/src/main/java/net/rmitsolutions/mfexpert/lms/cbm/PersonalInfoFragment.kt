@@ -17,7 +17,6 @@ import net.rmitsolutions.mfexpert.lms.viewmodels.PersonalInfoModel
 import java.util.*
 import android.app.DatePickerDialog
 import androidx.databinding.DataBindingUtil
-import androidx.annotation.RequiresApi
 import android.text.Editable
 import android.text.TextWatcher
 
@@ -76,6 +75,7 @@ class PersonalInfoFragment : Fragment(), Step {
         mobileEditText = v.findViewById(R.id.txtMobileNumber)
 
         dobEditText.setOnClickListener {
+            dobAge = false
             calender = Calendar.getInstance()
             year = calender.get(Calendar.YEAR)
             month = calender.get(Calendar.MONTH)
@@ -109,6 +109,10 @@ class PersonalInfoFragment : Fragment(), Step {
         genderListSpinner.setAdapter<ArrayAdapter<String>>(genderListAdapter)
 
 
+        ageEditText.onFocusChangeListener = View.OnFocusChangeListener { v, f ->
+            dobAge = true
+        }
+
         ageEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -118,28 +122,19 @@ class PersonalInfoFragment : Fragment(), Step {
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
                 val age = text.toString()
-                val date = 1
                 if (age != "") {
-                    val calendar = Calendar.getInstance()
-                    calendar.add(Calendar.YEAR, -age.toInt())
-                    calendar.set(Calendar.DATE, date)
-                    calendar.set(Calendar.MONTH, Calendar.JULY)
-                    val date = Constants.getDate(calendar.time)
-                    dobEditText.setText(date)
+                    if (dobAge){
+                        val d = 1
+                        val calendar = Calendar.getInstance()
+                        calendar.add(Calendar.YEAR, -age.toInt())
+                        calendar.set(Calendar.DATE, d)
+                        calendar.set(Calendar.MONTH, Calendar.JULY)
+                        val date = Constants.getDate(calendar.time)
+                        dobEditText.setText(date)
+                    }
                 }
             }
-
         })
-
-//        genderListSpinner.setOnItemClickListener{
-//            adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-//           if (){
-//               dataBinding.personalInfoVm?.gender = "0"
-//           }else if(i == 1){
-//               dataBinding.personalInfoVm?.gender = "1"
-//           }
-//
-//        }
 
 
         val maritalStatusListAdapter = ArrayAdapter<String>(activity,
@@ -155,7 +150,7 @@ class PersonalInfoFragment : Fragment(), Step {
     }
 
     override fun verifyStep(): VerificationError? {
-        /* if (!validate()) {
+         /*if (!validate()) {
              return VerificationError("")
          }*/
         return null
@@ -267,12 +262,6 @@ class PersonalInfoFragment : Fragment(), Step {
             return false
         }
 
-//        if (isValidPhone(mobileEditText.text.toString())) {
-//            lblMobileNumber.isErrorEnabled = false
-//        } else {
-//            lblMobileNumber.error = "Please Enter Valid Mobile Number."
-//            return false
-//        }
         return true
     }
 
@@ -284,16 +273,6 @@ class PersonalInfoFragment : Fragment(), Step {
         val ageInt = age
         ageEditText.setText(ageInt.toString())
         return ageInt.toString()
-    }
-
-    private fun isValidPhone(phone: String): Boolean {
-        var check = false
-        check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
-            !(phone.length <= 9 || phone.length > 10)
-        } else {
-            false
-        }
-        return check
     }
 
 }

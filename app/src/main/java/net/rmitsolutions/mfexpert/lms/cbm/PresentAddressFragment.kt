@@ -61,15 +61,6 @@ class PresentAddressFragment : Fragment(), Step {
         val villageInfoAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, getDistricts())
         districtListSpinner.setAdapter<ArrayAdapter<String>>(villageInfoAdapter)
 
-        //        genderListSpinner.setOnItemClickListener{
-//            adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-//           if (){
-//               dataBinding.personalInfoVm?.gender = "0"
-//           }else if(i == 1){
-//               dataBinding.personalInfoVm?.gender = "1"
-//           }
-//
-//        }
 
         districtListSpinner.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
             logD("Position CLicked - $i")
@@ -101,7 +92,7 @@ class PresentAddressFragment : Fragment(), Step {
     }
 
     override fun verifyStep(): VerificationError? {
-      /*  if (!validate()) {
+        /*if (!validate()) {
             return VerificationError("")
         }*/
         return null

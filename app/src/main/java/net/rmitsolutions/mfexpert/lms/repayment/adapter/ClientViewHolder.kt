@@ -28,7 +28,6 @@ class ClientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), Repa
     @Inject
     lateinit var repayService: IRepayment
     private var paidAmount = 0.0
-    var mPosition = 0
 
     fun bindView(context: Context, clientViewModels: RepaymentModel, position: Int) {
         this.context = context
@@ -45,11 +44,12 @@ class ClientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), Repa
         clientName.text = clientViewModels.memberName
         editTextRepaymentAmount.setText((clientViewModels.pastDue + clientViewModels.currentDue + clientViewModels.otherCharges).toString())
 
+        RepaymentDialogTabs.ViewDialog.preTotalAmount = clientViewModels.pastDue + clientViewModels.currentDue + clientViewModels.otherCharges
+
         prePaymentCheckBox = itemView.find<CheckBox>(R.id.prepayment_checkbox)
 
         prePaymentCheckBox.setOnClickListener {
             // Repayment Details Callback to get Loan Data
-            mPosition = position
             val callback = RepaymentDetailsCallback()
             callback.setListener(this)
             callback.fetchMemberLoanDetails(context, clientViewModels.id, repayService)

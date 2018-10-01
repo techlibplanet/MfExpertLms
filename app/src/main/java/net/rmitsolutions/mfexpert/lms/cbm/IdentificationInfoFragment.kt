@@ -115,7 +115,7 @@ class IdentificationInfoFragment : Fragment(), DocumentImageListener, Step {
         identificationInfoModel = IdentificationInfoModel("", "", "", "", "", "", "", "", null, null, null)
 
         if (cbmDataEntity.identificationInfoModel != null) {
-            identificationInfoModel = cbmDataEntity?.identificationInfoModel!!;
+            identificationInfoModel = cbmDataEntity.identificationInfoModel!!;
         } else {
             cbmDataEntity.identificationInfoModel = identificationInfoModel;
         }
@@ -199,8 +199,8 @@ class IdentificationInfoFragment : Fragment(), DocumentImageListener, Step {
 
     private fun submitCBMDetails() {
 
-       /* if (!validate())
-            return*/
+        if (!validate())
+            return
         //  showProgress()
         if (cbmDataEntity?.id == null) {
             cbmDataEntity?.id = System.currentTimeMillis();

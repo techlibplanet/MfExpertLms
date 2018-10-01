@@ -85,6 +85,9 @@ class FamilyDetailsFragment : Fragment(), Step {
 
     var database: MfExpertLmsDatabase? = null
 
+    private var dobAgeParent : Boolean = false
+    private var dobAgeChild : Boolean = false
+
 
     companion object {
 
@@ -146,6 +149,10 @@ class FamilyDetailsFragment : Fragment(), Step {
             }
         })
 
+        ageEditTextParent.setOnFocusChangeListener{ v, f ->
+            dobAgeParent = true
+        }
+
         ageEditTextParent.addTextChangedListener(object :TextWatcher{
             override fun afterTextChanged(text: Editable?) {
 
@@ -158,13 +165,15 @@ class FamilyDetailsFragment : Fragment(), Step {
                 val age = text.toString()
                 val date = 1
                 if (age!=""){
-                    val calendar = Calendar.getInstance()
-                    calendar.add(Calendar.YEAR, -age.toInt())
-                    calendar.set(Calendar.DATE,date)
-                    calendar.set(Calendar.MONTH, Calendar.JULY)
-                    val date = Constants.getDate(calendar.time)
-                    logD("Year - $date")
-                    dobEditTextParent.setText(date)
+                    if (dobAgeParent){
+                        val calendar = Calendar.getInstance()
+                        calendar.add(Calendar.YEAR, -age.toInt())
+                        calendar.set(Calendar.DATE,date)
+                        calendar.set(Calendar.MONTH, Calendar.JULY)
+                        val date = Constants.getDate(calendar.time)
+                        logD("Year - $date")
+                        dobEditTextParent.setText(date)
+                    }
                 }
             }
         })
@@ -204,7 +213,9 @@ class FamilyDetailsFragment : Fragment(), Step {
             hideLayout.visibility = View.GONE
         }
 
+
         dobEditTextParent.setOnClickListener() {
+            dobAgeParent = false
             calender = Calendar.getInstance()
             year = calender.get(Calendar.YEAR)
             month = calender.get(Calendar.MONTH)
@@ -275,11 +286,9 @@ class FamilyDetailsFragment : Fragment(), Step {
         literacyListSpinner.setAdapter<ArrayAdapter<String>>(literacyListAdapter)
 
         literacyListSpinner.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            logD("Position CLicked - $i")
             val list = getAllLiteracy()
             Constants.familyDetailsLiteracyId= list!![i].id.toInt()
             familyDetailsInfoModel.literacyId = list[i].id.toInt()
-            logD("Id - ${list[i].id} District Name - ${list[i].name}")
         }
 
         return v
@@ -530,6 +539,11 @@ class FamilyDetailsFragment : Fragment(), Step {
             logD("Id - ${list[i].id} Relation Name - ${list[i].name}")
         }
 
+
+        ageEditText.setOnFocusChangeListener{v,f ->
+            dobAgeChild = true
+            logD("OnFocusChangedListenerCalled")
+        }
         ageEditText.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
 
@@ -542,13 +556,16 @@ class FamilyDetailsFragment : Fragment(), Step {
                 val age = text.toString()
                 val date = 1
                 if (age!=""){
-                    val calendar = Calendar.getInstance()
-                    calendar.add(Calendar.YEAR, -age.toInt())
-                    calendar.set(Calendar.DATE,date)
-                    calendar.set(Calendar.MONTH, Calendar.JULY)
-                    val date = Constants.getDate(calendar.time)
-                    logD("Year - $date")
-                    dobEditText.setText(date)
+                    if (dobAgeChild){
+                        val calendar = Calendar.getInstance()
+                        calendar.add(Calendar.YEAR, -age.toInt())
+                        calendar.set(Calendar.DATE,date)
+                        calendar.set(Calendar.MONTH, Calendar.JULY)
+                        val date = Constants.getDate(calendar.time)
+                        dobEditText.setText(date)
+                    }else{
+                        logD("Dob age child - $dobAgeChild")
+                    }
                 }
             }
 
@@ -581,14 +598,13 @@ class FamilyDetailsFragment : Fragment(), Step {
         literacyListSpinner.setAdapter<ArrayAdapter<String>>(literacyListAdapter)
 
         literacyListSpinner.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            logD("Position CLicked - $i")
             val list = getAllLiteracy()
-            Constants.familyDetailsRelationId = list!![i].id.toInt()
-            familyDetailsInfoModel.literacyId = list[i].id.toInt()
-            logD("Id - ${list[i].id} Literacy Name - ${list[i].name}")
+            familyDetailsInfoModel.literacyId = list!![i].id.toInt()
         }
 
         dobEditText.setOnClickListener() { view ->
+            dobAgeChild = false
+            logD("Dob Age Child - $dobAgeChild")
             dobEditText = (view as TextInputEditText);
             calender = Calendar.getInstance()
             year = calender.get(Calendar.YEAR)
