@@ -11,9 +11,7 @@ import net.rmitsolutions.mfexpert.lms.dashboard.DashboardActivity
 import net.rmitsolutions.mfexpert.lms.dependency.scopes.ActivityScope
 import net.rmitsolutions.mfexpert.lms.loanUtilizationCheck.LoanUtilizationActivity
 import net.rmitsolutions.mfexpert.lms.repayment.RepaymentActivity
-import net.rmitsolutions.mfexpert.lms.repayment.adapter.ClientDetailAdapter
 import net.rmitsolutions.mfexpert.lms.repayment.adapter.ClientViewHolder
-import net.rmitsolutions.mfexpert.lms.sample.ClientHolder
 
 import net.rmitsolutions.mfexpert.lms.sample.SampleActivity
 
@@ -34,6 +32,5 @@ interface InjectActivityComponent {
     fun injectWelcomeActivity(activity: WelcomeActivity)
     fun injectLoanUtilizationActivity(activity: LoanUtilizationActivity)
     fun injectRepaymentActivity(activity: RepaymentActivity)
-    fun injectClientViewHolder(holder : ClientViewHolder)
-    fun injectClientHolder(holder : ClientHolder)
+    fun injectClientHolder(holder : ClientViewHolder)
 }

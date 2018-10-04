@@ -6,11 +6,8 @@
 
         <variable
             name="RepaymentModel"
-            type="net.rmitsolutions.mfexpert.lms.repayment.RepaymentModel" />
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.Repayment.RepaymentModel" />
 
-        <variable
-            name="handler"
-            type="net.rmitsolutions.mfexpert.lms.sample.ClientHolder"/>
 
     </data>
 
@@ -77,7 +74,7 @@
 
 
                     <EditText
-                        android:text=""
+                        android:text="@{Double.toString(RepaymentModel.total)}"
                         android:id="@+id/edit_text_repayment_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -20,6 +20,7 @@ import net.rmitsolutions.mfexpert.lms.refreshTokenCallback.RefreshTokenCallback
 import net.rmitsolutions.mfexpert.lms.refreshTokenCallback.RefreshTokenListener
 import net.rmitsolutions.mfexpert.lms.settings.adapter.adaptersyncsettings.SyncSettingsViewHolder
 import org.jetbrains.anko.startActivity
+import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.regex.Pattern
@@ -112,5 +113,6 @@ class Globals {
             decimalFormat.roundingMode = RoundingMode.CEILING
             return decimalFormat.format(amount).toDouble()
         }
+
     }
 }

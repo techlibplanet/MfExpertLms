@@ -16,16 +16,13 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.loan_four_layout.*
-import kotlinx.android.synthetic.main.loan_one_layout.*
-import kotlinx.android.synthetic.main.loan_two_layout.*
 
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.databinding.LoanFourLayoutBinding
-import net.rmitsolutions.mfexpert.lms.helpers.logD
 import net.rmitsolutions.mfexpert.lms.helpers.toast
 import net.rmitsolutions.mfexpert.lms.models.Globals
-import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialogTabs
 import net.rmitsolutions.mfexpert.lms.repayment.callback.TotalAmountCallback
+import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialog
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
 import org.jetbrains.anko.find
 
@@ -40,14 +37,15 @@ class LoanFourFragment : Fragment() {
     private lateinit var repaymentTypeSpinnerLoanFour: MaterialBetterSpinner
     lateinit var dataBindingLoanFour: LoanFourLayoutBinding
     private var total = 0.0
-    private lateinit var repaymentDialogTabs: RepaymentDialogTabs
+    private lateinit var repaymentDialog: RepaymentDialog
     private lateinit var totalAmountCallback: TotalAmountCallback
+    private var mView : View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        repaymentDialogTabs = RepaymentDialogTabs()
+        repaymentDialog = RepaymentDialog()
         totalAmountCallback = TotalAmountCallback()
-        totalAmountCallback.setListener(repaymentDialogTabs)
+        totalAmountCallback.setListener(repaymentDialog)
 
     }
 
@@ -60,7 +58,7 @@ class LoanFourFragment : Fragment() {
         dataBindingLoanFour.loanFourVm = memberLoanDetails
 
         // Assigning view model for validation
-        RepaymentDialogTabs.ViewDialog.loanFourVm = dataBindingLoanFour.loanFourVm
+        RepaymentDialog.ViewDialog.loanFourVm = dataBindingLoanFour.loanFourVm
 
         total = memberLoanDetails.principleDue + memberLoanDetails.interestDue +
                 memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
@@ -107,7 +105,7 @@ class LoanFourFragment : Fragment() {
 
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
                 val totalAmountCallback = TotalAmountCallback()
-                totalAmountCallback.setListener(repaymentDialogTabs)
+                totalAmountCallback.setListener(repaymentDialog)
                 when (text.toString()) {
                     "Select" -> {
                         disableBankDetails(true)
@@ -137,14 +135,14 @@ class LoanFourFragment : Fragment() {
         total = memberLoanDetails.principleDue + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanFour.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanFour.loanFourVm?.totalAmount = total     // Not working with data binding
-//        totalAmountCallback.onTotalAmountChanged()
+        totalAmountCallback.onTotalAmountChanged(mView)
     }
 
     private fun addTotalOnOtherSelection() {
         total = memberLoanDetails.outstanding + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
         totalLoanFour.text = Globals.getRoundOffDecimalFormat(total).toString()
         dataBindingLoanFour.loanFourVm?.totalAmount = total     // Not working with data binding
-//        totalAmountCallback.onTotalAmountChanged()
+        totalAmountCallback.onTotalAmountChanged(mView)
     }
 
     private fun disableBankDetails(disable: Boolean) {
@@ -191,9 +189,10 @@ class LoanFourFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(memberLoanDetails: Repayment.LoanDetails) =
+        fun newInstance(memberLoanDetails: Repayment.LoanDetails, view : View) =
                 LoanFourFragment().apply {
                     this.memberLoanDetails = memberLoanDetails
+                    this.mView = view
                 }
     }
 }

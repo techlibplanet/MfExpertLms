@@ -13,28 +13,19 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
 import kotlinx.android.synthetic.main.loan_one_layout.*
-import net.rmitsolutions.mfexpert.lms.Constants
 
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.databinding.LoanOneLayoutBinding
-import net.rmitsolutions.mfexpert.lms.helpers.logD
 import net.rmitsolutions.mfexpert.lms.helpers.toast
 import net.rmitsolutions.mfexpert.lms.models.Globals
-import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialogTabs
 import net.rmitsolutions.mfexpert.lms.repayment.callback.TotalAmountCallback
+import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialog
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
 import org.jetbrains.anko.find
-import java.math.RoundingMode
-import java.text.DecimalFormat
-import kotlin.math.log
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class LoanOneFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
@@ -44,7 +35,7 @@ class LoanOneFragment : Fragment() {
 
     private lateinit var repaymentTypeSpinner : MaterialBetterSpinner
     private lateinit var memberLoanDetails : Repayment.LoanDetails
-    private lateinit var repaymentDialogTabs: RepaymentDialogTabs
+    private lateinit var repaymentDialogTabs: RepaymentDialog
     private lateinit var totalAmountCallback: TotalAmountCallback
 
     lateinit var dataBindingLoanOne: LoanOneLayoutBinding
@@ -55,7 +46,7 @@ class LoanOneFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        repaymentDialogTabs = RepaymentDialogTabs()
+        repaymentDialogTabs = RepaymentDialog()
         totalAmountCallback = TotalAmountCallback()
         totalAmountCallback.setListener(repaymentDialogTabs)
     }
@@ -69,7 +60,7 @@ class LoanOneFragment : Fragment() {
         dataBindingLoanOne.loanOneVm = memberLoanDetails
 
         // Assigning view model for validation
-        RepaymentDialogTabs.ViewDialog.loanOneVm = dataBindingLoanOne.loanOneVm
+        RepaymentDialog.ViewDialog.loanOneVm = dataBindingLoanOne.loanOneVm
 
         total = memberLoanDetails.interestDue + memberLoanDetails.adjustedAmount + memberLoanDetails.penalCharges
         dataBindingLoanOne.loanOneVm!!.totalAmount = total
@@ -157,15 +148,6 @@ class LoanOneFragment : Fragment() {
         dataBindingLoanOne.loanOneVm?.totalAmount = total     // Not working with data binding
         totalAmountCallback.onTotalAmountChanged(mView!!)
     }
-
-//    fun setTotalAmount(amount : Double){
-//        logD("Inside totoal amount - $amount")
-//        dataBindingLoanOne.loanOneVm?.totalAmount = total
-//        return
-//    }
-
-
-
 
     private fun disableBankDetails(disable: Boolean) {
         if (disable){

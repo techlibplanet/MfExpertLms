@@ -11,7 +11,7 @@ class TotalAmountCallback {
         this.listener = totalAmountListener
     }
 
-    fun onTotalAmountChanged(view: View){
+    fun onTotalAmountChanged(view: View?){
         listener.onTotalAmountChanged(view)
     }
 }

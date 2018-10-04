@@ -2,14 +2,13 @@ package net.rmitsolutions.mfexpert.lms.network
 
 import io.reactivex.Observable
 import net.rmitsolutions.mfexpert.lms.models.BaseModel
-import net.rmitsolutions.mfexpert.lms.repayment.RepaymentModel
-import net.rmitsolutions.mfexpert.lms.repayment.RepaymentParamsModel
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
 import retrofit2.http.*
 
 interface IRepayment {
+
     @POST("Repayment/GroupLoansList")
-    fun getGroupLoansList(@Header("Authorization") authToken: String, @Body repayParams: RepaymentParamsModel): Observable<List<RepaymentModel>>
+    fun getGroupLoansList(@Header("Authorization") authToken: String, @Body repayParams: Repayment.RepaymentParamsModel): Observable<List<Repayment.RepaymentModel>>
 
     @POST("Repayment/MemberLoanDetails")
     fun getMemberLoanDetails(@Header("Authorization") authToken: String, @Query("memberId") memberId: Long): Observable<Repayment.MemberLoanDetails>
