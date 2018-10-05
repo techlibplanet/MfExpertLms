@@ -4,18 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-import kotlinx.android.synthetic.main.loan_two_layout.*
 
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.databinding.LoanTwoLayoutBinding
@@ -24,26 +16,17 @@ import net.rmitsolutions.mfexpert.lms.models.Globals
 import net.rmitsolutions.mfexpert.lms.repayment.callback.TotalAmountCallback
 import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialog
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
-import org.jetbrains.anko.find
 
 
 class LoanTwoFragment : Fragment() {
+
     private var listener: OnFragmentInteractionListener? = null
-
-    private lateinit var inputBankAccNumberLoanTwo: EditText
-    private lateinit var inputBankNameLoanTwo: EditText
-    private lateinit var inputBankIfscLoanTwo: EditText
-
-    private lateinit var repaymentTypeSpinnerLoanTwo: MaterialBetterSpinner
-
-    private lateinit var memberLoanDetails: Repayment.LoanDetails
-
+    private lateinit var memberLoanDetails: Repayment.LoanDetail
     private lateinit var repaymentDialog: RepaymentDialog
     private lateinit var totalAmountCallback: TotalAmountCallback
-
     lateinit var dataBindingLoanTwo: LoanTwoLayoutBinding
     private var total = 0.0
-    private var mView : View? = null
+    private var mView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,51 +46,24 @@ class LoanTwoFragment : Fragment() {
         // Assigning view model for validation
         RepaymentDialog.ViewDialog.loanTwoVm = dataBindingLoanTwo.loanTwoVm
 
-        total = memberLoanDetails.principleDue + memberLoanDetails.interestDue +
-                memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
-        dataBindingLoanTwo.loanTwoVm!!.totalAmount = total
+        // Add total and set total to loanTotalAmount
+        total = memberLoanDetails.principleDue!! + memberLoanDetails.interestDue!! +
+                memberLoanDetails.penalCharges!! + memberLoanDetails.adjustedAmount!!
+        dataBindingLoanTwo.loanTwoVm!!.totalAmount.set(total)
 
         Repayment.RepaymentData.loanDetails.add(dataBindingLoanTwo.loanTwoVm!!)
 
-        inputBankAccNumberLoanTwo = view.find(R.id.editTextBankAccNumberLoanTwo)
-        inputBankNameLoanTwo = view.find(R.id.editTextBankNameLoanTwo)
-        inputBankIfscLoanTwo = view.find(R.id.editTextIfscCodeLoanTwo)
-
-        val repaymentTypeAdapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, getPreCloseTypeList())
-        repaymentTypeSpinnerLoanTwo = view.find(R.id.choosePrepaymentTypeLoanTwo)
-        repaymentTypeSpinnerLoanTwo.setAdapter<ArrayAdapter<String>>(repaymentTypeAdapter)
-
-        repaymentTypeSpinnerLoanTwo.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            val list = memberLoanDetails.preCloseTypes
-            dataBindingLoanTwo.loanTwoVm!!.preCloseTypeId = 0
-            dataBindingLoanTwo.loanTwoVm!!.preCloseTypeId = list[i].id
-        }
-        return view
-    }
-
-    private fun getPreCloseTypeList(): ArrayList<String> {
-        var nameList = ArrayList<String>()
-        for (name in memberLoanDetails.preCloseTypes) {
-            nameList.add(name.name)
-        }
-        return nameList
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         disableBankDetails(true)
-        repaymentTypeSpinnerLoanTwo.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
+        setPreCloseTypes()
+        dataBindingLoanTwo.eventHandler = (object : Repayment.RepaymentEventHandler {
+            override fun onPrepaymentTypeChanged(pos: Int) {
+                if (pos < 0) {
+                    dataBindingLoanTwo.loanTwoVm?.preCloseTypeId = 0
+                    return
+                }
+                dataBindingLoanTwo.loanTwoVm?.preCloseTypeId = memberLoanDetails.preCloseTypes[pos].id
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                val totalAmountCallback = TotalAmountCallback()
-                totalAmountCallback.setListener(repaymentDialog)
-                when (text.toString()) {
+                when (memberLoanDetails.preCloseTypes[pos].name) {
                     "Select" -> {
                         disableBankDetails(true)
                         addTotalOnSelect()
@@ -130,39 +86,30 @@ class LoanTwoFragment : Fragment() {
                 }
             }
         })
+        return view
+    }
+
+    private fun setPreCloseTypes() {
+        for (data in memberLoanDetails.preCloseTypes) {
+            dataBindingLoanTwo.loanTwoVm?.preCloseTypeList?.add(data.name)
+        }
     }
 
     private fun addTotalOnSelect() {
-        total = memberLoanDetails.principleDue + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
-        totalLoanTwo.text = Globals.getRoundOffDecimalFormat(total).toString()
-        dataBindingLoanTwo.loanTwoVm?.totalAmount = total     // Not working with data binding
+        total = memberLoanDetails.principleDue!! + memberLoanDetails.interestDue!! + memberLoanDetails.penalCharges!! + memberLoanDetails.adjustedAmount!!
+        dataBindingLoanTwo.loanTwoVm?.totalAmount?.set(Globals.getRoundOffDecimalFormat(total))
         totalAmountCallback.onTotalAmountChanged(mView)
     }
 
     private fun addTotalOnOtherSelection() {
-        total = memberLoanDetails.outstanding + memberLoanDetails.interestDue + memberLoanDetails.penalCharges + memberLoanDetails.adjustedAmount
-        totalLoanTwo.text = Globals.getRoundOffDecimalFormat(total).toString()
-        dataBindingLoanTwo.loanTwoVm?.totalAmount = total     // Not working with data binding
+        total = memberLoanDetails.outstanding!! + memberLoanDetails.interestDue!! + memberLoanDetails.penalCharges!! + memberLoanDetails.adjustedAmount!!
+        dataBindingLoanTwo.loanTwoVm?.totalAmount?.set(Globals.getRoundOffDecimalFormat(total))
         totalAmountCallback.onTotalAmountChanged(mView)
     }
 
     private fun disableBankDetails(disable: Boolean) {
-        if (disable) {
-            inputBankAccNumberLoanTwo.visibility = View.GONE
-            inputBankNameLoanTwo.visibility = View.GONE
-            inputBankIfscLoanTwo.visibility = View.GONE
-            view?.find<TextView>(R.id.labelBankAccNumberLoanTwo)?.visibility = View.GONE
-            view?.find<TextView>(R.id.labelBankNameLoanTwo)?.visibility = View.GONE
-            view?.find<TextView>(R.id.labelIfscCodeLoanTwo)?.visibility = View.GONE
-            return
-        }
-        inputBankAccNumberLoanTwo.visibility = View.VISIBLE
-        inputBankNameLoanTwo.visibility = View.VISIBLE
-        inputBankIfscLoanTwo.visibility = View.VISIBLE
-        view?.find<TextView>(R.id.labelBankAccNumberLoanTwo)?.visibility = View.VISIBLE
-        view?.find<TextView>(R.id.labelBankNameLoanTwo)?.visibility = View.VISIBLE
-        view?.find<TextView>(R.id.labelIfscCodeLoanTwo)?.visibility = View.VISIBLE
-
+        dataBindingLoanTwo.loanTwoBankDetails = disable
+        RepaymentDialog.ViewDialog.loanTwoBankDetails = disable
     }
 
     fun onButtonPressed(uri: Uri) {
@@ -189,9 +136,8 @@ class LoanTwoFragment : Fragment() {
     }
 
     companion object {
-
         @JvmStatic
-        fun newInstance(memberLoanDetails: Repayment.LoanDetails, view : View) =
+        fun newInstance(memberLoanDetails: Repayment.LoanDetail, view: View) =
                 LoanTwoFragment().apply {
                     this.memberLoanDetails = memberLoanDetails
                     this.mView = view

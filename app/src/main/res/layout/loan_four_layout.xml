@@ -1,332 +1,335 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loanFourBankDetails"
+            type="java.lang.Boolean" />
+
         <variable
             name="loanFourVm"
-            type="net.rmitsolutions.mfexpert.lms.viewmodels.Repayment.LoanDetails"/>
-    </data>
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.Repayment.LoanDetail" />
 
+        <variable
+            name="eventHandler"
+            type="net.rmitsolutions.mfexpert.lms.viewmodels.Repayment.RepaymentEventHandler" />
+    </data>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-            <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:id="@+id/textInputLblAmount"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
 
-            <!--<android.support.design.widget.TextInputEditText-->
-            <!--android:inputType="numberDecimal"-->
-            <!--android:id="@+id/textInputAmount"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:hint="Enter Amount" />-->
-            <!--</android.support.design.widget.TextInputLayout>-->
+        <TextView
+            android:id="@+id/textViewProductNameLoanFour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:padding="@dimen/space8dp"
+            android:text="@{loanFourVm.productName}"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textViewProductNameLoanFour"
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:padding="@dimen/space8dp"
-                android:text="@{loanFourVm.productName}"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/choosePrepaymentTypeLoanFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space16dp"
+                    android:layout_marginTop="@dimen/space4dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:entries="@{loanFourVm.preCloseTypeList}"
+                    android:onItemSelected="@{(adView,view, pos,id) -> eventHandler.onPrepaymentTypeChanged(pos)}"
+                    app:ms_enableErrorLabel="true"
+                    app:ms_enableFloatingLabel="true"
+                    app:ms_floatingLabelText="@string/prepaymentType"
+                    app:ms_hint="Select Prepayment Type"
+                    app:ms_multiline="false" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:orientation="horizontal">
 
-                    <!--<com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner-->
-                        <!--android:id="@+id/chooseLoanFourRepaymentType"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text=""-->
-                        <!--android:hint="Select*"-->
-                        <!--android:focusableInTouchMode="true"-->
-                        <!--android:textColorHint="@color/colorAccent"-->
-                        <!--app:met_floatingLabel="normal" />-->
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:layout_marginStart="@dimen/space16dp"
-                        android:layout_marginTop="@dimen/space4dp"
-                        android:id="@+id/choosePrepaymentTypeLoanFour"
+                    <TextView
+                        android:id="@+id/labelLoanAmountLoanFour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select"
-                        android:textColorHint="@color/colorAccent"
-                        />
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="@dimen/space8dp"
+                        android:text="Loan Amount :"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/loanAmountLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="0.00"
+                        android:padding="@dimen/space8dp"
+                        android:text="@{Double.toString(loanFourVm.loanAmount)}"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/labelOutstandingLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="@dimen/space8dp"
+                        android:text="Outstanding :"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/outstandingLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="0.00"
+                        android:padding="@dimen/space8dp"
+                        android:text="@{Double.toString(loanFourVm.outstanding)}"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/labelPrincipleDueLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="@dimen/space8dp"
+                        android:text="Principle Due :"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/principleDueLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="0.00"
+                        android:padding="@dimen/space8dp"
+                        android:text="@{Double.toString(loanFourVm.principleDue)}"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/labelInterestDueLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="@dimen/space8dp"
+                        android:text="Interest Due :"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/interestDueLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="0.00"
+                        android:padding="@dimen/space8dp"
+                        android:text="@{Double.toString(loanFourVm.interestDue)}"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/labelPenalChargesLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="@dimen/space8dp"
+                        android:text="Penal Charges :"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/penalChargesLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="0.00"
+                        android:padding="@dimen/space8dp"
+                        android:text="@{Double.toString(loanFourVm.penalCharges)}"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/labelAdjustedAmountLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="@dimen/space8dp"
+                        android:text="Adjusted Amount :"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/adjustedAmountLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="0.00"
+                        android:padding="@dimen/space8dp"
+                        android:text="@{Double.toString(loanFourVm.adjustedAmount)}"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/labelTotalLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:padding="@dimen/space8dp"
+                        android:text="Total :"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/totalLoanFour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_text_border"
+                        android:hint="0.00"
+                        android:padding="@dimen/space8dp"
+                        android:text="@{Double.toString(loanFourVm.totalAmount)}"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/darker_gray" />
+
+                <LinearLayout
+                    android:id="@+id/bankDetailsLoanFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space8dp"
+                    android:layout_marginEnd="@dimen/space8dp"
+                    android:layout_marginBottom="@dimen/space8dp"
+                    android:orientation="vertical"
+                    android:visibility="@{loanFourBankDetails ? View.GONE : View.VISIBLE}">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
                         android:layout_marginTop="@dimen/space8dp"
+                        android:layout_marginEnd="@dimen/space8dp"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:gravity="end"
-                            android:id="@+id/labelLoanAmountLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/space8dp"
-                            android:text="Loan Amount :"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:text="@{Double.toString(loanFourVm.loanAmount)}"
-                            android:id="@+id/loanAmountLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_border"
-                            android:hint="0.00"
-                            android:padding="@dimen/space8dp"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
-                        android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:gravity="end"
-                            android:id="@+id/labelOutstandingLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/space8dp"
-                            android:text="Outstanding :"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:text="@{Double.toString(loanFourVm.outstanding)}"
-                            android:id="@+id/outstandingLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_border"
-                            android:hint="0.00"
-                            android:padding="@dimen/space8dp"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
-                        android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:gravity="end"
-                            android:id="@+id/labelPrincipleDueLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/space8dp"
-                            android:text="Principle Due :"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:text="@{Double.toString(loanFourVm.principleDue)}"
-                            android:id="@+id/principleDueLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_border"
-                            android:hint="0.00"
-                            android:padding="@dimen/space8dp"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
-                        android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:gravity="end"
-                            android:id="@+id/labelInterestDueLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/space8dp"
-                            android:text="Interest Due :"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:text="@{Double.toString(loanFourVm.interestDue)}"
-                            android:id="@+id/interestDueLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_border"
-                            android:hint="0.00"
-                            android:padding="@dimen/space8dp"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
-                        android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:gravity="end"
-                            android:id="@+id/labelPenalChargesLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/space8dp"
-                            android:text="Penal Charges :"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:text="@{Double.toString(loanFourVm.penalCharges)}"
-                            android:id="@+id/penalChargesLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_border"
-                            android:hint="0.00"
-                            android:padding="@dimen/space8dp"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
-                        android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:gravity="end"
-                            android:id="@+id/labelAdjustedAmountLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/space8dp"
-                            android:text="Adjusted Amount :"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:text="@{Double.toString(loanFourVm.adjustedAmount)}"
-                            android:id="@+id/adjustedAmountLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_border"
-                            android:hint="0.00"
-                            android:padding="@dimen/space8dp"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
-                        android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:gravity="end"
-                            android:id="@+id/labelTotalLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:padding="@dimen/space8dp"
-                            android:text="Total :"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:text="@{Double.toString(loanFourVm.totalAmount)}"
-                            android:id="@+id/totalLoanFour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_text_border"
-                            android:hint="0.00"
-                            android:padding="@dimen/space8dp"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
-                        android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:gravity="end"
                             android:id="@+id/labelBankAccNumberLoanFour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="end"
                             android:padding="@dimen/space8dp"
                             android:text="Bank Account No :"
                             android:textSize="18sp" />
 
                         <EditText
-                            android:inputType="number"
-                            android:text="@={loanFourVm.bankAccNo}"
                             android:id="@+id/editTextBankAccNumberLoanFour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/edit_text_border"
                             android:hint="Account Number"
+                            android:inputType="number"
                             android:padding="@dimen/space8dp"
+                            android:text="@={loanFourVm.bankAccNo}"
                             android:textSize="18sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
                         android:layout_marginTop="@dimen/space8dp"
+                        android:layout_marginEnd="@dimen/space8dp"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:gravity="end"
                             android:id="@+id/labelBankNameLoanFour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="end"
                             android:padding="@dimen/space8dp"
                             android:text="Bank Name :"
                             android:textSize="18sp" />
 
                         <EditText
-                            android:text="@={loanFourVm.bankName}"
                             android:id="@+id/editTextBankNameLoanFour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -334,30 +337,30 @@
                             android:background="@drawable/edit_text_border"
                             android:hint="Bank Name"
                             android:padding="@dimen/space8dp"
+                            android:text="@={loanFourVm.bankName}"
                             android:textSize="18sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:paddingBottom="@dimen/activity_vertical_padding"
-                        android:layout_marginBottom="@dimen/space20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/space8dp"
                         android:layout_marginTop="@dimen/space8dp"
-                        android:orientation="horizontal">
+                        android:layout_marginEnd="@dimen/space8dp"
+                        android:layout_marginBottom="@dimen/space20dp"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/activity_vertical_padding">
 
                         <TextView
-                            android:gravity="end"
                             android:id="@+id/labelIfscCodeLoanFour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:gravity="end"
                             android:padding="@dimen/space8dp"
                             android:text="IFSC Code :"
                             android:textSize="18sp" />
 
                         <EditText
-                            android:text="@={loanFourVm.bankIfsc}"
                             android:id="@+id/editTextIfscCodeLoanFour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -365,10 +368,11 @@
                             android:background="@drawable/edit_text_border"
                             android:hint="IFSC Code"
                             android:padding="@dimen/space8dp"
+                            android:text="@={loanFourVm.bankIfsc}"
                             android:textSize="18sp" />
                     </LinearLayout>
-
                 </LinearLayout>
-            </ScrollView>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </layout>

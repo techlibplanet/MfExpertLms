@@ -142,5 +142,6 @@
     <string name="rupeeSymbol">u20B9</string>
     <string name="rupeeText">u20A8</string>
     <string name="badNumber">Bad Number</string>
+    <string name="prepaymentType">Prepayment Type</string>
 
 </resources>

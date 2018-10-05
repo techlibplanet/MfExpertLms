@@ -135,19 +135,17 @@ class RepaymentActivity : BaseActivity(),
                 .processRequest(this, { response ->
                     hideProgress()
                     if (response.isSuccess) {
-                        toast("Repayment Details Post Successfully")
+                        toast("Repayment Data Post Successfully")
                         Repayment.RepaymentData.repaymentDataList.clear()
                         Repayment.RepaymentData.loanDetails.clear()
                         buttonPostData.visibility = View.GONE
                         startActivity(intent)
                     } else {
                         toast("${response.message}")
-                        logD("Message - ${response.message}")
                     }
                 }, { err ->
                     hideProgress()
                     toast("Error - $err")
-                    logD("Error - $err")
                 }))
     }
 }

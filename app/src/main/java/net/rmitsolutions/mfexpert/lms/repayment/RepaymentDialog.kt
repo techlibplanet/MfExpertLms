@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.viewpager.widget.ViewPager
@@ -18,7 +17,6 @@ import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectFragmentComponent
-import net.rmitsolutions.mfexpert.lms.helpers.logD
 import net.rmitsolutions.mfexpert.lms.helpers.logE
 import net.rmitsolutions.mfexpert.lms.helpers.toast
 import net.rmitsolutions.mfexpert.lms.loans.LoanFourFragment
@@ -38,11 +36,15 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         var memberLoanDetails: Repayment.MemberLoanDetails? = null
         var totalAmount: Double = 0.0
         var preTotalAmount: Double = 0.0
-        var loanOneVm: Repayment.LoanDetails? = null
-        var loanTwoVm: Repayment.LoanDetails? = null
-        var loanThreeVm: Repayment.LoanDetails? = null
-        var loanFourVm: Repayment.LoanDetails? = null
+        var loanOneVm: Repayment.LoanDetail? = null
+        var loanTwoVm: Repayment.LoanDetail? = null
+        var loanThreeVm: Repayment.LoanDetail? = null
+        var loanFourVm: Repayment.LoanDetail? = null
         var repaymentActivityVm: Repayment.RepaymentModel? = null
+        var loanOneBankDetails : Boolean = false
+        var loanTwoBankDetails : Boolean = false
+        var loanThreeBankDetails : Boolean = false
+        var loanFourBankDetails : Boolean = false
     }
 
     private lateinit var alertDialog: AlertDialog
@@ -51,15 +53,8 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
 
     // Initialize listener
     private var mListener: RepaymentDialogListener? = null
-
-    private lateinit var inputBankAccNumberLoanOne: EditText
-    private lateinit var inputBankAccNumberLoanTwo: EditText
-    private lateinit var inputBankAccNumberLoanThree: EditText
-    private lateinit var inputBankAccNumberLoanFour: EditText
-
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var totalLoanAmounts: TextView
-
     private var clientId: Long? = null
 
 
@@ -130,9 +125,7 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
     }
 
     private fun validateLoanOne(view: View): Boolean {
-        inputBankAccNumberLoanOne = view.find(R.id.editTextBankAccNumberLoanOne)
-
-        if (inputBankAccNumberLoanOne.visibility == View.VISIBLE) {
+        if (!ViewDialog.loanOneBankDetails) {
             if (ViewDialog.loanOneVm?.bankAccNo.isNullOrBlank()) {
                 toast("Enter Loan 1 Bank Acc Number")
                 return false
@@ -155,8 +148,7 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         if (!validateLoanOne(view)) {
             return false
         }
-        inputBankAccNumberLoanTwo = view.find(R.id.editTextBankAccNumberLoanTwo)
-        if (inputBankAccNumberLoanTwo.visibility == View.VISIBLE) {
+        if (!ViewDialog.loanTwoBankDetails) {
             if (ViewDialog.loanTwoVm?.bankAccNo.isNullOrBlank()) {
                 toast("Enter Loan 2 Bank Acc Number")
                 return false
@@ -179,8 +171,7 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         if (!validateLoanTwo(view)) {
             return false
         }
-        inputBankAccNumberLoanThree = view.find(R.id.editTextBankAccNumberLoanThree)
-        if (inputBankAccNumberLoanThree.visibility == View.VISIBLE) {
+        if (!ViewDialog.loanThreeBankDetails) {
             if (ViewDialog.loanThreeVm?.bankAccNo.isNullOrBlank()) {
                 toast("Enter Loan 3 Bank Acc Number")
                 return false
@@ -204,8 +195,7 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         if (!validateLoanThree(view)) {
             return false
         }
-        inputBankAccNumberLoanFour = view.find(R.id.editTextBankAccNumberLoanFour)
-        if (inputBankAccNumberLoanFour.visibility == View.VISIBLE) {
+        if (!ViewDialog.loanFourBankDetails) {
             if (ViewDialog.loanFourVm?.bankAccNo.isNullOrBlank()) {
                 toast("Enter Loan 4 Bank Acc Number")
                 return false
@@ -241,9 +231,9 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         totalLoanAmounts = view.find(R.id.loanTotalAmount)
         // Get the total amount of all loans from all fragments
         for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
-            ViewDialog.totalAmount = ViewDialog.memberLoanDetails!!.loanDetails[i].principleDue +
-                    ViewDialog.memberLoanDetails!!.loanDetails[i].interestDue +
-                    ViewDialog.memberLoanDetails!!.loanDetails[i].penalCharges
+            ViewDialog.totalAmount = ViewDialog.memberLoanDetails!!.loanDetails[i].principleDue!! +
+                    ViewDialog.memberLoanDetails!!.loanDetails[i].interestDue!! +
+                    ViewDialog.memberLoanDetails!!.loanDetails[i].penalCharges!!
 
         }
         totalLoanAmounts.text = ViewDialog.totalAmount.toString()
@@ -252,10 +242,10 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         // Adding fragment dynamically, passing loan details in new instance
         for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
             when (i) {
-                0 -> repaymentPagerAdapter.addFragment("Loan 1", LoanOneFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i], view))
-                1 -> repaymentPagerAdapter.addFragment("Loan 2", LoanTwoFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i], view))
-                2 -> repaymentPagerAdapter.addFragment("Loan 3", LoanThreeFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i], view))
-                3 -> repaymentPagerAdapter.addFragment("Loan 4", LoanFourFragment.newInstance(ViewDialog.memberLoanDetails!!.loanDetails[i], view))
+                0 -> repaymentPagerAdapter.addFragment("Loan 1", LoanOneFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
+                1 -> repaymentPagerAdapter.addFragment("Loan 2", LoanTwoFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
+                2 -> repaymentPagerAdapter.addFragment("Loan 3", LoanThreeFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
+                3 -> repaymentPagerAdapter.addFragment("Loan 4", LoanFourFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
             }
         }
         viewPager.adapter = repaymentPagerAdapter;
@@ -272,23 +262,23 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
             for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
                 when (i) {
                     0 -> {
-                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount!!
+                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!!
                         totalLoanAmounts.text = "${ViewDialog.totalAmount}"
                     }
                     1 -> {
-                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount!! +
-                                ViewDialog.loanTwoVm?.totalAmount!!
+                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
+                                ViewDialog.loanTwoVm?.totalAmount?.get()!!
                         totalLoanAmounts.text = "${ViewDialog.totalAmount}"
                     }
                     2 -> {
-                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount!! +
-                                ViewDialog.loanTwoVm?.totalAmount!! + ViewDialog.loanThreeVm?.totalAmount!!
+                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
+                                ViewDialog.loanTwoVm?.totalAmount?.get()!! + ViewDialog.loanThreeVm?.totalAmount?.get()!!
                         totalLoanAmounts.text = "${ViewDialog.totalAmount}"
                     }
                     3 -> {
-                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount!! +
-                                ViewDialog.loanTwoVm?.totalAmount!! + ViewDialog.loanThreeVm?.totalAmount!! +
-                                ViewDialog.loanFourVm?.totalAmount!!
+                        ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
+                                ViewDialog.loanTwoVm?.totalAmount?.get()!! + ViewDialog.loanThreeVm?.totalAmount?.get()!! +
+                                ViewDialog.loanFourVm?.totalAmount?.get()!!
                         totalLoanAmounts.text = "${ViewDialog.totalAmount}"
                     }
                 }

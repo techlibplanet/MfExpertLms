@@ -2,12 +2,11 @@ package net.rmitsolutions.mfexpert.lms.repayment.adapter
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.CheckBox
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.MfExpertApp
-import net.rmitsolutions.mfexpert.lms.R
 import net.rmitsolutions.mfexpert.lms.databinding.RepaymentActivityBinding
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectActivityComponent
 import net.rmitsolutions.mfexpert.lms.models.Globals
@@ -16,15 +15,14 @@ import net.rmitsolutions.mfexpert.lms.repayment.RepaymentDialog
 import net.rmitsolutions.mfexpert.lms.repayment.callback.RepaymentDetailsCallback
 import net.rmitsolutions.mfexpert.lms.repayment.callback.RepaymentDetailsListener
 import net.rmitsolutions.mfexpert.lms.repayment.callback.RepaymentDialogListener
+import net.rmitsolutions.mfexpert.lms.viewmodels.ClientHandler
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
-import org.jetbrains.anko.find
 import javax.inject.Inject
 
 class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView.ViewHolder(dataBinding.root), RepaymentDetailsListener, RepaymentDialogListener {
 
     @Inject
     lateinit var repayService: IRepayment
-    private lateinit var prePaymentCheckBox: CheckBox
     private lateinit var context: Context
 
     fun bind(context: Context, holder: ClientViewHolder, model: Repayment.RepaymentModel) {
@@ -39,13 +37,13 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
         val total = model.pastDue!! + model.currentDue!! + model.otherCharges!!
         dataBinding.repaymentModel?.total?.set(total)
 
-        prePaymentCheckBox = holder.itemView.find(R.id.prepayment_checkbox)
-
-        prePaymentCheckBox.setOnClickListener {
-            val repaymentDetailsCallback = RepaymentDetailsCallback()
-            repaymentDetailsCallback.setListener(this)
-            repaymentDetailsCallback.fetchMemberLoanDetails(context, model.id!!, repayService)
-        }
+        dataBinding.clientHandler = (object : ClientHandler{
+            override fun onClick(view: View) {
+                val repaymentDetailsCallback = RepaymentDetailsCallback()
+                repaymentDetailsCallback.setListener(this@ClientViewHolder)
+                repaymentDetailsCallback.fetchMemberLoanDetails(context, model.id!!, repayService)
+            }
+        })
     }
 
 
@@ -54,7 +52,7 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
             val preCloseTypes = Repayment.PreCloseTypes(0, "Select")
             data.preCloseTypes.add(0, preCloseTypes)
         }
-        if (prePaymentCheckBox.isChecked) {
+        if (dataBinding.repaymentModel?.isChecked?.get()!!) {
             val manager = (context as AppCompatActivity).supportFragmentManager
             val ft = manager.beginTransaction()
             val prev = manager.findFragmentByTag("dialog")
@@ -79,14 +77,14 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
     // Add the Loans Data to repayment data list on press dialog Ok Button
     override fun onComplete(result: String, clientId: Long) {
         if (result == Constants.PREPAYMENT_CHECKED) {
-            prePaymentCheckBox.isChecked = true
+            dataBinding.repaymentModel?.isChecked?.set(true)
             val loanDetailsList = ArrayList<Repayment.LoanRepaymentDetail>()
             for (data in Repayment.RepaymentData.loanDetails) {
                 val loanDetails = Repayment.LoanRepaymentDetail()
                 loanDetails.loanId = data.loanId
-                loanDetails.preClosureType = data.preCloseTypeId
-                loanDetails.paidAmount = data.totalAmount
-                loanDetails.adjustedAmount = data.adjustedAmount
+                loanDetails.preClosureType = data.preCloseTypeId!!
+                loanDetails.paidAmount = data.totalAmount.get()!!
+                loanDetails.adjustedAmount = data.adjustedAmount!!
                 loanDetails.bankAccountNo = data.bankAccNo
                 loanDetails.bankIFSC = data.bankIfsc
                 loanDetails.bankName = data.bankName
@@ -95,7 +93,7 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
             }
             setRepaymentData(clientId, true, loanDetailsList)
         } else {
-            prePaymentCheckBox.isChecked = false
+            dataBinding.repaymentModel?.isChecked?.set(false)
             setRepaymentData(clientId, false, null)
         }
     }

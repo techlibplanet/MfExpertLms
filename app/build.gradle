@@ -122,6 +122,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:15.0.1"
     implementation "com.google.android.gms:play-services-location:15.0.1"
 
+    implementation 'com.github.ganfra:material-spinner:2.0.0'
+
     // Lib Camera Library Module
     implementation project(':libcam')
 
