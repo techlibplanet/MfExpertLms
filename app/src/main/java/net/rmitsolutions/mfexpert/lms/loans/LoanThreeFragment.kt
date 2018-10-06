@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 
 import net.rmitsolutions.mfexpert.lms.R
+import net.rmitsolutions.mfexpert.lms.databinding.DialogRepaymentBinding
 import net.rmitsolutions.mfexpert.lms.databinding.LoanThreeLayoutBinding
 import net.rmitsolutions.mfexpert.lms.helpers.toast
 import net.rmitsolutions.mfexpert.lms.models.Globals
@@ -25,7 +26,7 @@ class LoanThreeFragment : Fragment() {
     private lateinit var repaymentDialog: RepaymentDialog
     private lateinit var totalAmountCallback: TotalAmountCallback
     lateinit var dataBindingLoanThree: LoanThreeLayoutBinding
-    private var mView: View? = null
+    private var binding: DialogRepaymentBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,13 +95,13 @@ class LoanThreeFragment : Fragment() {
     private fun addTotalOnSelect() {
         total = memberLoanDetails.principleDue!! + memberLoanDetails.interestDue!! + memberLoanDetails.penalCharges!! + memberLoanDetails.adjustedAmount!!
         dataBindingLoanThree.loanThreeVm?.totalAmount?.set(Globals.getRoundOffDecimalFormat(total))
-        totalAmountCallback.onTotalAmountChanged(mView)
+        totalAmountCallback.onTotalAmountChanged(binding)
     }
 
     private fun addTotalOnOtherSelection() {
         total = memberLoanDetails.outstanding!! + memberLoanDetails.interestDue!! + memberLoanDetails.penalCharges!! + memberLoanDetails.adjustedAmount!!
         dataBindingLoanThree.loanThreeVm?.totalAmount?.set(Globals.getRoundOffDecimalFormat(total))
-        totalAmountCallback.onTotalAmountChanged(mView)
+        totalAmountCallback.onTotalAmountChanged(binding)
     }
 
 
@@ -134,10 +135,10 @@ class LoanThreeFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(memberLoanDetails: Repayment.LoanDetail, view: View) =
+        fun newInstance(memberLoanDetails: Repayment.LoanDetail, binding: DialogRepaymentBinding) =
                 LoanThreeFragment().apply {
                     this.memberLoanDetails = memberLoanDetails
-                    this.mView = view
+                    this.binding = binding
 
                 }
     }

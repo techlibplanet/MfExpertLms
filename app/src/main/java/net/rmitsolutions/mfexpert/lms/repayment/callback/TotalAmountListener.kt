@@ -1,7 +1,7 @@
 package net.rmitsolutions.mfexpert.lms.repayment.callback
 
-import android.view.View
+import net.rmitsolutions.mfexpert.lms.databinding.DialogRepaymentBinding
 
 interface TotalAmountListener {
-    fun onTotalAmountChanged(view : View?)
+    fun onTotalAmountChanged(view: DialogRepaymentBinding?)
 }

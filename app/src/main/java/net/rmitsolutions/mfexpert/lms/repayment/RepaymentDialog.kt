@@ -8,14 +8,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import io.reactivex.disposables.CompositeDisposable
 import net.rmitsolutions.mfexpert.lms.Constants
 import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.R
+import net.rmitsolutions.mfexpert.lms.databinding.DialogRepaymentBinding
 import net.rmitsolutions.mfexpert.lms.dependency.components.DaggerInjectFragmentComponent
 import net.rmitsolutions.mfexpert.lms.helpers.logE
 import net.rmitsolutions.mfexpert.lms.helpers.toast
@@ -28,7 +27,6 @@ import net.rmitsolutions.mfexpert.lms.repayment.adapter.RepaymentPagerAdapter
 import net.rmitsolutions.mfexpert.lms.repayment.callback.RepaymentDialogListener
 import net.rmitsolutions.mfexpert.lms.repayment.callback.TotalAmountListener
 import net.rmitsolutions.mfexpert.lms.viewmodels.Repayment
-import org.jetbrains.anko.find
 
 class RepaymentDialog() : DialogFragment(), TotalAmountListener {
 
@@ -41,10 +39,10 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         var loanThreeVm: Repayment.LoanDetail? = null
         var loanFourVm: Repayment.LoanDetail? = null
         var repaymentActivityVm: Repayment.RepaymentModel? = null
-        var loanOneBankDetails : Boolean = false
-        var loanTwoBankDetails : Boolean = false
-        var loanThreeBankDetails : Boolean = false
-        var loanFourBankDetails : Boolean = false
+        var loanOneBankDetails: Boolean = false
+        var loanTwoBankDetails: Boolean = false
+        var loanThreeBankDetails: Boolean = false
+        var loanFourBankDetails: Boolean = false
     }
 
     private lateinit var alertDialog: AlertDialog
@@ -54,8 +52,8 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
     // Initialize listener
     private var mListener: RepaymentDialogListener? = null
     private lateinit var compositeDisposable: CompositeDisposable
-    private lateinit var totalLoanAmounts: TextView
     private var clientId: Long? = null
+    private lateinit var dialogRepaymentBinding: DialogRepaymentBinding
 
 
     @SuppressLint("ValidFragment")
@@ -79,7 +77,7 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mListener = viewHolderContext as RepaymentDialogListener
+        mListener = viewHolderContext
         alertDialog = AlertDialog.Builder(activity!!).setTitle("${ViewDialog.memberLoanDetails?.memberName}")
                 .setPositiveButton("Ok", null).setNegativeButton("Cancel", null).create()
         alertDialog.setOnShowListener { dialogInterface ->
@@ -94,7 +92,6 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
                     }
                 }
             }
-
             cancelButton.setOnClickListener {
                 mListener?.onGettingTotalAmount(ViewDialog.preTotalAmount)
                 mListener?.onComplete(Constants.PREPAYMENT_UNCHECKED, clientId!!)
@@ -188,7 +185,6 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
             }
         }
         return true
-
     }
 
     private fun validateLoanFour(view: View): Boolean {
@@ -218,17 +214,16 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
         super.onAttach(context)
         try {
             // Registering listener
-            this.mListener = viewHolderContext as RepaymentDialogListener
+            this.mListener = viewHolderContext
         } catch (e: ClassCastException) {
             throw ClassCastException("${ClientViewHolder::class.java.simpleName} must implement OnCompleteListener")
         }
     }
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_repayment, container, false)
-        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
-        val viewPager = view.findViewById<ViewPager>(R.id.masterViewPager)
-        totalLoanAmounts = view.find(R.id.loanTotalAmount)
+        dialogRepaymentBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_repayment, container, false)
+        var view = dialogRepaymentBinding.root
         // Get the total amount of all loans from all fragments
         for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
             ViewDialog.totalAmount = ViewDialog.memberLoanDetails!!.loanDetails[i].principleDue!! +
@@ -236,55 +231,54 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
                     ViewDialog.memberLoanDetails!!.loanDetails[i].penalCharges!!
 
         }
-        totalLoanAmounts.text = ViewDialog.totalAmount.toString()
-
+        dialogRepaymentBinding.repaymentDialogVm?.totalLoanAmounts?.set(ViewDialog.totalAmount)
 
         // Adding fragment dynamically, passing loan details in new instance
         for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
             when (i) {
-                0 -> repaymentPagerAdapter.addFragment("Loan 1", LoanOneFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
-                1 -> repaymentPagerAdapter.addFragment("Loan 2", LoanTwoFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
-                2 -> repaymentPagerAdapter.addFragment("Loan 3", LoanThreeFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
-                3 -> repaymentPagerAdapter.addFragment("Loan 4", LoanFourFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], view))
+                0 -> repaymentPagerAdapter.addFragment("Loan 1", LoanOneFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], dialogRepaymentBinding))
+                1 -> repaymentPagerAdapter.addFragment("Loan 2", LoanTwoFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], dialogRepaymentBinding))
+                2 -> repaymentPagerAdapter.addFragment("Loan 3", LoanThreeFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], dialogRepaymentBinding))
+                3 -> repaymentPagerAdapter.addFragment("Loan 4", LoanFourFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], dialogRepaymentBinding))
             }
         }
-        viewPager.adapter = repaymentPagerAdapter;
-        viewPager.offscreenPageLimit = 4
-        tabLayout.setupWithViewPager(viewPager);
+        dialogRepaymentBinding.masterViewPager.adapter = repaymentPagerAdapter;
+        dialogRepaymentBinding.masterViewPager.offscreenPageLimit = 4
+        dialogRepaymentBinding.tabLayout.setupWithViewPager(dialogRepaymentBinding.masterViewPager);
         alertDialog.setView(view)
         return view;
     }
 
     // Method to set the total amount of dialog fragment layout
-    override fun onTotalAmountChanged(view: View?) {
-        if (view != null) {
-            totalLoanAmounts = view.find(R.id.loanTotalAmount)
+    override fun onTotalAmountChanged(binding: DialogRepaymentBinding?) {
+        if (binding != null) {
             for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
                 when (i) {
                     0 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!!
-                        totalLoanAmounts.text = "${ViewDialog.totalAmount}"
+                        binding.loanTotalAmount.text = ViewDialog.totalAmount.toString()
                     }
                     1 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
                                 ViewDialog.loanTwoVm?.totalAmount?.get()!!
-                        totalLoanAmounts.text = "${ViewDialog.totalAmount}"
+                        binding.loanTotalAmount.text = "${ViewDialog.totalAmount}"
                     }
                     2 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
                                 ViewDialog.loanTwoVm?.totalAmount?.get()!! + ViewDialog.loanThreeVm?.totalAmount?.get()!!
-                        totalLoanAmounts.text = "${ViewDialog.totalAmount}"
+                        binding.loanTotalAmount.text = "${ViewDialog.totalAmount}"
                     }
                     3 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
                                 ViewDialog.loanTwoVm?.totalAmount?.get()!! + ViewDialog.loanThreeVm?.totalAmount?.get()!! +
                                 ViewDialog.loanFourVm?.totalAmount?.get()!!
-                        totalLoanAmounts.text = "${ViewDialog.totalAmount}"
+                        binding.loanTotalAmount.text = "${ViewDialog.totalAmount}"
                     }
                 }
             }
         } else {
-            logE("Error - View is null")
+            logE("Error - RepaymentDialogBinding is null")
         }
     }
+
 }

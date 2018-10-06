@@ -51,15 +51,13 @@ class Repayment {
         var bankIfsc: String? = null
         val recoveredAmount: Double? = 0.0
         var preCloseTypeId: Int? = 0
-
         @Bindable
         var preCloseTypes = mutableListOf<PreCloseTypes>()
-
         @Bindable
         var preCloseTypeList = arrayListOf<String>()
-
     }
 
+    // PreCloseTypes
     class PreCloseTypes(val id: Int, val name: String) : Serializable
 
     // Post Repayment Details
@@ -84,7 +82,11 @@ class Repayment {
 
     // Loan Prepayment type event handler
     interface RepaymentEventHandler {
-        fun onPrepaymentTypeChanged(pos : Int)
+        fun onPrepaymentTypeChanged(pos: Int)
     }
 
+    // Repayment Dialog Model
+    class RepaymentDialogParamsModel {
+        var totalLoanAmounts = ObservableField<Double>()
+    }
 }

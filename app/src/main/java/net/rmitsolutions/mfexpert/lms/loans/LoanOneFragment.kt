@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 
 import net.rmitsolutions.mfexpert.lms.R
+import net.rmitsolutions.mfexpert.lms.databinding.DialogRepaymentBinding
 import net.rmitsolutions.mfexpert.lms.databinding.LoanOneLayoutBinding
 import net.rmitsolutions.mfexpert.lms.helpers.toast
 import net.rmitsolutions.mfexpert.lms.models.Globals
@@ -27,7 +28,7 @@ class LoanOneFragment : Fragment() {
 
     lateinit var dataBindingLoanOne: LoanOneLayoutBinding
     private var total = 0.0
-    private var mView: View? = null
+    private var binding: DialogRepaymentBinding? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,13 +100,13 @@ class LoanOneFragment : Fragment() {
     private fun addTotalOnSelect() {
         total = memberLoanDetails.principleDue!! + memberLoanDetails.interestDue!! + memberLoanDetails.penalCharges!! + memberLoanDetails.adjustedAmount!!
         dataBindingLoanOne.loanOneVm?.totalAmount?.set(Globals.getRoundOffDecimalFormat(total))
-        totalAmountCallback.onTotalAmountChanged(mView!!)
+        totalAmountCallback.onTotalAmountChanged(binding!!)
     }
 
     private fun addTotalOnOtherSelection() {
         total = memberLoanDetails.outstanding!! + memberLoanDetails.interestDue!! + memberLoanDetails.penalCharges!! + memberLoanDetails.adjustedAmount!!
         dataBindingLoanOne.loanOneVm?.totalAmount?.set(Globals.getRoundOffDecimalFormat(total))
-        totalAmountCallback.onTotalAmountChanged(mView!!)
+        totalAmountCallback.onTotalAmountChanged(binding!!)
     }
 
     private fun disableBankDetails(disable: Boolean) {
@@ -138,10 +139,10 @@ class LoanOneFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(memberLoanDetails: Repayment.LoanDetail, view: View) =
+        fun newInstance(memberLoanDetails: Repayment.LoanDetail, binding: DialogRepaymentBinding) =
                 LoanOneFragment().apply {
                     this.memberLoanDetails = memberLoanDetails
-                    this.mView = view
+                    this.binding = binding
                 }
     }
 }

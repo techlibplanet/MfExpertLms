@@ -3,11 +3,10 @@ package net.rmitsolutions.mfexpert.lms.repayment.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import android.view.ViewGroup
 
 class RepaymentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     private var mFragmentCollection: MutableList<Fragment> = ArrayList()
-    private  var mTitleCollection: MutableList<String> = ArrayList()
+    private var mTitleCollection: MutableList<String> = ArrayList()
     fun addFragment(title: String, fragment: Fragment) {
         mTitleCollection.add(title)
         mFragmentCollection.add(fragment)
@@ -26,7 +25,5 @@ class RepaymentPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm)
         return mFragmentCollection.size
     }
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        return super.instantiateItem(container, position)
-    }
+
 }

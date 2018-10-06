@@ -25,7 +25,7 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
     lateinit var repayService: IRepayment
     private lateinit var context: Context
 
-    fun bind(context: Context, holder: ClientViewHolder, model: Repayment.RepaymentModel) {
+    fun bind(context: Context, model: Repayment.RepaymentModel) {
         this.context = context
         val depComponent = DaggerInjectActivityComponent.builder()
                 .applicationComponent(MfExpertApp.applicationComponent)
@@ -37,7 +37,7 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
         val total = model.pastDue!! + model.currentDue!! + model.otherCharges!!
         dataBinding.repaymentModel?.total?.set(total)
 
-        dataBinding.clientHandler = (object : ClientHandler{
+        dataBinding.clientHandler = (object : ClientHandler {
             override fun onClick(view: View) {
                 val repaymentDetailsCallback = RepaymentDetailsCallback()
                 repaymentDetailsCallback.setListener(this@ClientViewHolder)
@@ -98,13 +98,13 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
         }
     }
 
-    private fun setRepaymentData(clientId: Long, isPreClosure: Boolean, loanDetailsList: ArrayList<Repayment.LoanRepaymentDetail>?){
+    private fun setRepaymentData(clientId: Long, isPreClosure: Boolean, loanDetailsList: ArrayList<Repayment.LoanRepaymentDetail>?) {
         for (repay in Repayment.RepaymentData.repaymentDataList) {
             if (repay.memberId == clientId) {
                 repay.repaymentType = 1
                 repay.paidAmount = dataBinding.repaymentModel?.total?.get()!!
                 repay.isPreClosure = isPreClosure
-                if (isPreClosure){
+                if (isPreClosure) {
                     repay.loanRepaymentDetails = loanDetailsList
                 }
                 break

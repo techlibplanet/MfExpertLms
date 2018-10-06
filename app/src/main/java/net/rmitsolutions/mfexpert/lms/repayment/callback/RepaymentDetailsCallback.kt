@@ -21,7 +21,6 @@ class RepaymentDetailsCallback {
         compositeDisposable.add(repayService.getMemberLoanDetails(context.apiAccessToken, clientId)
                 .processRequest(context, { response ->
                     if (response.isSuccess!!) {
-                        context.toast("Response Success")
                         listener.onSuccess(response, clientId)
                     } else {
                         context.toast("${response.message}")
