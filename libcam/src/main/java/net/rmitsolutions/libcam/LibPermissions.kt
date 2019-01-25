@@ -39,7 +39,7 @@ class LibPermissions {
     }
 
 
-    fun permissionsNeeded(): Boolean {
+    private fun permissionsNeeded(): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
     }
 
@@ -76,10 +76,10 @@ class LibPermissions {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun executeRequestPermission(operationType: String?) {
         var context: Context? = null
-        if (activity != null) {
-            context = activity
+        context = if (activity != null) {
+            activity
         } else {
-            context = if (fragment != null) fragment!!.activity else fragmentV4!!.context
+            if (fragment != null) fragment!!.activity else fragmentV4!!.context
         }
 
         val permissionListFault = ArrayList<String>()
@@ -159,7 +159,7 @@ class LibPermissions {
 
     private fun runPendingTask() {
         if (task != null) {
-            task!!.run()
+            task?.run()
         }
     }
 

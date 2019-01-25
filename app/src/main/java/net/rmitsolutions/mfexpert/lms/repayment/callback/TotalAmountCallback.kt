@@ -11,7 +11,7 @@ class TotalAmountCallback {
         this.listener = totalAmountListener
     }
 
-    fun onTotalAmountChanged(view: DialogRepaymentBinding?) {
-        listener.onTotalAmountChanged(view)
+    fun onTotalAmountChanged(binding: DialogRepaymentBinding?) {
+        listener.onTotalAmountChanged(binding)
     }
 }

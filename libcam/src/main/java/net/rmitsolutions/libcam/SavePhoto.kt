@@ -5,15 +5,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
-import net.rmitsolutions.libcam.Constants.DEFAULT_DIRECTORY_NAME
 import net.rmitsolutions.libcam.Constants.JPEG
 import net.rmitsolutions.libcam.Constants.PNG
-import net.rmitsolutions.libcam.Constants.SAVE_DIRECTORY_NAME
 import net.rmitsolutions.libcam.Constants.WEBP
 import net.rmitsolutions.libcam.Constants.logE
 import net.rmitsolutions.libcam.Constants.mCurrentImageName
 import net.rmitsolutions.libcam.Constants.mCurrentPhotoPath
-import net.rmitsolutions.libcam.Constants.tag
 
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -35,29 +32,28 @@ internal class SavePhoto {
             val bytes = ByteArrayOutputStream()
             bitmap.compress(format, 100, bytes)
             val df = SimpleDateFormat("yyyyMMddHHmmss")
-            val date = df.format(Calendar.getInstance().time)
-            if (format == PNG) {
-                photoName = if (autoIncrementNameByDate) photoName + "_" + date + ".png" else "$photoName.png"
-            } else if (format == JPEG) {
-                photoName = if (autoIncrementNameByDate) photoName + "_" + date + ".jpeg" else "$photoName.jpeg"
-            } else if (format == WEBP) {
-                photoName = if (autoIncrementNameByDate) photoName + "_" + date + ".webp" else "$photoName.webp"
+            val date = df.format(Calendar.getInstance().time)//Update the System
+            //                wallpaperDirectory = File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES ), "$directoryName")
+            when (format) {
+                PNG -> photoName = if (autoIncrementNameByDate) photoName + "_" + date + ".png" else "$photoName.png"
+                JPEG -> photoName = if (autoIncrementNameByDate) photoName + "_" + date + ".jpeg" else "$photoName.jpeg"
+                WEBP -> photoName = if (autoIncrementNameByDate) photoName + "_" + date + ".webp" else "$photoName.webp"
             }
 
             mCurrentImageName = photoName
             var wallpaperDirectory: File? = null
 
-            try {
-                wallpaperDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/" + directoryName + "/")
-//                wallpaperDirectory = File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES ), "$directoryName")
+            wallpaperDirectory = try {
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/" + directoryName + "/")
+                //wallpaperDirectory = File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES ), "$directoryName")
             } catch (ev: Exception) {
                 try {
-                    wallpaperDirectory = Environment.getExternalStorageDirectory()
+                    Environment.getExternalStorageDirectory()
                 } catch (ex: Exception) {
                     try {
-                        wallpaperDirectory = Environment.getDataDirectory()
+                        Environment.getDataDirectory()
                     } catch (e: Exception) {
-                        wallpaperDirectory = Environment.getRootDirectory()
+                        Environment.getRootDirectory()
                     }
                 }
             }

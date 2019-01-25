@@ -60,6 +60,7 @@ class RepaymentActivity : BaseActivity(),
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_repayment_client_search, menu)
         val searchView = menu?.findItem(R.id.action_search)?.actionView as SearchView
+        searchView.isIconified = false
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 filter(query)
@@ -76,7 +77,7 @@ class RepaymentActivity : BaseActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_search -> {
-                false
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -87,7 +88,7 @@ class RepaymentActivity : BaseActivity(),
         adapter.notifyDataSetChanged()
     }
 
-    override fun getSelfNavDrawerItem() = R.id.nav_dashboard
+    override fun getSelfNavDrawerItem() = R.id.nav_repayment
 
     private fun filter(text: String) {
         if (!validate()) return
@@ -141,7 +142,7 @@ class RepaymentActivity : BaseActivity(),
                         buttonPostData.visibility = View.GONE
                         startActivity(intent)
                     } else {
-                        toast("${response.message}")
+                        toast(response.message)
                     }
                 }, { err ->
                     hideProgress()

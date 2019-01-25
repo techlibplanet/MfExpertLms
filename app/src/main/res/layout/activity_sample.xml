@@ -21,13 +21,6 @@
             android:layout_marginTop="?actionBarSize"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_weight="1"
-                android:id="@+id/client_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:scrollbars="vertical" />
 
             <Button
                 android:layout_weight="0"

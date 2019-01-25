@@ -50,6 +50,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+
+    // Material better spinner
     implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
 
     //anko

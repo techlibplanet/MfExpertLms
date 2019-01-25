@@ -110,9 +110,8 @@ internal class ActionCamera(private val activity: Activity) {
         return null
     }
 
-    fun getBitmapFromUri(uri: Uri): Bitmap? {
-        return MediaStore.Images.Media.getBitmap(activity.contentResolver, uri);
-    }
+    fun getBitmapFromUri(uri: Uri): Bitmap? =
+            MediaStore.Images.Media.getBitmap(activity.contentResolver, uri)
 
     fun getUriFromBitmap(bitmap: Bitmap): Uri? {
         val path = MediaStore.Images.Media.insertImage(activity.contentResolver, bitmap, "Title", null)
@@ -120,25 +119,26 @@ internal class ActionCamera(private val activity: Activity) {
     }
 
     // Get bitmap from byte array
-    fun getByteArrayFromBitmap(bitmap: Bitmap, compressQuality: Int): ByteArray? {
+    fun getByteArrayFromBitmap(bitmap: Bitmap, compressQuality: Int): ByteArray {
         val byteArrayStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, byteArrayStream)
         return byteArrayStream.toByteArray()
     }
 
+    fun getByteArrayFromBitmap(bitmap: Bitmap, compressFormat: Bitmap.CompressFormat, compressQuality: Int): ByteArray? {
+        val byteArrayStream = ByteArrayOutputStream()
+        bitmap.compress(compressFormat, compressQuality, byteArrayStream)
+        return byteArrayStream.toByteArray()
+    }
+
     // Get byte array from bitmap
-    fun getBitmapFromByteArray(byteArray: ByteArray): Bitmap? {
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        return if (bitmap != null) {
-            bitmap
-        } else {
-            null
-        }
+    fun getBitmapFromByteArray(byteArray: ByteArray): Bitmap {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
     fun getUriFromByteArray(byteArray: ByteArray): Uri? {
         val bitmap = getBitmapFromByteArray(byteArray)
-        return getUriFromBitmap(bitmap!!)
+        return getUriFromBitmap(bitmap)
     }
 
     fun getByteArrayFromUri(uri: Uri, compressQuality: Int): ByteArray? {
@@ -148,9 +148,7 @@ internal class ActionCamera(private val activity: Activity) {
 
     // Get base 64 string from bitmap with image quality
     fun getBase64StringFromBitmap(bitmap: Bitmap, quality: Int): String? {
-        val byteArrayStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayStream)
-        val byteArray = byteArrayStream.toByteArray()
+        val byteArray = getByteArrayFromBitmap(bitmap, quality)
         return getBase64StringFromByteArray(byteArray)
     }
 
@@ -165,14 +163,9 @@ internal class ActionCamera(private val activity: Activity) {
     }
 
     // Get bitmap from base 64 string
-    fun getBitmapFromBase64String(base64String: String): Bitmap? {
+    fun getBitmapFromBase64String(base64String: String): Bitmap {
         val bitmapArray = getByteArrayFromBase64String(base64String)
-        val bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.size)
-        return if (bitmap != null) {
-            bitmap
-        } else {
-            null
-        }
+        return BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.size)
     }
 
     // Get base 64 string from Uri
@@ -184,7 +177,7 @@ internal class ActionCamera(private val activity: Activity) {
     // Get Uri from base 64
     fun getUriFromBase64String(base64String: String): Uri? {
         val bitmap = getBitmapFromBase64String(base64String)
-        return getUriFromBitmap(bitmap!!)
+        return getUriFromBitmap(bitmap)
     }
 
     fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix: String, autoConcatenateNameByDate: Boolean): String? {
@@ -225,9 +218,7 @@ internal class ActionCamera(private val activity: Activity) {
 
     // Rotate Image
     fun rotatePicture(bitmap: Bitmap, rotate: Int) {
-        if (bitmap != null) {
-            pictureUtils.rotateImage(bitmap, rotate.toFloat())
-        }
+        pictureUtils.rotateImage(bitmap, rotate.toFloat())
     }
 
     // Used to create scaled bitmap

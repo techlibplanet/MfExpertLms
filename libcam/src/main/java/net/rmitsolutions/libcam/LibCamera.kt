@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import net.rmitsolutions.libcam.Constants.mCurrentImageName
 
-class LibCamera(private val activity: Activity) {
+class LibCamera(activity: Activity) {
 
     private var actionCamera = ActionCamera(activity)
 
@@ -16,7 +16,7 @@ class LibCamera(private val activity: Activity) {
     }
 
     // This method called at the time of onActivityResult called for getting image from gallery or camera
-    fun getPickImageResultUri(data : Intent?): Uri? {
+    fun getPickImageResultUri(data: Intent?): Uri? {
         return actionCamera.getPickImageResultUri(data)
     }
 
@@ -26,7 +26,7 @@ class LibCamera(private val activity: Activity) {
     }
 
     // This method called at the time of onActivityResult called for crop image activity result
-    fun cropImageActivityResult(requestCode: Int, resultCode: Int,data: Intent): Uri? {
+    fun cropImageActivityResult(requestCode: Int, resultCode: Int, data: Intent): Uri? {
         return actionCamera.cropImageActivityResult(requestCode, resultCode, data)
     }
 
@@ -42,8 +42,15 @@ class LibCamera(private val activity: Activity) {
 
     // This method is used to get byte array from bitmap
     // compressQuality : Quality of Image (0-100)
-    fun getByteArrayFromBitmap(bitmap: Bitmap, compressQuality : Int): ByteArray? {
-        return actionCamera.getByteArrayFromBitmap(bitmap,compressQuality)
+    fun getByteArrayFromBitmap(bitmap: Bitmap, compressQuality: Int): ByteArray? {
+        return actionCamera.getByteArrayFromBitmap(bitmap, compressQuality)
+    }
+
+    // This method is used to get byte array from bitmap
+    // compressQuality : Quality of Image (0-100)
+    // CompressFormat : JPEG, PNG, and WEBP
+    fun getByteArrayFromBitmap(bitmap: Bitmap, compressFormat: Bitmap.CompressFormat, compressQuality: Int): ByteArray? {
+        return actionCamera.getByteArrayFromBitmap(bitmap, compressFormat, compressQuality)
     }
 
     // This method is used to get bitmap from byte array
@@ -51,7 +58,7 @@ class LibCamera(private val activity: Activity) {
         return actionCamera.getBitmapFromByteArray(byteArray)
     }
 
-    // This method is used to get Uri from byte array
+    /* This method is used to get Uri from byte array */
     fun getUriFromByteArray(byteArray: ByteArray): Uri? {
         return actionCamera.getUriFromByteArray(byteArray)
     }
@@ -64,12 +71,12 @@ class LibCamera(private val activity: Activity) {
 
     // This method is used to geet base 64 string from bitmap,
     // compressQuality : Quality of Image (0-100)
-    fun getBase64StringFromBitmap(bitmap : Bitmap, compressQuality: Int): String? {
+    fun getBase64StringFromBitmap(bitmap: Bitmap, compressQuality: Int): String? {
         return actionCamera.getBase64StringFromBitmap(bitmap, compressQuality)
     }
 
     // This method is used to get bitmap from base 64 string
-    fun getBitmapFromBase64String(base64String : String): Bitmap? {
+    fun getBitmapFromBase64String(base64String: String): Bitmap? {
         return actionCamera.getBitmapFromBase64String(base64String)
     }
 
@@ -94,52 +101,50 @@ class LibCamera(private val activity: Activity) {
         return actionCamera.getBase64StringFromByteArray(byteArray)
     }
 
-    fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix : String, autoConcatenateNameByDate : Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(bitmap,imagePrefix,autoConcatenateNameByDate)
+    fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix: String, autoConcatenateNameByDate: Boolean): String? {
+        return actionCamera.savePhotoInDeviceMemory(bitmap, imagePrefix, autoConcatenateNameByDate)
     }
 
-    fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix: String, format : Bitmap.CompressFormat, autoConcatenateNameByDate: Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(bitmap, imagePrefix, format,autoConcatenateNameByDate)
+    fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix: String, format: Bitmap.CompressFormat, autoConcatenateNameByDate: Boolean): String? {
+        return actionCamera.savePhotoInDeviceMemory(bitmap, imagePrefix, format, autoConcatenateNameByDate)
     }
 
-    fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix: String, directoryName : String, autoConcatenateNameByDate: Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(bitmap, imagePrefix, directoryName,autoConcatenateNameByDate)
+    fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix: String, directoryName: String, autoConcatenateNameByDate: Boolean): String? {
+        return actionCamera.savePhotoInDeviceMemory(bitmap, imagePrefix, directoryName, autoConcatenateNameByDate)
     }
 
     fun savePhotoInDeviceMemory(bitmap: Bitmap, imagePrefix: String, directoryName: String, format: Bitmap.CompressFormat, autoConcatenateNameByDate: Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(bitmap, imagePrefix, directoryName, format, autoConcatenateNameByDate )
+        return actionCamera.savePhotoInDeviceMemory(bitmap, imagePrefix, directoryName, format, autoConcatenateNameByDate)
     }
 
-    fun savePhotoInDeviceMemory(uri: Uri, imagePrefix : String, autoConcatenateNameByDate : Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(uri,imagePrefix,autoConcatenateNameByDate)
+    fun savePhotoInDeviceMemory(uri: Uri, imagePrefix: String, autoConcatenateNameByDate: Boolean): String? {
+        return actionCamera.savePhotoInDeviceMemory(uri, imagePrefix, autoConcatenateNameByDate)
     }
 
-    fun savePhotoInDeviceMemory(uri: Uri, imagePrefix: String, format : Bitmap.CompressFormat, autoConcatenateNameByDate: Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(uri, imagePrefix,format, autoConcatenateNameByDate)
+    fun savePhotoInDeviceMemory(uri: Uri, imagePrefix: String, format: Bitmap.CompressFormat, autoConcatenateNameByDate: Boolean): String? {
+        return actionCamera.savePhotoInDeviceMemory(uri, imagePrefix, format, autoConcatenateNameByDate)
     }
 
-    fun savePhotoInDeviceMemory(uri: Uri, imagePrefix: String, directoryName : String, autoConcatenateNameByDate: Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(uri, imagePrefix, directoryName,autoConcatenateNameByDate)
+    fun savePhotoInDeviceMemory(uri: Uri, imagePrefix: String, directoryName: String, autoConcatenateNameByDate: Boolean): String? {
+        return actionCamera.savePhotoInDeviceMemory(uri, imagePrefix, directoryName, autoConcatenateNameByDate)
     }
 
     fun savePhotoInDeviceMemory(uri: Uri, imagePrefix: String, directoryName: String, format: Bitmap.CompressFormat, autoConcatenateNameByDate: Boolean): String? {
-        return actionCamera.savePhotoInDeviceMemory(uri, imagePrefix, directoryName, format,autoConcatenateNameByDate)
+        return actionCamera.savePhotoInDeviceMemory(uri, imagePrefix, directoryName, format, autoConcatenateNameByDate)
     }
 
     // This method is used to rotate Image
-    fun rotatePicture(bitmap: Bitmap, rotate: Int){
+    fun rotatePicture(bitmap: Bitmap, rotate: Int) {
         actionCamera.rotatePicture(bitmap, rotate)
     }
 
     // This method is used to create scaled bitmap
-    fun createScaledBitmap(bitmap: Bitmap, width : Int, height : Int, filter : Boolean): Bitmap? {
+    fun createScaledBitmap(bitmap: Bitmap, width: Int, height: Int, filter: Boolean): Bitmap? {
         return actionCamera.createScaledBitmap(bitmap, width, height, filter)
     }
 
     // This method is used to get the current Image name
     fun getCurrentBitmapName(): String? {
-        return if (mCurrentImageName!=null) mCurrentImageName else null
+        return if (mCurrentImageName != null) mCurrentImageName else null
     }
-
-
 }

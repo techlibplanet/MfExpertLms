@@ -25,7 +25,7 @@ class LibCameraActivity : AppCompatActivity() {
 
     private lateinit var libPermissions: LibPermissions
     private var imageUri: Uri? = null
-    private var toolbar : Toolbar? = null
+    private var toolbar: Toolbar? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class LibCameraActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar_actionbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar!!.setNavigationOnClickListener{
+        toolbar!!.setNavigationOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAfterTransition()
             }
@@ -59,7 +59,7 @@ class LibCameraActivity : AppCompatActivity() {
     }
 
     private fun getActionBarToolBar(): Toolbar? {
-        if (toolbar == null){
+        if (toolbar == null) {
 
         }
         return toolbar

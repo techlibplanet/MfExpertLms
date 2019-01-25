@@ -34,8 +34,8 @@ class ClientViewHolder(val dataBinding: RepaymentActivityBinding) : RecyclerView
 
         dataBinding.repaymentModel = model
         RepaymentDialog.ViewDialog.repaymentActivityVm = dataBinding.repaymentModel
-        val total = model.pastDue!! + model.currentDue!! + model.otherCharges!!
-        dataBinding.repaymentModel?.total?.set(total)
+        RepaymentDialog.ViewDialog.preTotalAmount = model.pastDue!! + model.currentDue!! + model.otherCharges!!
+        dataBinding.repaymentModel?.total?.set(RepaymentDialog.ViewDialog.preTotalAmount)
 
         dataBinding.clientHandler = (object : ClientHandler {
             override fun onClick(view: View) {

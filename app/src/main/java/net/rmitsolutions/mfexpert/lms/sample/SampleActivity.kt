@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import net.rmitsolutions.libcam.LibPermissions
 import net.rmitsolutions.mfexpert.lms.BaseActivity
 import net.rmitsolutions.mfexpert.lms.MfExpertApp
 import net.rmitsolutions.mfexpert.lms.R
@@ -26,22 +27,17 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-class SampleActivity : BaseActivity(),
-        LoanOneFragment.OnFragmentInteractionListener,
-        LoanTwoFragment.OnFragmentInteractionListener,
-        LoanThreeFragment.OnFragmentInteractionListener,
-        LoanFourFragment.OnFragmentInteractionListener {
+class SampleActivity : BaseActivity(), View.OnClickListener {
 
     //internal lateinit var compositeDisposable: CompositeDisposable
     @Inject
     lateinit var repayService : IRepayment
 
-    private lateinit var clientRecyclerView: RecyclerView
-    val adapter: ClientAdapter by lazy { ClientAdapter() }
-    lateinit var modelList: MutableList<Repayment.RepaymentModel>
     private lateinit var buttonPostData: Button
 
-    private val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    private val permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CAMERA)
+    private lateinit var libPermissions: LibPermissions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,85 +50,20 @@ class SampleActivity : BaseActivity(),
 
         buttonPostData = find(R.id.buttonPostData)
 
-        buttonPostData.visibility = View.GONE
+        buttonPostData.setOnClickListener(this)
 
-        clientRecyclerView = find(R.id.client_recycler_view)
-        clientRecyclerView.layoutManager = LinearLayoutManager(this)
-        clientRecyclerView.setHasFixedSize(true)
-        clientRecyclerView.adapter = adapter
-        modelList = mutableListOf<Repayment.RepaymentModel>()
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_repayment_client_search, menu)
-        val searchView = menu?.findItem(R.id.action_search)?.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                filter(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                return false
-            }
-        })
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_search -> {
-                logD("Search Clicked")
-                false
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun filter(text: String) {
-        if (!validate()) return
-        showProgress()
-        val repaymentParamsModel = Repayment.RepaymentParamsModel(text, "GL")
-        compositeDisposable.add(repayService.getGroupLoansList(apiAccessToken, repaymentParamsModel)
-                .processRequest(this,
-                        { dues ->
-                            hideProgress()
-                            buttonPostData.visibility = View.VISIBLE
-                            // Adding Repayment Details to post
-                            for (repayData in dues) {
-                                val repaymentDetail = Repayment.RepaymentDetail()
-                                repaymentDetail.memberId = repayData.id
-                                repaymentDetail.repaymentType = 1
-                                repaymentDetail.paidAmount = repayData.pastDue!! + repayData.currentDue!! + repayData.otherCharges!!
-                                repaymentDetail.isPreClosure = false
-                                Repayment.RepaymentData.repaymentDataList.add(repaymentDetail)
-                            }
-                            setRecyclerViewAdapter(dues)
-
-                        }
-                ) { err ->
-                    hideProgress()
-                    toast("Error: $err")
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.buttonPostData ->{
+                libPermissions = LibPermissions(this, permissions)
+                val runnable = Runnable {
+                    logD("All Permission Enabled")
                 }
-        )
-    }
-
-    private fun validate(): Boolean{
-        if (!isNetConnected(false)) {
-            snackBar(buttonPostData, getString(R.string.you_are_offline))
-            return false
+                libPermissions.askPermissions(runnable)
+            }
         }
-        return true
-    }
-
-    private fun setRecyclerViewAdapter(list: List<Repayment.RepaymentModel>) {
-        adapter.items = list
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun onFragmentInteraction(uri: Uri) {
-
     }
 
 

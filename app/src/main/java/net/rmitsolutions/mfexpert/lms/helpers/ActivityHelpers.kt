@@ -190,9 +190,6 @@ private fun getRefreshToken(context: Context): String {
 
 fun Activity.showDialog(context: Context,message : String){
     AlertDialog.Builder(context).setCancelable(false).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which ->
-
-        dialog.dismiss()
-    }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
         dialog.dismiss()
     }).show()
 }
@@ -200,9 +197,6 @@ fun Activity.showDialog(context: Context,message : String){
 
 fun Context.showDialog(context: Context,message : String){
     AlertDialog.Builder(context).setMessage(message).setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, which ->
-
-        dialog.dismiss()
-    }).setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
         dialog.dismiss()
     }).show()
 }

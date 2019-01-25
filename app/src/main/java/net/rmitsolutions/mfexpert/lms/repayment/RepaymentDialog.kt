@@ -84,8 +84,8 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
             val okButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
             val cancelButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
             okButton.setOnClickListener {
-                if (view != null) {
-                    if (validate(view!!)) {
+                when {
+                    validate() -> {
                         mListener?.onGettingTotalAmount(ViewDialog.totalAmount)
                         mListener?.onComplete(Constants.PREPAYMENT_CHECKED, clientId!!)
                         dialogInterface.dismiss()
@@ -102,118 +102,116 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
     }
 
 
-    private fun validate(view: View): Boolean {
-        for (i in 0 until Repayment.RepaymentData.loanDetails.size) {
+    private fun validate(): Boolean {
+        (0 until Repayment.RepaymentData.loanDetails.size).forEach { i ->
             when (i) {
-                0 -> return validateLoanOne(view)
+                0 -> return validateLoanOne()
+                1 -> return validateLoanTwo()
+                2 -> return validateLoanThree()
+                3 -> return validateLoanFour()
+            }
+        }
+        return true
+    }
 
-                1 -> {
-                    if (!validateLoanTwo(view)) return false
+    private fun validateLoanOne(): Boolean {
+        when {
+            !ViewDialog.loanOneBankDetails -> when {
+                ViewDialog.loanOneVm?.bankAccNo.isNullOrBlank() -> {
+                    toast("Enter Loan 1 Bank Acc Number")
+                    return false
                 }
-                2 -> {
-                    if (!validateLoanThree(view)) return false
+                ViewDialog.loanOneVm?.bankName.isNullOrBlank() -> {
+                    toast("Enter Loan 1 Bank Name")
+                    return false
                 }
-                3 -> {
-                    if (!validateLoanFour(view)) return false
+                ViewDialog.loanOneVm?.bankIfsc.isNullOrBlank() -> {
+                    toast("Enter Loan 1 Bank IFSC")
+                    return false
                 }
             }
         }
         return true
     }
 
-    private fun validateLoanOne(view: View): Boolean {
-        if (!ViewDialog.loanOneBankDetails) {
-            if (ViewDialog.loanOneVm?.bankAccNo.isNullOrBlank()) {
-                toast("Enter Loan 1 Bank Acc Number")
-                return false
-            }
-
-            if (ViewDialog.loanOneVm?.bankName.isNullOrBlank()) {
-                toast("Enter Loan 1 Bank Name")
-                return false
-            }
-
-            if (ViewDialog.loanOneVm?.bankIfsc.isNullOrBlank()) {
-                toast("Enter Loan 1 Bank IFSC")
-                return false
+    private fun validateLoanTwo(): Boolean {
+        when {
+            !validateLoanOne() -> return false
+            else -> {
+                when {
+                    !ViewDialog.loanTwoBankDetails -> when {
+                        ViewDialog.loanTwoVm?.bankAccNo.isNullOrBlank() -> {
+                            toast("Enter Loan 2 Bank Acc Number")
+                            return false
+                        }
+                        ViewDialog.loanTwoVm?.bankName.isNullOrBlank() -> {
+                            toast("Enter Loan 2 Bank Name")
+                            return false
+                        }
+                        ViewDialog.loanTwoVm?.bankIfsc.isNullOrBlank() -> {
+                            toast("Enter Loan 2 Bank IFSC")
+                            return false
+                        }
+                    }
+                }
+                return true
             }
         }
-        return true
     }
 
-    private fun validateLoanTwo(view: View): Boolean {
-        if (!validateLoanOne(view)) {
-            return false
+    private fun validateLoanThree(): Boolean {
+        when {
+            !validateLoanTwo() -> return false
+            else -> {
+                when {
+                    !ViewDialog.loanThreeBankDetails -> when {
+                        ViewDialog.loanThreeVm?.bankAccNo.isNullOrBlank() -> {
+                            toast("Enter Loan 3 Bank Acc Number")
+                            return false
+                        }
+                        ViewDialog.loanThreeVm?.bankName.isNullOrBlank() -> {
+                            toast("Enter Loan 3 Bank Name")
+                            return false
+                        }
+                        ViewDialog.loanThreeVm?.bankIfsc.isNullOrBlank() -> {
+                            toast("Enter Loan 3 Bank IFSC")
+                            return false
+                        }
+                    }
+                }
+                return true
+            }
         }
-        if (!ViewDialog.loanTwoBankDetails) {
-            if (ViewDialog.loanTwoVm?.bankAccNo.isNullOrBlank()) {
-                toast("Enter Loan 2 Bank Acc Number")
-                return false
-            }
-
-            if (ViewDialog.loanTwoVm?.bankName.isNullOrBlank()) {
-                toast("Enter Loan 2 Bank Name")
-                return false
-            }
-
-            if (ViewDialog.loanTwoVm?.bankIfsc.isNullOrBlank()) {
-                toast("Enter Loan 2 Bank IFSC")
-                return false
-            }
-        }
-        return true
     }
 
-    private fun validateLoanThree(view: View): Boolean {
-        if (!validateLoanTwo(view)) {
-            return false
-        }
-        if (!ViewDialog.loanThreeBankDetails) {
-            if (ViewDialog.loanThreeVm?.bankAccNo.isNullOrBlank()) {
-                toast("Enter Loan 3 Bank Acc Number")
-                return false
-            }
-
-            if (ViewDialog.loanThreeVm?.bankName.isNullOrBlank()) {
-                toast("Enter Loan 3 Bank Name")
-                return false
-            }
-
-            if (ViewDialog.loanThreeVm?.bankIfsc.isNullOrBlank()) {
-                toast("Enter Loan 3 Bank IFSC")
-                return false
-            }
-        }
-        return true
-    }
-
-    private fun validateLoanFour(view: View): Boolean {
-        if (!validateLoanThree(view)) {
-            return false
-        }
-        if (!ViewDialog.loanFourBankDetails) {
-            if (ViewDialog.loanFourVm?.bankAccNo.isNullOrBlank()) {
-                toast("Enter Loan 4 Bank Acc Number")
-                return false
-            }
-
-            if (ViewDialog.loanFourVm?.bankName.isNullOrBlank()) {
-                toast("Enter Loan 4 Bank Name")
-                return false
-            }
-
-            if (ViewDialog.loanFourVm?.bankIfsc.isNullOrBlank()) {
-                toast("Enter Loan 4 Bank IFSC")
-                return false
+    private fun validateLoanFour(): Boolean {
+        when {
+            !validateLoanThree() -> return false
+            else -> {
+                when {
+                    !ViewDialog.loanFourBankDetails -> when {
+                        ViewDialog.loanFourVm?.bankAccNo.isNullOrBlank() -> {
+                            toast("Enter Loan 4 Bank Acc Number")
+                            return false
+                        }
+                        ViewDialog.loanFourVm?.bankName.isNullOrBlank() -> {
+                            toast("Enter Loan 4 Bank Name")
+                            return false
+                        }
+                        ViewDialog.loanFourVm?.bankIfsc.isNullOrBlank() -> {
+                            toast("Enter Loan 4 Bank IFSC")
+                            return false
+                        }
+                    }
+                }
+                return true
             }
         }
-        return true
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         try {
-            // Registering listener
             this.mListener = viewHolderContext
         } catch (e: ClassCastException) {
             throw ClassCastException("${ClientViewHolder::class.java.simpleName} must implement OnCompleteListener")
@@ -223,18 +221,18 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialogRepaymentBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_repayment, container, false)
-        var view = dialogRepaymentBinding.root
+        val view = dialogRepaymentBinding.root
+
         // Get the total amount of all loans from all fragments
-        for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
+        (0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!).forEach { i ->
             ViewDialog.totalAmount = ViewDialog.memberLoanDetails!!.loanDetails[i].principleDue!! +
                     ViewDialog.memberLoanDetails!!.loanDetails[i].interestDue!! +
                     ViewDialog.memberLoanDetails!!.loanDetails[i].penalCharges!!
-
         }
         dialogRepaymentBinding.repaymentDialogVm?.totalLoanAmounts?.set(ViewDialog.totalAmount)
 
         // Adding fragment dynamically, passing loan details in new instance
-        for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
+        (0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!).forEach { i ->
             when (i) {
                 0 -> repaymentPagerAdapter.addFragment("Loan 1", LoanOneFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], dialogRepaymentBinding))
                 1 -> repaymentPagerAdapter.addFragment("Loan 2", LoanTwoFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], dialogRepaymentBinding))
@@ -242,18 +240,17 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
                 3 -> repaymentPagerAdapter.addFragment("Loan 4", LoanFourFragment.newInstance(ViewDialog.memberLoanDetails?.loanDetails!![i], dialogRepaymentBinding))
             }
         }
-        dialogRepaymentBinding.masterViewPager.adapter = repaymentPagerAdapter;
+        dialogRepaymentBinding.masterViewPager.adapter = repaymentPagerAdapter
         dialogRepaymentBinding.masterViewPager.offscreenPageLimit = 4
-        dialogRepaymentBinding.tabLayout.setupWithViewPager(dialogRepaymentBinding.masterViewPager);
+        dialogRepaymentBinding.tabLayout.setupWithViewPager(dialogRepaymentBinding.masterViewPager)
         alertDialog.setView(view)
-        return view;
+        return view
     }
 
     // Method to set the total amount of dialog fragment layout
-    override fun onTotalAmountChanged(binding: DialogRepaymentBinding?) {
-        if (binding != null) {
-            for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) {
-                when (i) {
+    override fun onTotalAmountChanged(binding: DialogRepaymentBinding?) =
+            when {
+                binding != null -> for (i in 0 until ViewDialog.memberLoanDetails?.loanDetails?.size!!) when (i) {
                     0 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!!
                         binding.loanTotalAmount.text = ViewDialog.totalAmount.toString()
@@ -261,24 +258,20 @@ class RepaymentDialog() : DialogFragment(), TotalAmountListener {
                     1 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
                                 ViewDialog.loanTwoVm?.totalAmount?.get()!!
-                        binding.loanTotalAmount.text = "${ViewDialog.totalAmount}"
+                        binding.loanTotalAmount.text = ViewDialog.totalAmount.toString()
                     }
                     2 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
                                 ViewDialog.loanTwoVm?.totalAmount?.get()!! + ViewDialog.loanThreeVm?.totalAmount?.get()!!
-                        binding.loanTotalAmount.text = "${ViewDialog.totalAmount}"
+                        binding.loanTotalAmount.text = ViewDialog.totalAmount.toString()
                     }
                     3 -> {
                         ViewDialog.totalAmount = ViewDialog.loanOneVm?.totalAmount?.get()!! +
                                 ViewDialog.loanTwoVm?.totalAmount?.get()!! + ViewDialog.loanThreeVm?.totalAmount?.get()!! +
                                 ViewDialog.loanFourVm?.totalAmount?.get()!!
-                        binding.loanTotalAmount.text = "${ViewDialog.totalAmount}"
+                        binding.loanTotalAmount.text = ViewDialog.totalAmount.toString()
                     }
                 }
+                else -> logE("Error - RepaymentDialogBinding is null")
             }
-        } else {
-            logE("Error - RepaymentDialogBinding is null")
-        }
-    }
-
 }

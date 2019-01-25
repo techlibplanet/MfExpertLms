@@ -27,7 +27,7 @@ object NotificationHelper {
     val ERROR = Notification.CATEGORY_ERROR
     val STATUS = Notification.CATEGORY_STATUS
     private val NOTIFICATION_CHANNEL_NAME = "MfExpert"
-    val NOTIFICATION_CHANNEL_ID = "MfExpert"
+    val NOTIFICATION_CHANNEL_ID = "net.rmitsolutions.mfexpert.lms"
     private var notifyId = 0
     private lateinit var notificationManager : NotificationManager
 

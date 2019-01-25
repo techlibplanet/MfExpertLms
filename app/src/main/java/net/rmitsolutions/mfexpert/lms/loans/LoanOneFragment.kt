@@ -49,7 +49,8 @@ class LoanOneFragment : Fragment() {
         // Assigning view model for validation
         RepaymentDialog.ViewDialog.loanOneVm = dataBindingLoanOne.loanOneVm
 
-        total = memberLoanDetails.principleDue!! + memberLoanDetails.interestDue!! + memberLoanDetails.adjustedAmount!! + memberLoanDetails.penalCharges!!
+        total = memberLoanDetails.principleDue!! + memberLoanDetails.interestDue!! +
+                memberLoanDetails.adjustedAmount!! + memberLoanDetails.penalCharges!!
         dataBindingLoanOne.loanOneVm!!.totalAmount.set(total)
 
         Repayment.RepaymentData.loanDetails.add(dataBindingLoanOne.loanOneVm!!)
@@ -58,31 +59,34 @@ class LoanOneFragment : Fragment() {
         setPreCloseTypes()
         dataBindingLoanOne.eventHandler = (object : Repayment.RepaymentEventHandler {
             override fun onPrepaymentTypeChanged(pos: Int) {
-                if (pos < 0) {
-                    dataBindingLoanOne.loanOneVm?.preCloseTypeId = 0
-                    return
-                }
-                dataBindingLoanOne.loanOneVm?.preCloseTypeId = memberLoanDetails.preCloseTypes[pos].id
-
-                when (memberLoanDetails.preCloseTypes[pos].name) {
-                    "Select" -> {
-                        disableBankDetails(true)
-                        addTotalOnSelect()
-                    }
-                    "NPP" -> {
-                        disableBankDetails(true)
-                        addTotalOnOtherSelection()
-                    }
-                    "MDT" -> {
-                        disableBankDetails(false)
-                        addTotalOnOtherSelection()
-                    }
-                    "HDT" -> {
-                        disableBankDetails(false)
-                        addTotalOnOtherSelection()
+                when {
+                    pos < 0 -> {
+                        dataBindingLoanOne.loanOneVm?.preCloseTypeId = 0
+                        return
                     }
                     else -> {
-                        toast("Invalid Selection")
+                        dataBindingLoanOne.loanOneVm?.preCloseTypeId = memberLoanDetails.preCloseTypes[pos].id
+                        when (memberLoanDetails.preCloseTypes[pos].name) {
+                            "Select" -> {
+                                disableBankDetails(true)
+                                addTotalOnSelect()
+                            }
+                            "NPP" -> {
+                                disableBankDetails(true)
+                                addTotalOnOtherSelection()
+                            }
+                            "MDT" -> {
+                                disableBankDetails(false)
+                                addTotalOnOtherSelection()
+                            }
+                            "HDT" -> {
+                                disableBankDetails(false)
+                                addTotalOnOtherSelection()
+                            }
+                            else -> {
+                                toast("Invalid Selection")
+                            }
+                        }
                     }
                 }
             }
@@ -91,9 +95,7 @@ class LoanOneFragment : Fragment() {
     }
 
     private fun setPreCloseTypes() {
-        for (data in memberLoanDetails.preCloseTypes) {
-            dataBindingLoanOne.loanOneVm?.preCloseTypeList?.add(data.name)
-        }
+        for (data in memberLoanDetails.preCloseTypes) dataBindingLoanOne.loanOneVm?.preCloseTypeList?.add(data.name)
     }
 
 
@@ -121,10 +123,9 @@ class LoanOneFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        when (context) {
+            is OnFragmentInteractionListener -> listener = context
+            else -> throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 

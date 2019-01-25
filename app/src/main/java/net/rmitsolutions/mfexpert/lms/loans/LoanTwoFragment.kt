@@ -58,31 +58,34 @@ class LoanTwoFragment : Fragment() {
         setPreCloseTypes()
         dataBindingLoanTwo.eventHandler = (object : Repayment.RepaymentEventHandler {
             override fun onPrepaymentTypeChanged(pos: Int) {
-                if (pos < 0) {
-                    dataBindingLoanTwo.loanTwoVm?.preCloseTypeId = 0
-                    return
-                }
-                dataBindingLoanTwo.loanTwoVm?.preCloseTypeId = memberLoanDetails.preCloseTypes[pos].id
-
-                when (memberLoanDetails.preCloseTypes[pos].name) {
-                    "Select" -> {
-                        disableBankDetails(true)
-                        addTotalOnSelect()
-                    }
-                    "NPP" -> {
-                        disableBankDetails(true)
-                        addTotalOnOtherSelection()
-                    }
-                    "MDT" -> {
-                        disableBankDetails(false)
-                        addTotalOnOtherSelection()
-                    }
-                    "HDT" -> {
-                        disableBankDetails(false)
-                        addTotalOnOtherSelection()
+                when {
+                    pos < 0 -> {
+                        dataBindingLoanTwo.loanTwoVm?.preCloseTypeId = 0
+                        return
                     }
                     else -> {
-                        toast("Invalid Selection")
+                        dataBindingLoanTwo.loanTwoVm?.preCloseTypeId = memberLoanDetails.preCloseTypes[pos].id
+                        when (memberLoanDetails.preCloseTypes[pos].name) {
+                            "Select" -> {
+                                disableBankDetails(true)
+                                addTotalOnSelect()
+                            }
+                            "NPP" -> {
+                                disableBankDetails(true)
+                                addTotalOnOtherSelection()
+                            }
+                            "MDT" -> {
+                                disableBankDetails(false)
+                                addTotalOnOtherSelection()
+                            }
+                            "HDT" -> {
+                                disableBankDetails(false)
+                                addTotalOnOtherSelection()
+                            }
+                            else -> {
+                                toast("Invalid Selection")
+                            }
+                        }
                     }
                 }
             }
@@ -91,9 +94,7 @@ class LoanTwoFragment : Fragment() {
     }
 
     private fun setPreCloseTypes() {
-        for (data in memberLoanDetails.preCloseTypes) {
-            dataBindingLoanTwo.loanTwoVm?.preCloseTypeList?.add(data.name)
-        }
+        for (data in memberLoanDetails.preCloseTypes) dataBindingLoanTwo.loanTwoVm?.preCloseTypeList?.add(data.name)
     }
 
     private fun addTotalOnSelect() {
@@ -119,10 +120,9 @@ class LoanTwoFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+        when (context) {
+            is OnFragmentInteractionListener -> listener = context
+            else -> throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 

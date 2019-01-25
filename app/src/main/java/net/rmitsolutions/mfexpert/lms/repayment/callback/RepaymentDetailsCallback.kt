@@ -20,11 +20,7 @@ class RepaymentDetailsCallback {
     fun fetchMemberLoanDetails(context: Context, clientId: Long, repayService: IRepayment) {
         compositeDisposable.add(repayService.getMemberLoanDetails(context.apiAccessToken, clientId)
                 .processRequest(context, { response ->
-                    if (response.isSuccess!!) {
-                        listener.onSuccess(response, clientId)
-                    } else {
-                        context.toast("${response.message}")
-                    }
+                    if (response.isSuccess!!) listener.onSuccess(response, clientId) else context.toast(response.message)
                 }, { err ->
                     context.toast("Error - $err")
                 }))
